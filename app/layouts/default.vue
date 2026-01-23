@@ -12,7 +12,7 @@ const hideTitle = computed(() => {
 </script>
 
 <template>
-   <UHeader :title="appConfig.appName">
+   <UHeader :title="appConfig.appName" :toggle="{ class: 'hidden' }">
       <template #title>
          <div class="flex items-center gap-2">
             <img src="/img/logo.svg" alt="App Logo" class="h-8 w-8" />
@@ -31,4 +31,11 @@ const hideTitle = computed(() => {
          <slot />
       </UPage>
    </UContainer>
+   <UFooter>
+      <template #left>
+         <span class="text-muted text-sm">
+            &copy; <NuxtTime :datetime="new Date()" year="numeric"  /> Riva Almero
+         </span>
+      </template>
+   </UFooter>
 </template>
