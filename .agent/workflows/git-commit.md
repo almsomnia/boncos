@@ -10,20 +10,20 @@ Follow these steps sequentially. Do not skip steps unless explicitly instructed.
 
 Execute commands to assess the current repository status.
 
-1. Check for changes in the *working directory*.
-2. Check for files currently in the *staging area*.
+1. Check for changes in the _working directory_.
+2. Check for files currently in the _staging area_.
 
 ### Step 2: Smart Staging Strategy
 
 Apply the following logic based on Step 1 results:
 
 - **IF** (Staging Area IS Empty) **AND** (Working Directory IS NOT Empty):
-  - Execute `git add .` to stage all detected changes.
-  - *Context:* "Auto-staging all detected changes."
+   - Execute `git add .` to stage all detected changes.
+   - _Context:_ "Auto-staging all detected changes."
 - **IF** (Staging Area IS Empty) **AND** (Working Directory IS Empty):
-  - **STOP PROCESS**. Inform the user: "Working tree is clean. Nothing to commit."
+   - **STOP PROCESS**. Inform the user: "Working tree is clean. Nothing to commit."
 - **IF** (Staging Area IS NOT Empty):
-  - Proceed directly to Step 3 with currently staged files.
+   - Proceed directly to Step 3 with currently staged files.
 
 ### Step 3: Change Analysis & Message Generation
 
@@ -32,6 +32,7 @@ Apply the following logic based on Step 1 results:
 3. Generate a **Commit Message** strictly adhering to **Conventional Commits**.
 
 **Commit Message Rules:**
+
 - Format: `<type>(<scope>): <subject>`
 - **Types**: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chore`, `build`, `ci`.
 - Scope is not mandatory, use scope when necessary.

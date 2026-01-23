@@ -1,269 +1,193 @@
 <script setup lang="ts">
 definePageMeta({
-   title: "Calculator",
+   title: "Welcome to Boncos",
+   hideTitle: true,
 })
-
-type Item = {
-   name: string
-   price: number
-   qty: number
-}
-
-type AdditionalCost = {
-   name: string
-   amount: number
-}
-
-const items = ref<Partial<Item>[]>([
-   {
-      name: undefined,
-      price: undefined,
-      qty: undefined,
-   },
-])
-
-const discount = shallowRef<number>()
-
-const additionalCosts = ref<Partial<AdditionalCost>[]>([
-   {
-      name: undefined,
-      amount: undefined,
-   },
-])
-
-const subtotal = computed(() => {
-   const result = items.value.reduce(
-      (acc, curr) => acc + (curr.price ?? 0) * (curr.qty ?? 0),
-      0
-   )
-   return $roundDecimal(result)
-})
-
-const total = computed(() => {
-   const totalAdditionals = additionalCosts.value.reduce(
-      (acc, curr) => acc + (curr.amount ?? 0),
-      0
-   )
-   return subtotal.value + totalAdditionals - Math.abs(discount.value ?? 0)
-})
-
-const itemDetails = computed(() => {
-   return items.value.map((item) => {
-      const itemSubtotal = $roundDecimal((item.price ?? 0) * (item.qty ?? 0))
-
-      const proportion = $roundDecimal(itemSubtotal / subtotal.value)
-
-      const itemDiscount = $roundDecimal(
-         proportion * Math.abs(discount.value ?? 0)
-      )
-
-      const itemAdditionalCost = $roundDecimal(
-         additionalCosts.value.reduce(
-            (acc, curr) => acc + (curr.amount ?? 0),
-            0
-         ) * proportion
-      )
-
-      const itemTotalPriceAfterDiscount = $roundDecimal(
-         itemSubtotal + itemAdditionalCost - itemDiscount
-      )
-
-      const totalItemPerQty = $roundDecimal(
-         itemTotalPriceAfterDiscount / (item.qty ?? 0)
-      )
-
-      return {
-         name: item.name,
-         qty: item.qty ?? 0,
-         total_item_per_qty: totalItemPerQty,
-         proportion: proportion,
-         item_discount: itemDiscount,
-         additional_cost: itemAdditionalCost,
-         total_price_after_discount: itemTotalPriceAfterDiscount,
-      }
-   })
-})
-
-function onAddItem() {
-   items.value.push({
-      name: undefined,
-      price: undefined,
-      qty: undefined,
-   })
-}
-
-function onRemoveItem(index: number) {
-   items.value.splice(index, 1)
-}
-
-function onAddCost() {
-   additionalCosts.value.push({
-      name: undefined,
-      amount: undefined,
-   })
-}
-
-function onRemoveCost(index: number) {
-   additionalCosts.value.splice(index, 1)
-}
 </script>
 
 <template>
-   <div class="grid grid-cols-1 gap-4 lg:grid-cols-5">
-      <div class="col-span-full lg:col-span-3">
-         <UCard>
-            <template #header>
-               <h2 class="text-lg font-semibold">Items</h2>
-            </template>
-            <ul class="space-y-4">
-               <li
-                  v-for="(item, index) in items"
-                  :key="index"
-                  class="flex items-center gap-4"
-               >
-                  <UFieldGroup class="w-full">
-                     <UInput
-                        v-model="item.name"
-                        placeholder="Name"
-                        class="w-full"
-                        @keydown.enter="onAddItem"
-                     />
-                     <UInputNumber
-                        v-model="item.price"
-                        placeholder="Price"
-                        class="w-full"
-                        :increment="false"
-                        :decrement="false"
-                        :format-options="{
-                           style: 'currency',
-                           currency: 'IDR',
-                           currencyDisplay: 'narrowSymbol',
-                        }"
-                        @keydown.enter="onAddItem"
-                     />
-                     <UInputNumber
-                        v-model="item.qty"
-                        placeholder="Qty"
-                        :increment="false"
-                        :decrement="false"
-                        class="w-full"
-                        @keydown.enter="onAddItem"
-                     />
-                     <UButton
-                        icon="lucide:trash"
-                        color="error"
-                        variant="subtle"
-                        size="sm"
-                        square
-                        @click="onRemoveItem(index)"
-                        :disabled="items.length < 2"
-                     />
-                  </UFieldGroup>
-               </li>
-               <li>
-                  <UButton
-                     block
-                     label="Add Item"
-                     icon="lucide:plus"
-                     @click="onAddItem"
-                  />
-               </li>
-            </ul>
-         </UCard>
-      </div>
-      <div class="col-span-full lg:col-span-2">
-         <UCard variant="subtle">
-            <div class="space-y-4">
-               <UFormField
-                  label="Additional Costs"
-                  description="Taxes, service charges, shipping, etc"
-               >
-                  <div class="space-y-2">
-                     <UFieldGroup
-                        v-for="(cost, index) in additionalCosts"
-                        :key="index"
-                        class="w-full"
-                     >
-                        <UInput
-                           v-model="cost.name"
-                           placeholder="Item name"
-                           class="w-full"
-                           @keydown.enter="onAddCost"
-                        />
-                        <UInputNumber
-                           v-model="cost.amount"
-                           class="w-full"
-                           placeholder="Price"
-                           :increment="false"
-                           :decrement="false"
-                           :format-options="{
-                              style: 'currency',
-                              currency: 'IDR',
-                              currencyDisplay: 'narrowSymbol',
-                           }"
-                           @keydown.enter="onAddCost"
-                        />
-                        <UButton
-                           icon="lucide:trash"
-                           color="error"
-                           variant="subtle"
-                           size="sm"
-                           @click="onRemoveCost(index)"
-                           :disabled="additionalCosts.length < 2"
-                        />
-                     </UFieldGroup>
-                     <UButton
-                        block
-                        label="Add Cost"
-                        icon="lucide:plus"
-                        class="mt-2"
-                        @click="onAddCost"
-                     />
-                  </div>
-               </UFormField>
-               <UFormField
-                  label="Discount"
-                  description="Combined discounts"
-               >
-                  <UInputNumber
-                     v-model="discount"
-                     :increment="false"
-                     :decrement="false"
-                     placeholder="Amount"
-                     :format-options="{
-                        style: 'currency',
-                        currency: 'IDR',
-                        currencyDisplay: 'narrowSymbol',
-                     }"
-                     class="w-full"
-                  />
-               </UFormField>
-            </div>
-            <template #footer>
-               <div class="space-y-4">
-                  <div class="text-highlighted flex font-semibold">
-                     <span class="w-3/5"> Total </span>
-                     <span class="w-2/5 text-right">
-                        {{ $formatCurrency(total) }}
-                     </span>
-                  </div>
-               </div>
-               <UAlert
-                  title="Important"
-                  color="info"
-                  variant="subtle"
-                  icon="lucide:info"
-                  description="Make sure all the prices are correct"
-                  class="mt-2"
+   <div class="relative isolate">
+      <!-- Hero Section -->
+      <div class="relative px-6 py-24 sm:py-32 lg:px-8">
+         <!-- Background Mesh Gradient -->
+         <div
+            class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+            aria-hidden="true"
+         >
+            <div
+               class="from-primary-200 to-primary-500 relative left-[calc(50%-11rem)] aspect-1155/678 w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-linear-to-tr opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+               style="
+                  clip-path: polygon(
+                     74.1% 44.1%,
+                     100% 61.6%,
+                     97.5% 26.9%,
+                     85.5% 0.1%,
+                     80.7% 2%,
+                     72.5% 32.5%,
+                     60.2% 62.4%,
+                     52.4% 68.1%,
+                     47.5% 58.3%,
+                     45.2% 34.5%,
+                     27.5% 76.7%,
+                     0.1% 64.9%,
+                     17.9% 100%,
+                     27.6% 76.8%,
+                     76.1% 97.7%,
+                     74.1% 44.1%
+                  );
+               "
+            ></div>
+         </div>
+
+         <!-- Hero Content -->
+         <div class="mx-auto max-w-2xl text-center">
+            <h1
+               class="text-5xl font-bold tracking-tight text-balance sm:text-7xl"
+            >
+               Split bills with
+               <span class="text-primary-500">precision</span>.
+            </h1>
+            <p
+               class="mt-8 text-lg font-medium text-pretty text-neutral-500 sm:text-xl/8 dark:text-neutral-400"
+            >
+               Boncos calculates the "true" cost per item by proportionally
+               distributing taxes, service charges, and discounts. Fair splits
+               for everyone, down to the last cent.
+            </p>
+            <div class="mt-10 flex items-center justify-center gap-x-6">
+               <UButton
+                  to="/calculate"
+                  size="xl"
+                  label="Start Calculating"
+                  trailing-icon="lucide:arrow-right"
                />
-            </template>
-         </UCard>
+               <UButton
+                  to="https://github.com/almsomnia/boncos"
+                  variant="ghost"
+                  color="neutral"
+                  size="xl"
+                  label="View on GitHub"
+                  icon="lucide:github"
+                  target="_blank"
+               />
+            </div>
+         </div>
+
+         <!-- Bottom Mesh Gradient -->
+         <div
+            class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
+            aria-hidden="true"
+         >
+            <div
+               class="from-primary-200 to-primary-500 relative left-[calc(50%+3rem)] aspect-1155/678 w-[36.125rem] -translate-x-1/2 bg-linear-to-tr opacity-20 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
+               style="
+                  clip-path: polygon(
+                     74.1% 44.1%,
+                     100% 61.6%,
+                     97.5% 26.9%,
+                     85.5% 0.1%,
+                     80.7% 2%,
+                     72.5% 32.5%,
+                     60.2% 62.4%,
+                     52.4% 68.1%,
+                     47.5% 58.3%,
+                     45.2% 34.5%,
+                     27.5% 76.7%,
+                     0.1% 64.9%,
+                     17.9% 100%,
+                     27.6% 76.8%,
+                     76.1% 97.7%,
+                     74.1% 44.1%
+                  );
+               "
+            ></div>
+         </div>
+      </div>
+
+      <!-- Features Section -->
+      <div class="mx-auto max-w-7xl px-6 pb-24 sm:pb-32 lg:px-8">
+         <div class="mx-auto max-w-2xl lg:text-center">
+            <h2
+               class="text-primary-500 text-base/7 font-semibold tracking-wide uppercase"
+            >
+               Why Boncos?
+            </h2>
+            <p
+               class="mt-2 text-4xl font-semibold tracking-tight text-pretty sm:text-5xl"
+            >
+               Everything you need for a fair split
+            </p>
+         </div>
+         <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
+            <dl
+               class="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3"
+            >
+               <UCard>
+                  <div class="flex flex-col">
+                  <dt
+                     class="flex items-center gap-x-3 text-base/7 font-semibold"
+                  >
+                     <UIcon
+                        name="lucide:percent"
+                        class="text-primary-500 size-5 flex-none"
+                     />
+                     Proportional Distribution
+                  </dt>
+                  <dd
+                     class="mt-4 flex flex-auto flex-col text-base/7 text-neutral-600 dark:text-neutral-400"
+                  >
+                     <p class="flex-auto">
+                        Taxes and service charges are shared based on each
+                        person's subtotal, ensuring nobody pays more than their
+                        fair share.
+                     </p>
+                  </dd>
+               </div>
+               </UCard>
+               <UCard>
+                  <div class="flex flex-col">
+                     <dt
+                        class="flex items-center gap-x-3 text-base/7 font-semibold"
+                     >
+                        <UIcon
+                           name="lucide:calculator"
+                           class="text-primary-500 size-5 flex-none"
+                        />
+                        Detailed Breakdown
+                     </dt>
+                     <dd
+                        class="mt-4 flex flex-auto flex-col text-base/7 text-neutral-600 dark:text-neutral-400"
+                     >
+                        <p class="flex-auto">
+                           See exactly how much each item costs after adding all
+                           extra fees and subtracting discounts.
+                        </p>
+                     </dd>
+                  </div>
+               </UCard>
+               <UCard>
+                  <div class="flex flex-col">
+                     <dt
+                        class="flex items-center gap-x-3 text-base/7 font-semibold"
+                     >
+                        <UIcon
+                           name="lucide:zap"
+                           class="text-primary-500 size-5 flex-none"
+                        />
+                        Fast & Simple
+                     </dt>
+                     <dd
+                        class="mt-4 flex flex-auto flex-col text-base/7 text-neutral-600 dark:text-neutral-400"
+                     >
+                        <p class="flex-auto">
+                           Minimalist interface designed for quick data entry. Get
+                           your results in seconds, not minutes.
+                        </p>
+                     </dd>
+                  </div>
+               </UCard>
+            </dl>
+         </div>
       </div>
    </div>
-   <UCard class="mt-4">
-      <template #header>
-         <h2 class="text-lg font-semibold">Calculation Result</h2>
-      </template>
-      <TableCalculationResult :data="itemDetails" />
-   </UCard>
 </template>

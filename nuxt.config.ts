@@ -12,8 +12,8 @@ export default defineNuxtConfig({
    components: [
       {
          path: "~/components",
-         pathPrefix: false
-      }
+         pathPrefix: false,
+      },
    ],
    imports: {
       dirs: ["~/composables/**", "~/utils/**"],
