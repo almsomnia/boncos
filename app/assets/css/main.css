@@ -1,2 +1,15 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
+
+@layer base {
+   :root {
+      --min-page-height: calc(100dvh - var(--ui-header-height));
+   }
+
+   input::-webkit-inner-spin-button,
+   input::-webkit-outer-spin-button {
+      display: none;
+      -webkit-appearance: none;
+      margin: 0;
+   }
+}
