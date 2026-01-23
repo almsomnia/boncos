@@ -9,6 +9,12 @@ export default defineNuxtConfig({
          weights: [400, 500, 600, 700, 800, 900],
       },
    },
+   components: [
+      {
+         path: "~/components",
+         pathPrefix: false
+      }
+   ],
    imports: {
       dirs: ["~/composables/**", "~/utils/**"],
    },

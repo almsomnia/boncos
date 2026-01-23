@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import type { TableColumn } from "@nuxt/ui"
-
 definePageMeta({
-   title: "Boncos Landing",
+   title: "Calculator",
 })
 
 type Item = {
@@ -108,87 +106,6 @@ function onAddCost() {
 function onRemoveCost(index: number) {
    additionalCosts.value.splice(index, 1)
 }
-
-function formatCurrency(amount: number) {
-   return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      currencyDisplay: "narrowSymbol",
-   }).format(amount)
-}
-
-const tableColumns: TableColumn<(typeof itemDetails.value)[number]>[] = [
-   {
-      accessorKey: "name",
-      header: "Item Name",
-   },
-   {
-      accessorKey: "total_item_per_qty",
-      header: "Item Price/Qty per Unit",
-      cell: ({ row }) => {
-         return formatCurrency(row.original.total_item_per_qty)
-      },
-      meta: {
-         class: {
-            td: "text-right font-semibold text-highlighted",
-         },
-      },
-   },
-   {
-      accessorKey: "qty",
-      header: "Qty",
-      meta: {
-         class: {
-            td: "text-right",
-         },
-      },
-   },
-   {
-      accessorKey: "proportion",
-      header: "Proportion",
-      meta: {
-         class: {
-            td: "text-right",
-         },
-      },
-   },
-   {
-      accessorKey: "item_discount",
-      header: "Discount",
-      meta: {
-         class: {
-            td: "text-right",
-         },
-      },
-      cell: ({ row }) => {
-         return formatCurrency(row.original.item_discount)
-      },
-   },
-   {
-      accessorKey: "additional_cost",
-      header: "Additional Cost",
-      meta: {
-         class: {
-            td: "text-right",
-         },
-      },
-      cell: ({ row }) => {
-         return formatCurrency(row.original.additional_cost)
-      },
-   },
-   {
-      accessorKey: "total_price_after_discount",
-      header: "Total Discounted Price",
-      meta: {
-         class: {
-            td: "text-right",
-         },
-      },
-      cell: ({ row }) => {
-         return formatCurrency(row.original.total_price_after_discount)
-      },
-   },
-]
 </script>
 
 <template>
@@ -324,10 +241,10 @@ const tableColumns: TableColumn<(typeof itemDetails.value)[number]>[] = [
             </div>
             <template #footer>
                <div class="space-y-4">
-                  <div class="flex">
+                  <div class="text-highlighted flex font-semibold">
                      <span class="w-3/5"> Total </span>
                      <span class="w-2/5 text-right">
-                        {{ formatCurrency(total) }}
+                        {{ $formatCurrency(total) }}
                      </span>
                   </div>
                </div>
@@ -347,10 +264,6 @@ const tableColumns: TableColumn<(typeof itemDetails.value)[number]>[] = [
       <template #header>
          <h2 class="text-lg font-semibold">Calculation Result</h2>
       </template>
-      <UTable
-         :data="itemDetails"
-         :columns="tableColumns"
-         class="w-full"
-      ></UTable>
+      <TableCalculationResult :data="itemDetails" />
    </UCard>
 </template>
