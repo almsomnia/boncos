@@ -45,31 +45,22 @@ definePageMeta({
             <h1
                class="text-5xl font-bold tracking-tight text-balance sm:text-7xl"
             >
-               Split bills with
-               <span class="text-primary-500">precision</span>.
+               Bagi Tagihan dengan
+               <span class="text-primary-500">Lebih Adil</span>.
             </h1>
             <p
                class="mt-8 text-lg font-medium text-pretty text-neutral-500 sm:text-xl/8 dark:text-neutral-400"
             >
-               {{ appConfig.appName }} calculates the "true" cost per item by proportionally
-               distributing taxes, service charges, and discounts. Fair splits
-               for everyone, down to the last cent.
+               {{ appConfig.appName }} menghitung biaya "sebenarnya" per item
+               dengan membagi ongkir, pajak, biaya layanan, dan diskon secara
+               proporsional. Semua kebagian adil, sampai ke Rupiah terakhir.
             </p>
             <div class="mt-10 flex items-center justify-center gap-x-6">
                <UButton
                   to="/calculate"
                   size="xl"
-                  label="Start Calculating"
+                  label="Hitung Sekarang"
                   trailing-icon="lucide:arrow-right"
-               />
-               <UButton
-                  to="https://github.com/almsomnia/boncos"
-                  variant="ghost"
-                  color="neutral"
-                  size="xl"
-                  label="View on GitHub"
-                  icon="lucide:github"
-                  target="_blank"
                />
             </div>
          </div>
@@ -107,16 +98,16 @@ definePageMeta({
 
       <!-- Features Section -->
       <div class="mx-auto max-w-7xl px-6 pb-24 sm:pb-32 lg:px-8">
-         <div class="mx-auto max-w-2xl lg:text-center">
+         <div class="mx-auto max-w-3xl lg:text-center">
             <h2
-               class="text-primary-500 text-base/7 font-semibold tracking-wide uppercase"
+               class="text-primary-500 text-base/7 font-bold tracking-wider uppercase"
             >
-               Why {{ appConfig.appName }}?
+               Kenapa {{ appConfig.appName }}?
             </h2>
             <p
                class="mt-2 text-4xl font-semibold tracking-tight text-pretty sm:text-5xl"
             >
-               Everything you need for a fair split
+               Semua yang Kamu Butuhkan untuk Pembagian Tagihan yang Adil
             </p>
          </div>
          <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
@@ -125,25 +116,25 @@ definePageMeta({
             >
                <UCard>
                   <div class="flex flex-col">
-                  <dt
-                     class="flex items-center gap-x-3 text-base/7 font-semibold"
-                  >
-                     <UIcon
-                        name="lucide:percent"
-                        class="text-primary-500 size-5 flex-none"
-                     />
-                     Proportional Distribution
-                  </dt>
-                  <dd
-                     class="mt-4 flex flex-auto flex-col text-base/7 text-neutral-600 dark:text-neutral-400"
-                  >
-                     <p class="flex-auto">
-                        Taxes and service charges are shared based on each
-                        person's subtotal, ensuring nobody pays more than their
-                        fair share.
-                     </p>
-                  </dd>
-               </div>
+                     <dt
+                        class="flex items-center gap-x-3 text-base/7 font-semibold"
+                     >
+                        <UIcon
+                           name="lucide:percent"
+                           class="text-primary-500 size-5 flex-none"
+                        />
+                        Distribusi Proporsional
+                     </dt>
+                     <dd
+                        class="mt-4 flex flex-auto flex-col text-base/7 text-neutral-600 dark:text-neutral-400"
+                     >
+                        <p class="flex-auto text-pretty">
+                           Pajak, ongkir, dan biaya layanan dibagi berdasarkan
+                           total harga item masing-masing, tidak ada yang
+                           membayar lebih dari seharusnya.
+                        </p>
+                     </dd>
+                  </div>
                </UCard>
                <UCard>
                   <div class="flex flex-col">
@@ -154,14 +145,14 @@ definePageMeta({
                            name="lucide:calculator"
                            class="text-primary-500 size-5 flex-none"
                         />
-                        Detailed Breakdown
+                        Rincian yang Transparan
                      </dt>
                      <dd
                         class="mt-4 flex flex-auto flex-col text-base/7 text-neutral-600 dark:text-neutral-400"
                      >
-                        <p class="flex-auto">
-                           See exactly how much each item costs after adding all
-                           extra fees and subtracting discounts.
+                        <p class="flex-auto text-pretty">
+                           Lihat dengan jelas berapa harga akhir setiap item
+                           setelah ditambah biaya tambahan dan dikurangi diskon.
                         </p>
                      </dd>
                   </div>
@@ -175,14 +166,15 @@ definePageMeta({
                            name="lucide:zap"
                            class="text-primary-500 size-5 flex-none"
                         />
-                        Fast & Simple
+                        Cepat & Simpel
                      </dt>
                      <dd
                         class="mt-4 flex flex-auto flex-col text-base/7 text-neutral-600 dark:text-neutral-400"
                      >
-                        <p class="flex-auto">
-                           Minimalist interface designed for quick data entry. Get
-                           your results in seconds, not minutes.
+                        <p class="flex-auto text-pretty">
+                           Tampilan minimalis yang dirancang untuk input cepat.
+                           Hasil langsung keluar dalam hitungan detik, bukan
+                           menit.
                         </p>
                      </dd>
                   </div>

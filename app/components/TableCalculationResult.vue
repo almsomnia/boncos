@@ -19,12 +19,12 @@ const props = defineProps<{
 const tableColumns: TableColumn<Data>[] = [
    {
       accessorKey: "name",
-      header: ({ column }) => getHeader(column, "Item Name", "left"),
+      header: ({ column }) => getHeader(column, "Nama Item", "left"),
       size: 100,
    },
    {
       accessorKey: "qty",
-      header: ({ column }) => getHeader(column, "Qty", "left"),
+      header: ({ column }) => getHeader(column, "Jumlah", "left"),
       meta: {
          class: {
             td: "text-right",
@@ -34,7 +34,7 @@ const tableColumns: TableColumn<Data>[] = [
    },
    {
       accessorKey: "proportion",
-      header: ({ column }) => getHeader(column, "Proportion", "left"),
+      header: ({ column }) => getHeader(column, "Proporsi", "left"),
       meta: {
          class: {
             td: "text-right",
@@ -44,7 +44,7 @@ const tableColumns: TableColumn<Data>[] = [
    },
    {
       accessorKey: "item_discount",
-      header: ({ column }) => getHeader(column, "Item Discount", "left"),
+      header: ({ column }) => getHeader(column, "Diskon / Item", "left"),
       meta: {
          class: {
             td: "text-right",
@@ -57,7 +57,7 @@ const tableColumns: TableColumn<Data>[] = [
    },
    {
       accessorKey: "additional_cost",
-      header: ({ column }) => getHeader(column, "Item Additional Cost", "left"),
+      header: ({ column }) => getHeader(column, "Biaya Tambahan / Item", "left"),
       meta: {
          class: {
             td: "text-right",
@@ -70,7 +70,7 @@ const tableColumns: TableColumn<Data>[] = [
    },
    {
       accessorKey: "total_price_after_discount",
-      header: ({ column }) => getHeader(column, "Price (After Discount)", "left"),
+      header: ({ column }) => getHeader(column, "Harga (setelah diskon)", "left"),
       meta: {
          class: {
             td: "text-right",
@@ -83,7 +83,7 @@ const tableColumns: TableColumn<Data>[] = [
    },
    {
       accessorKey: "total_item_per_qty",
-      header: ({ column }) => getHeader(column, "Price/Qty (After Discount)", "right"),
+      header: ({ column }) => getHeader(column, "Harga / Item (setelah diskon)", "right"),
       cell: ({ row }) => {
          return $formatCurrency(row.original.total_item_per_qty)
       },

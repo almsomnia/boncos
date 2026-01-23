@@ -1,6 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
-   title: "Calculator",
+   title: "Kalkulator Tagihan",
 })
 
 type Item = {
@@ -113,7 +113,9 @@ function onRemoveCost(index: number) {
       <div class="col-span-full lg:col-span-3">
          <UCard>
             <template #header>
-               <h2 class="text-lg font-semibold">Items</h2>
+               <h2 class="text-lg font-semibold">
+                  Item
+               </h2>
             </template>
             <ul class="space-y-4">
                <li
@@ -124,13 +126,13 @@ function onRemoveCost(index: number) {
                   <UFieldGroup class="w-full">
                      <UInput
                         v-model="item.name"
-                        placeholder="Name"
+                        placeholder="Nama item"
                         class="w-full"
                         @keydown.enter="onAddItem"
                      />
                      <UInputNumber
                         v-model="item.price"
-                        placeholder="Price"
+                        placeholder="Harga item"
                         class="w-full"
                         :increment="false"
                         :decrement="false"
@@ -143,7 +145,7 @@ function onRemoveCost(index: number) {
                      />
                      <UInputNumber
                         v-model="item.qty"
-                        placeholder="Qty"
+                        placeholder="Jumlah"
                         :increment="false"
                         :decrement="false"
                         class="w-full"
@@ -163,7 +165,8 @@ function onRemoveCost(index: number) {
                <li>
                   <UButton
                      block
-                     label="Add Item"
+                     label="Tambah Item"
+                     variant="subtle"
                      icon="lucide:plus"
                      @click="onAddItem"
                   />
@@ -175,8 +178,8 @@ function onRemoveCost(index: number) {
          <UCard variant="subtle">
             <div class="space-y-4">
                <UFormField
-                  label="Additional Costs"
-                  description="Taxes, service charges, shipping, etc"
+                  label="Biaya Tambahan"
+                  description="Ongkir, pajak, biaya layanan dll."
                >
                   <div class="space-y-2">
                      <UFieldGroup
@@ -186,14 +189,14 @@ function onRemoveCost(index: number) {
                      >
                         <UInput
                            v-model="cost.name"
-                           placeholder="Item name"
+                           placeholder="Nama biaya"
                            class="w-full"
                            @keydown.enter="onAddCost"
                         />
                         <UInputNumber
                            v-model="cost.amount"
                            class="w-full"
-                           placeholder="Price"
+                           placeholder="Harga"
                            :increment="false"
                            :decrement="false"
                            :format-options="{
@@ -214,7 +217,8 @@ function onRemoveCost(index: number) {
                      </UFieldGroup>
                      <UButton
                         block
-                        label="Add Cost"
+                        label="Tambah Biaya Tambahan"
+                        variant="subtle"
                         icon="lucide:plus"
                         class="mt-2"
                         @click="onAddCost"
@@ -222,14 +226,14 @@ function onRemoveCost(index: number) {
                   </div>
                </UFormField>
                <UFormField
-                  label="Discount"
-                  description="Combined discounts"
+                  label="Diskon"
+                  description="Total diskon"
                >
                   <UInputNumber
                      v-model="discount"
                      :increment="false"
                      :decrement="false"
-                     placeholder="Amount"
+                     placeholder="Total diskon"
                      :format-options="{
                         style: 'currency',
                         currency: 'IDR',
@@ -249,11 +253,11 @@ function onRemoveCost(index: number) {
                   </div>
                </div>
                <UAlert
-                  title="Important"
+                  title="Penting"
                   color="info"
                   variant="subtle"
                   icon="lucide:info"
-                  description="Make sure all the prices are correct"
+                  description="Pastikan semua harga sudah sesuai"
                   class="mt-2"
                />
             </template>
@@ -262,7 +266,7 @@ function onRemoveCost(index: number) {
    </div>
    <UCard class="mt-4">
       <template #header>
-         <h2 class="text-lg font-semibold">Calculation Result</h2>
+         <h2 class="text-lg font-semibold">Hasil Perhitungan</h2>
       </template>
       <TableCalculationResult :data="itemDetails" />
    </UCard>
