@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui"
+import { UButton } from "#components"
 
 type Data = {
    name: string | undefined
@@ -18,41 +19,32 @@ const props = defineProps<{
 const tableColumns: TableColumn<Data>[] = [
    {
       accessorKey: "name",
-      header: "Item Name",
-   },
-   {
-      accessorKey: "total_item_per_qty",
-      header: "Item Price/Qty per Unit",
-      cell: ({ row }) => {
-         return $formatCurrency(row.original.total_item_per_qty)
-      },
-      meta: {
-         class: {
-            td: "text-right font-semibold text-highlighted",
-         },
-      },
+      header: ({ column }) => getHeader(column, "Item Name", "left"),
+      size: 100,
    },
    {
       accessorKey: "qty",
-      header: "Qty",
+      header: ({ column }) => getHeader(column, "Qty", "left"),
       meta: {
          class: {
             td: "text-right",
          },
       },
+      size: 64
    },
    {
       accessorKey: "proportion",
-      header: "Proportion",
+      header: ({ column }) => getHeader(column, "Proportion", "left"),
       meta: {
          class: {
             td: "text-right",
          },
       },
+      size: 64,
    },
    {
       accessorKey: "item_discount",
-      header: "Discount",
+      header: ({ column }) => getHeader(column, "Item Discount", "left"),
       meta: {
          class: {
             td: "text-right",
@@ -61,10 +53,11 @@ const tableColumns: TableColumn<Data>[] = [
       cell: ({ row }) => {
          return $formatCurrency(row.original.item_discount)
       },
+      size: 128,
    },
    {
       accessorKey: "additional_cost",
-      header: "Additional Cost",
+      header: ({ column }) => getHeader(column, "Item Additional Cost", "left"),
       meta: {
          class: {
             td: "text-right",
@@ -73,10 +66,11 @@ const tableColumns: TableColumn<Data>[] = [
       cell: ({ row }) => {
          return $formatCurrency(row.original.additional_cost)
       },
+      size: 128,
    },
    {
       accessorKey: "total_price_after_discount",
-      header: "Total Discounted Price",
+      header: ({ column }) => getHeader(column, "Price (After Discount)", "left"),
       meta: {
          class: {
             td: "text-right",
@@ -85,12 +79,49 @@ const tableColumns: TableColumn<Data>[] = [
       cell: ({ row }) => {
          return $formatCurrency(row.original.total_price_after_discount)
       },
+      size: 128,
+   },
+   {
+      accessorKey: "total_item_per_qty",
+      header: ({ column }) => getHeader(column, "Price/Qty (After Discount)", "right"),
+      cell: ({ row }) => {
+         return $formatCurrency(row.original.total_item_per_qty)
+      },
+      meta: {
+         class: {
+            td: "text-right font-semibold text-highlighted",
+         },
+      },
+      size: 128,
    },
 ]
+
+function getHeader(column: any, label: string, pinPosition: "left" | "right") {
+   const isPinned = column.getIsPinned()
+
+   return h(UButton, {
+      color: "neutral",
+      variant: "ghost",
+      label,
+      icon: isPinned ? "lucide:pin-off" : "lucide:pin",
+      class: "-mx-2.5",
+      onClick: () => {
+         column.pin(isPinned === pinPosition ? false : pinPosition)
+      }
+   })
+}
+
+const columnPinning = ref<
+   Record<"left" | "right", (keyof Data | (string & {}))[]>
+>({
+   left: [""],
+   right: ["total_item_per_qty"],
+})
 </script>
 
 <template>
    <UTable
+      v-model:column-pinning="columnPinning"
       :data="props.data"
       :columns="tableColumns"
       class="w-full"

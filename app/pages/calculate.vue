@@ -73,7 +73,7 @@ const itemDetails = computed(() => {
       )
 
       return {
-         name: item.name,
+         name: item.name ?? "-",
          qty: item.qty ?? 0,
          total_item_per_qty: totalItemPerQty,
          proportion: proportion,
