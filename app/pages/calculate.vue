@@ -166,7 +166,6 @@ function onRemoveCost(index: number) {
                   <UButton
                      block
                      label="Tambah Item"
-                     variant="subtle"
                      icon="lucide:plus"
                      @click="onAddItem"
                   />
@@ -218,7 +217,6 @@ function onRemoveCost(index: number) {
                      <UButton
                         block
                         label="Tambah Biaya Tambahan"
-                        variant="subtle"
                         icon="lucide:plus"
                         class="mt-2"
                         @click="onAddCost"
