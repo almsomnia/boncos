@@ -12,6 +12,12 @@ const hideTitle = computed(() => {
 
 <template>
    <UHeader title="Boncos">
+      <template #title>
+         <div class="flex items-center gap-2">
+            <img src="/img/logo.svg" alt="Boncos Logo" class="h-8 w-8" />
+            <span class="text-xl font-semibold">Boncos</span>
+         </div>
+      </template>
       <template #right>
          <UColorModeButton />
       </template>
