@@ -1,41 +1,35 @@
-# Nuxt Minimal Starter
+# Boncos
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+**Boncos** is a sophisticated bill-splitting and expense calculator built with Nuxt 4. It helps you calculate the "true" cost of items by proportionally distributing shared costs (like taxes, service charges, and shipping) and discounts across all items.
+
+## Key Features
+
+- **Proportional Calculation**: Automatically distributes taxes and service charges based on each item's subtotal.
+- **Discount Handling**: Applies total discounts fairly across all line items.
+- **Detailed Breakdown**: View precise per-unit costs and price adjustments in a clean table format.
+- **Modern UI**: Built with `@nuxt/ui` and Tailwind CSS 4 for a responsive, accessible experience.
+
+## Tech Stack
+
+- **Framework**: [Nuxt 4](https://nuxt.com)
+- **UI Components**: [@nuxt/ui](https://ui.nuxt.com) (v4)
+- **Styling**: [Tailwind CSS 4](https://tailwindcss.com)
+- **Icons**: [Lucide](https://lucide.dev) via `@nuxt/icon`
 
 ## Setup
 
-Make sure to install dependencies:
+Make sure to install the dependencies:
 
 ```bash
-# npm
-npm install
-
-# pnpm
 pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
+## Development
 
 Start the development server on `http://localhost:3000`:
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
 pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
 ## Production
@@ -43,33 +37,11 @@ bun run dev
 Build the application for production:
 
 ```bash
-# npm
-npm run build
-
-# pnpm
 pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
 ```
 
-Locally preview production build:
+Locally preview the production build:
 
 ```bash
-# npm
-npm run preview
-
-# pnpm
 pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
 ```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
