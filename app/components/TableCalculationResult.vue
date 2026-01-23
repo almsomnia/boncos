@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui"
+import { upperFirst } from "scule"
 import { UButton } from "#components"
 
 type Data = {
@@ -19,22 +20,17 @@ const props = defineProps<{
 const tableColumns: TableColumn<Data>[] = [
    {
       accessorKey: "name",
-      header: ({ column }) => getHeader(column, "Nama Item", "left"),
+      header: "Nama Item",
       size: 100,
    },
    {
       accessorKey: "qty",
-      header: ({ column }) => getHeader(column, "Jumlah", "left"),
-      meta: {
-         class: {
-            td: "text-right",
-         },
-      },
-      size: 64
+      header: "Jumlah",
+      size: 64,
    },
    {
       accessorKey: "proportion",
-      header: ({ column }) => getHeader(column, "Proporsi", "left"),
+      header: "Proporsi",
       meta: {
          class: {
             td: "text-right",
@@ -44,7 +40,7 @@ const tableColumns: TableColumn<Data>[] = [
    },
    {
       accessorKey: "item_discount",
-      header: ({ column }) => getHeader(column, "Diskon / Item", "left"),
+      header: "Diskon / Item",
       meta: {
          class: {
             td: "text-right",
@@ -57,7 +53,7 @@ const tableColumns: TableColumn<Data>[] = [
    },
    {
       accessorKey: "additional_cost",
-      header: ({ column }) => getHeader(column, "Biaya Tambahan / Item", "left"),
+      header: "Biaya Tambahan / Item",
       meta: {
          class: {
             td: "text-right",
@@ -70,7 +66,7 @@ const tableColumns: TableColumn<Data>[] = [
    },
    {
       accessorKey: "total_price_after_discount",
-      header: ({ column }) => getHeader(column, "Harga (setelah diskon)", "left"),
+      header: "Harga (setelah diskon)",
       meta: {
          class: {
             td: "text-right",
@@ -83,7 +79,7 @@ const tableColumns: TableColumn<Data>[] = [
    },
    {
       accessorKey: "total_item_per_qty",
-      header: ({ column }) => getHeader(column, "Harga / Item (setelah diskon)", "right"),
+      header: "Harga / Item (setelah diskon)",
       cell: ({ row }) => {
          return $formatCurrency(row.original.total_item_per_qty)
       },
@@ -96,34 +92,57 @@ const tableColumns: TableColumn<Data>[] = [
    },
 ]
 
-function getHeader(column: any, label: string, pinPosition: "left" | "right") {
-   const isPinned = column.getIsPinned()
-
-   return h(UButton, {
-      color: "neutral",
-      variant: "ghost",
-      label,
-      icon: isPinned ? "lucide:pin-off" : "lucide:pin",
-      class: "-mx-2.5",
-      onClick: () => {
-         column.pin(isPinned === pinPosition ? false : pinPosition)
-      }
-   })
-}
-
-const columnPinning = ref<
-   Record<"left" | "right", (keyof Data | (string & {}))[]>
->({
-   left: [""],
-   right: ["total_item_per_qty"],
+const columnVisibility = ref<Record<keyof Data | (string & {}), boolean>>({
+   name: true,
+   qty: true,
+   proportion: false,
+   item_discount: false,
+   additional_cost: false,
+   total_price_after_discount: false,
+   total_item_per_qty: true,
 })
+
+const table = useTemplateRef("table")
 </script>
 
 <template>
-   <UTable
-      v-model:column-pinning="columnPinning"
-      :data="props.data"
-      :columns="tableColumns"
-      class="w-full"
-   ></UTable>
+   <div class="flex w-full flex-1 flex-col">
+      <div class="border-accented flex justify-end border-b py-3.5">
+         <UDropdownMenu
+            :items="
+               table?.tableApi
+                  ?.getAllColumns()
+                  .filter((column) => column.getCanHide())
+                  .map((column) => ({
+                     label: upperFirst(column.columnDef.header?.toString() ?? column.id),
+                     type: 'checkbox' as const,
+                     checked: column.getIsVisible(),
+                     onUpdateChecked(checked: boolean) {
+                        table?.tableApi
+                           ?.getColumn(column.id)
+                           ?.toggleVisibility(!!checked)
+                     },
+                     onSelect(e: Event) {
+                        e.preventDefault()
+                     },
+                  }))
+            "
+            :content="{ align: 'end' }"
+         >
+            <UButton
+               label="Visibilitas Kolom"
+               color="neutral"
+               variant="outline"
+               trailing-icon="lucide:chevron-down"
+            />
+         </UDropdownMenu>
+      </div>
+      <UTable
+         ref="table"
+         v-model:column-visibility="columnVisibility"
+         :data="props.data"
+         :columns="tableColumns"
+         class="w-full"
+      ></UTable>
+   </div>
 </template>

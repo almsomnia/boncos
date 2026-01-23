@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const appConfig = useAppConfig()
 definePageMeta({
-   title: `Welcome to ${appConfig.appName}`,
    hideTitle: true,
 })
 </script>
