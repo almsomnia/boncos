@@ -1,6 +1,7 @@
 <script setup lang="ts">
+const appConfig = useAppConfig()
 definePageMeta({
-   title: "Welcome to Boncos",
+   title: `Welcome to ${appConfig.appName}`,
    hideTitle: true,
 })
 </script>
@@ -50,7 +51,7 @@ definePageMeta({
             <p
                class="mt-8 text-lg font-medium text-pretty text-neutral-500 sm:text-xl/8 dark:text-neutral-400"
             >
-               Boncos calculates the "true" cost per item by proportionally
+               {{ appConfig.appName }} calculates the "true" cost per item by proportionally
                distributing taxes, service charges, and discounts. Fair splits
                for everyone, down to the last cent.
             </p>
@@ -110,7 +111,7 @@ definePageMeta({
             <h2
                class="text-primary-500 text-base/7 font-semibold tracking-wide uppercase"
             >
-               Why Boncos?
+               Why {{ appConfig.appName }}?
             </h2>
             <p
                class="mt-2 text-4xl font-semibold tracking-tight text-pretty sm:text-5xl"

@@ -1,8 +1,9 @@
 <script setup lang="ts">
 const route = useRoute()
+const appConfig = useAppConfig()
 
 const pageTitle = computed(() => {
-   return (route.meta.title as string) ?? "Boncos"
+   return (route.meta.title as string) ?? appConfig.appName
 })
 
 const hideTitle = computed(() => {
@@ -11,11 +12,13 @@ const hideTitle = computed(() => {
 </script>
 
 <template>
-   <UHeader title="Boncos">
+   <UHeader :title="appConfig.appName">
       <template #title>
          <div class="flex items-center gap-2">
-            <img src="/img/logo.svg" alt="Boncos Logo" class="h-8 w-8" />
-            <span class="text-xl font-semibold">Boncos</span>
+            <img src="/img/logo.svg" alt="App Logo" class="h-8 w-8" />
+            <span class="text-xl font-bold">
+               {{ appConfig.appName }}
+            </span>
          </div>
       </template>
       <template #right>

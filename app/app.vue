@@ -1,6 +1,7 @@
 <script setup lang="ts">
+const appConfig = useAppConfig()
 useSeoMeta({
-   titleTemplate: (chunk) => chunk ? `${chunk} - Boncos` : "Boncos",
+   titleTemplate: (chunk) => chunk ? `${chunk} - ${appConfig.appName}` : appConfig.appName,
 })
 </script>
 
