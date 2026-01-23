@@ -1,14 +1,24 @@
 {
    "name": "boncos",
+   "description": "A sophisticated bill-splitting and expense calculator built with Nuxt 4.",
+   "version": "0.0.0",
    "type": "module",
    "private": true,
+   "author": {
+      "name": "Riva Almero",
+      "email": "rivaalms@proton.me",
+      "url": "https://github.com/almsomnia"
+   },
    "scripts": {
       "build": "nuxt build",
       "dev": "nuxt dev",
       "generate": "nuxt generate",
       "preview": "nuxt preview",
       "postinstall": "nuxt prepare",
-      "format": "prettier --write ."
+      "format": "prettier --write .",
+      "release:major": "pnpx changelog -M && git add CHANGELOG.md && git commit -m 'docs: CHANGELOG.md' && pnpm version major && git push && git push --tags",
+      "release:minor": "pnpx changelog -m && git add CHANGELOG.md && git commit -m 'docs: CHANGELOG.md' && pnpm version minor && git push && git push --tags",
+      "release:patch": "pnpx changelog -p && git add CHANGELOG.md && git commit -m 'docs: CHANGELOG.md' && pnpm version patch && git push && git push --tags"
    },
    "dependencies": {
       "@nuxt/fonts": "0.13.0",
@@ -23,5 +33,6 @@
       "@nuxt/icon": "^2.2.1",
       "prettier": "^3.8.1",
       "prettier-plugin-tailwindcss": "^0.7.2"
-   }
+   },
+   "license": "MIT"
 }
