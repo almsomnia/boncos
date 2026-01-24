@@ -1,8 +1,5 @@
 <script setup lang="ts">
 const appConfig = useAppConfig()
-definePageMeta({
-   hideTitle: true,
-})
 </script>
 
 <template>

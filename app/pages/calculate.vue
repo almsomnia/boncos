@@ -3,6 +3,10 @@ definePageMeta({
    title: "Kalkulator Tagihan",
 })
 
+useSeoMeta({
+   title: "Kalkulator Tagihan"
+})
+
 const {
    items,
    discount,
