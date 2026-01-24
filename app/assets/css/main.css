@@ -1,11 +1,12 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
-@layer base {
-   :root {
-      --min-page-height: calc(100dvh - var(--ui-header-height));
-   }
+@theme {
+   --min-page-height: calc(100dvh - var(--ui-header-height) - var(--footer-height));
+   --footer-height: --spacing(13);
+}
 
+@layer base {
    :root {
       @apply selection:bg-lime-500/20 dark:selection:bg-lime-400/20;
    }

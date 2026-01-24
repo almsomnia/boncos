@@ -31,7 +31,7 @@ const hideTitle = computed(() => {
          <slot />
       </UPage>
    </UContainer>
-   <UFooter>
+   <UFooter :ui="{ root: 'h-(--footer-height)' }">
       <template #left>
          <span class="text-muted text-sm">
             &copy; <NuxtTime :datetime="new Date()" year="numeric"  /> Riva Almero
