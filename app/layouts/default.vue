@@ -1,14 +1,5 @@
 <script setup lang="ts">
-const route = useRoute()
 const appConfig = useAppConfig()
-
-const pageTitle = computed(() => {
-   return (route.meta.title as string) ?? appConfig.appName
-})
-
-const hideTitle = computed(() => {
-   return route.meta.hideTitle as boolean ?? false
-})
 </script>
 
 <template>
@@ -27,7 +18,6 @@ const hideTitle = computed(() => {
    </UHeader>
    <UContainer>
       <UPage class="min-h-(--min-page-height) py-2">
-         <UPageHeader v-if="!hideTitle" :title="pageTitle" />
          <slot />
       </UPage>
    </UContainer>
