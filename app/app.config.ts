@@ -3,6 +3,7 @@ export default defineAppConfig({
    ui: {
       colors: {
          primary: "purple",
+         secondary: "lime",
          neutral: "slate"
       },
       pageHeader: {

@@ -8,7 +8,10 @@ definePageMeta({
 <template>
    <div class="relative isolate">
       <!-- Hero Section -->
-      <div class="relative px-6 py-24 sm:py-32 lg:px-8">
+      <section
+         id="hero"
+         class="relative px-6 py-24 sm:py-32 lg:px-8"
+      >
          <!-- Background Mesh Gradient -->
          <div
             class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
@@ -54,7 +57,15 @@ definePageMeta({
                dengan membagi ongkir, pajak, biaya layanan, dan diskon secara
                proporsional. Semua kebagian adil, sampai ke Rupiah terakhir.
             </p>
-            <div class="mt-10 flex items-center justify-center gap-x-6">
+            <div class="mt-10 flex items-center justify-center gap-x-4">
+               <UButton
+                  to="#how"
+                  size="xl"
+                  label="Cara Pakai"
+                  icon="lucide:circle-help"
+                  color="neutral"
+                  variant="soft"
+               />
                <UButton
                   to="/calculate"
                   size="xl"
@@ -93,10 +104,13 @@ definePageMeta({
                "
             ></div>
          </div>
-      </div>
+      </section>
 
       <!-- Features Section -->
-      <div class="mx-auto max-w-7xl px-6 pb-24 sm:pb-32 lg:px-8">
+      <section
+         id="features"
+         class="mx-auto max-w-7xl px-6 pb-24 sm:pb-32 lg:px-8"
+      >
          <div class="mx-auto max-w-3xl lg:text-center">
             <h2
                class="text-primary-500 text-base/7 font-bold tracking-wider uppercase"
@@ -111,7 +125,7 @@ definePageMeta({
          </div>
          <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
             <dl
-               class="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3"
+               class="grid grid-cols-1 gap-8 lg:grid-cols-3"
             >
                <UCard>
                   <div class="flex flex-col">
@@ -180,6 +194,60 @@ definePageMeta({
                </UCard>
             </dl>
          </div>
-      </div>
+      </section>
+
+      <!-- How to use section -->
+      <section
+         id="how"
+         class="mx-auto max-w-7xl px-6 pb-24 sm:pb-32 lg:px-8"
+      >
+         <UCard
+            variant="soft"
+            class="bg-primary-50 dark:bg-primary-950/20"
+            :ui="{
+               body: 'sm:p-8 py-8',
+            }"
+         >
+            <div class="flex flex-col gap-20 lg:flex-row">
+               <div class="w-full lg:w-1/3">
+                  <h2
+                     class="text-primary-500 text-base/7 font-bold tracking-wider uppercase"
+                  >
+                     Cara Pakai
+                  </h2>
+                  <p
+                     class="mt-2 text-3xl font-semibold tracking-tight text-pretty lg:text-4xl"
+                  >
+                     Hitung cepat dalam 4 langkah
+                  </p>
+               </div>
+               <div
+                  class="flex w-full flex-col flex-wrap gap-8 lg:gap-16 lg:w-2/3 lg:flex-row [&>p]:ps-8 [&>p]:lg:ms-0"
+               >
+                  <p
+                     class="before:text-primary-500 w-full grow-2 leading-relaxed text-sm md:text-base text-pretty before:absolute before:-translate-x-8 before:-translate-y-2 before:text-3xl before:font-bold before:content-['1'] lg:w-[30%]"
+                  >
+                     Masukkan nama item, harga, dan jumlah pesanan.
+                  </p>
+                  <p
+                     class="before:text-primary-500 w-full grow-2 leading-relaxed text-sm md:text-base text-pretty before:absolute before:-translate-x-8 before:-translate-y-2 before:text-3xl before:font-bold before:content-['2'] lg:w-[30%]"
+                  >
+                     Tambahkan biaya tambahan seperti ongkir dan pajak. Jangan
+                     lupa masukin juga diskon pesanan.
+                  </p>
+                  <p
+                     class="before:text-primary-500 w-full grow-2 leading-relaxed text-sm md:text-base text-pretty before:absolute before:-translate-x-8 before:-translate-y-2 before:text-3xl before:font-bold before:content-['3'] lg:w-[30%]"
+                  >
+                     Boncos bakal membagi biaya secara proporsional.
+                  </p>
+                  <p
+                     class="before:text-primary-500 w-full grow-2 leading-relaxed text-sm md:text-base text-pretty before:absolute before:-translate-x-8 before:-translate-y-2 before:text-3xl before:font-bold before:content-['4'] lg:w-[30%]"
+                  >
+                     Dapatkan harga akhir per item (100% sesuai struk).
+                  </p>
+               </div>
+            </div>
+         </UCard>
+      </section>
    </div>
 </template>

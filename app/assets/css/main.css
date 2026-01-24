@@ -1,14 +1,20 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
-@theme {
-   --min-page-height: calc(100dvh - var(--ui-header-height) - var(--footer-height));
-   --footer-height: --spacing(13);
-}
-
 @layer base {
    :root {
-      @apply selection:bg-lime-500/20 dark:selection:bg-lime-400/20;
+      --min-page-height: calc(100dvh - var(--ui-header-height) - var(--footer-height));
+      --footer-height: --spacing(27);
+   }
+
+   @media (min-width: 1024px) {
+      :root {
+         --footer-height: --spacing(13);
+      }
+   }
+
+   :root {
+      @apply selection:bg-lime-500/20 dark:selection:bg-lime-400/20 scroll-smooth;
    }
 
    input::-webkit-inner-spin-button,
