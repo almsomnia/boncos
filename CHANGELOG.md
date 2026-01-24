@@ -1,3 +1,25 @@
+### 1.1.0 (2026-01-24)
+
+##### New Features
+
+* **pages:**  add SEO meta to calculate page and remove hideTitle from index (d7b00ee8)
+* **calculate:**  add onboarding flow with AppPage component (da1d5a93)
+* **onboarding:**  add guided walkthrough overlay to calculator page (08b5ca8e)
+* **ui:**
+  *  enhance layout, theming and add how‑to‑use section (a5bbbacd)
+  *  centralize app configuration and update color theme to purple (0353a2a4)
+  *  implement column pinning and default item names in calculation results (ab5ee630)
+* **calculator:**  extract logic to composable, update types & UI (bca40030)
+* **layout:**  hide header toggle and add footer with copyright (0c193fa2)
+* **table:**  simplify headers and add column visibility controls (0f97a489)
+* **i18n:**  translate application content to Indonesian (ab20f04a)
+* **branding:**  add logo, update favicon and configure SEO title template (3b0f6749)
+
+##### Code Style Changes
+
+* **layout:**  adjust footer height and theme variables (6ddbe557)
+* **calculate:**  remove subtle variant from add buttons (28c2d6a3)
+
 ## 1.0.0 (2026-01-23)
 
 ##### Chores
