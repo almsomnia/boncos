@@ -2,22 +2,13 @@
 import type { TableColumn } from "@nuxt/ui"
 import { upperFirst } from "scule"
 import { UButton } from "#components"
-
-type Data = {
-   name: string | undefined
-   qty: number
-   total_item_per_qty: number
-   proportion: number
-   item_discount: number
-   additional_cost: number
-   total_price_after_discount: number
-}
+import type { CalculationDetail } from "#shared/types"
 
 const props = defineProps<{
-   data: Data[]
+   data: CalculationDetail[]
 }>()
 
-const tableColumns: TableColumn<Data>[] = [
+const tableColumns: TableColumn<CalculationDetail>[] = [
    {
       accessorKey: "name",
       header: "Nama Item",
@@ -92,13 +83,15 @@ const tableColumns: TableColumn<Data>[] = [
    },
 ]
 
-const columnVisibility = ref<Record<keyof Data | (string & {}), boolean>>({
+const columnVisibility = ref<
+   Record<keyof CalculationDetail | (string & {}), boolean>
+>({
    name: true,
    qty: true,
    proportion: false,
    item_discount: false,
    additional_cost: false,
-   total_price_after_discount: false,
+   total_price_after_discount: true,
    total_item_per_qty: true,
 })
 
@@ -114,7 +107,9 @@ const table = useTemplateRef("table")
                   ?.getAllColumns()
                   .filter((column) => column.getCanHide())
                   .map((column) => ({
-                     label: upperFirst(column.columnDef.header?.toString() ?? column.id),
+                     label: upperFirst(
+                        column.columnDef.header?.toString() ?? column.id
+                     ),
                      type: 'checkbox' as const,
                      checked: column.getIsVisible(),
                      onUpdateChecked(checked: boolean) {
@@ -130,7 +125,7 @@ const table = useTemplateRef("table")
             :content="{ align: 'end' }"
          >
             <UButton
-               label="Visibilitas Kolom"
+               label="Kolom"
                color="neutral"
                variant="outline"
                trailing-icon="lucide:chevron-down"

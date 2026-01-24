@@ -3,109 +3,21 @@ definePageMeta({
    title: "Kalkulator Tagihan",
 })
 
-type Item = {
-   name: string
-   price: number
-   qty: number
-}
+const {
+   items,
+   discount,
+   additionalCosts,
+   addItem,
+   removeItem,
+   addAdditionalCost,
+   removeAdditionalCost,
+   subtotal,
+   total,
+   calculationDetails,
+} = useCalculator()
 
-type AdditionalCost = {
-   name: string
-   amount: number
-}
-
-const items = ref<Partial<Item>[]>([
-   {
-      name: undefined,
-      price: undefined,
-      qty: undefined,
-   },
-])
-
-const discount = shallowRef<number>()
-
-const additionalCosts = ref<Partial<AdditionalCost>[]>([
-   {
-      name: undefined,
-      amount: undefined,
-   },
-])
-
-const subtotal = computed(() => {
-   const result = items.value.reduce(
-      (acc, curr) => acc + (curr.price ?? 0) * (curr.qty ?? 0),
-      0
-   )
-   return $roundDecimal(result)
-})
-
-const total = computed(() => {
-   const totalAdditionals = additionalCosts.value.reduce(
-      (acc, curr) => acc + (curr.amount ?? 0),
-      0
-   )
-   return subtotal.value + totalAdditionals - Math.abs(discount.value ?? 0)
-})
-
-const itemDetails = computed(() => {
-   return items.value.map((item) => {
-      const itemSubtotal = $roundDecimal((item.price ?? 0) * (item.qty ?? 0))
-
-      const proportion = $roundDecimal(itemSubtotal / subtotal.value)
-
-      const itemDiscount = $roundDecimal(
-         proportion * Math.abs(discount.value ?? 0)
-      )
-
-      const itemAdditionalCost = $roundDecimal(
-         additionalCosts.value.reduce(
-            (acc, curr) => acc + (curr.amount ?? 0),
-            0
-         ) * proportion
-      )
-
-      const itemTotalPriceAfterDiscount = $roundDecimal(
-         itemSubtotal + itemAdditionalCost - itemDiscount
-      )
-
-      const totalItemPerQty = $roundDecimal(
-         itemTotalPriceAfterDiscount / (item.qty ?? 0)
-      )
-
-      return {
-         name: item.name ?? "-",
-         qty: item.qty ?? 0,
-         total_item_per_qty: totalItemPerQty,
-         proportion: proportion,
-         item_discount: itemDiscount,
-         additional_cost: itemAdditionalCost,
-         total_price_after_discount: itemTotalPriceAfterDiscount,
-      }
-   })
-})
-
-function onAddItem() {
-   items.value.push({
-      name: undefined,
-      price: undefined,
-      qty: undefined,
-   })
-}
-
-function onRemoveItem(index: number) {
-   items.value.splice(index, 1)
-}
-
-function onAddCost() {
-   additionalCosts.value.push({
-      name: undefined,
-      amount: undefined,
-   })
-}
-
-function onRemoveCost(index: number) {
-   additionalCosts.value.splice(index, 1)
-}
+addItem()
+addAdditionalCost()
 </script>
 
 <template>
@@ -113,9 +25,10 @@ function onRemoveCost(index: number) {
       <div class="col-span-full lg:col-span-3">
          <UCard>
             <template #header>
-               <h2 class="text-lg font-semibold">
-                  Item
-               </h2>
+               <h2 class="text-lg font-semibold">Item</h2>
+               <p class="text-muted text-sm text-pretty">
+                  Masukin item yang dipesan
+               </p>
             </template>
             <ul class="space-y-4">
                <li
@@ -128,7 +41,7 @@ function onRemoveCost(index: number) {
                         v-model="item.name"
                         placeholder="Nama item"
                         class="w-full"
-                        @keydown.enter="onAddItem"
+                        @keydown.enter="addItem"
                      />
                      <UInputNumber
                         v-model="item.price"
@@ -141,7 +54,7 @@ function onRemoveCost(index: number) {
                            currency: 'IDR',
                            currencyDisplay: 'narrowSymbol',
                         }"
-                        @keydown.enter="onAddItem"
+                        @keydown.enter="addItem"
                      />
                      <UInputNumber
                         v-model="item.qty"
@@ -149,7 +62,7 @@ function onRemoveCost(index: number) {
                         :increment="false"
                         :decrement="false"
                         class="w-full"
-                        @keydown.enter="onAddItem"
+                        @keydown.enter="addItem"
                      />
                      <UButton
                         icon="lucide:trash"
@@ -157,7 +70,7 @@ function onRemoveCost(index: number) {
                         variant="subtle"
                         size="sm"
                         square
-                        @click="onRemoveItem(index)"
+                        @click="removeItem(index)"
                         :disabled="items.length < 2"
                      />
                   </UFieldGroup>
@@ -167,10 +80,20 @@ function onRemoveCost(index: number) {
                      block
                      label="Tambah Item"
                      icon="lucide:plus"
-                     @click="onAddItem"
+                     @click="addItem"
                   />
                </li>
             </ul>
+            <template #footer>
+               <div class="space-y-4">
+                  <div class="text-toned flex text-sm">
+                     <span class="w-3/5"> Subtotal </span>
+                     <span class="w-2/5 text-right">
+                        {{ $formatCurrency(subtotal) }}
+                     </span>
+                  </div>
+               </div>
+            </template>
          </UCard>
       </div>
       <div class="col-span-full lg:col-span-2">
@@ -190,7 +113,7 @@ function onRemoveCost(index: number) {
                            v-model="cost.name"
                            placeholder="Nama biaya"
                            class="w-full"
-                           @keydown.enter="onAddCost"
+                           @keydown.enter="addAdditionalCost"
                         />
                         <UInputNumber
                            v-model="cost.amount"
@@ -203,14 +126,14 @@ function onRemoveCost(index: number) {
                               currency: 'IDR',
                               currencyDisplay: 'narrowSymbol',
                            }"
-                           @keydown.enter="onAddCost"
+                           @keydown.enter="addAdditionalCost"
                         />
                         <UButton
                            icon="lucide:trash"
                            color="error"
                            variant="subtle"
                            size="sm"
-                           @click="onRemoveCost(index)"
+                           @click="removeAdditionalCost(index)"
                            :disabled="additionalCosts.length < 2"
                         />
                      </UFieldGroup>
@@ -219,7 +142,7 @@ function onRemoveCost(index: number) {
                         label="Tambah Biaya Tambahan"
                         icon="lucide:plus"
                         class="mt-2"
-                        @click="onAddCost"
+                        @click="addAdditionalCost"
                      />
                   </div>
                </UFormField>
@@ -266,6 +189,6 @@ function onRemoveCost(index: number) {
       <template #header>
          <h2 class="text-lg font-semibold">Hasil Perhitungan</h2>
       </template>
-      <TableCalculationResult :data="itemDetails" />
+      <TableCalculationResult :data="calculationDetails" />
    </UCard>
 </template>
