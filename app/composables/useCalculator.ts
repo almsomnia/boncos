@@ -1,4 +1,5 @@
 import type { Item, AdditionalCost, CalculationDetail } from "#shared/types"
+import { $base64Encode, $base64Decode } from "#shared/utils"
 
 /**
  * Composable that manages the state and logic for the bill-splitting calculator.
@@ -133,25 +134,14 @@ export default function () {
          calculation_result: calculationDetails.value,
       })
 
-      const result = await $fetch(`/api/_crypt/encrypt`, {
-         method: "post",
-         body: {
-            data: payload
-         }
-      })
-
-      return result
+      const result = $base64Encode(payload, true)
+      return { data: result }
    }
 
    onBeforeMount(async () => {
       const route = useRoute()
-      if (route.query.share) {
-         const { data } = await $fetch(`/api/_crypt/decrypt`, {
-            method: "post",
-            body: {
-               data: route.query.share
-            }
-         })
+      if (route.query.share && typeof route.query.share === "string") {
+         const data = $base64Decode(route.query.share, true)
          const result = JSON.parse(data)
          items.value = result.items
          discount.value = result.discount
@@ -170,6 +160,6 @@ export default function () {
       subtotal,
       total,
       calculationDetails,
-      shareCalculationResult
+      shareCalculationResult,
    }
 }
