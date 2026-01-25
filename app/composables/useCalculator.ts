@@ -143,6 +143,22 @@ export default function () {
       return result
    }
 
+   onBeforeMount(async () => {
+      const route = useRoute()
+      if (route.query.share) {
+         const { data } = await $fetch(`/api/_crypt/decrypt`, {
+            method: "post",
+            body: {
+               data: route.query.share
+            }
+         })
+         const result = JSON.parse(data)
+         items.value = result.items
+         discount.value = result.discount
+         additionalCosts.value = result.additional_costs
+      }
+   })
+
    return {
       items,
       discount,
