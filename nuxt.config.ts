@@ -18,4 +18,7 @@ export default defineNuxtConfig({
    imports: {
       dirs: ["~/composables/**", "~/utils/**"],
    },
+   runtimeConfig: {
+      cryptKey: import.meta.env.CRYPT_KEY,
+   }
 })
