@@ -14,7 +14,7 @@
    }
 
    :root {
-      @apply selection:bg-lime-500/20 dark:selection:bg-lime-400/20 scroll-smooth;
+      @apply selection:bg-lime-500/75 dark:selection:bg-lime-400/75 scroll-smooth;
    }
 
    input::-webkit-inner-spin-button,
