@@ -1,5 +1,17 @@
 <script setup lang="ts">
-const showOnboarding = defineModel<boolean>("showOnboarding", { required: true, default: false })
+const props = withDefaults(
+   defineProps<{
+      triggerOnLoad?: boolean
+   }>(),
+   {
+      triggerOnLoad: true,
+   }
+)
+
+const showOnboarding = defineModel<boolean>("showOnboarding", {
+   required: true,
+   default: false,
+})
 
 const currentStep = shallowRef(0)
 const onboardingPosition = shallowRef<"bottom" | "top">("bottom")
@@ -79,9 +91,11 @@ const startOnboarding = () => {
 }
 
 onMounted(() => {
-   const hasSeen = localStorage.getItem("boncos_onboarding_seen")
-   if (!hasSeen) {
-      startOnboarding()
+   if (props.triggerOnLoad) {
+      const hasSeen = localStorage.getItem("boncos_onboarding_seen")
+      if (!hasSeen) {
+         startOnboarding()
+      }
    }
 })
 

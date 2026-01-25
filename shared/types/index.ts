@@ -12,6 +12,7 @@ export type AdditionalCost = {
 export type CalculationDetail = {
    name: string | undefined
    qty: number
+   price: number
    total_item_per_qty: number
    proportion: number
    item_discount: number

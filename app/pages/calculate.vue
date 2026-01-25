@@ -7,6 +7,8 @@ useSeoMeta({
    title: "Kalkulator Tagihan",
 })
 
+const editMode = shallowRef(true)
+
 const {
    items,
    discount,
@@ -23,6 +25,16 @@ const {
 
 addItem()
 addAdditionalCost()
+
+const route = useRoute()
+if (route.query.share && typeof route.query.share === "string") {
+   editMode.value = false
+   const data = $base64Decode(route.query.share, true)
+   const result = JSON.parse(data)
+   items.value = result.items
+   discount.value = result.discount
+   additionalCosts.value = result.additional_costs
+}
 
 const shareModal = shallowRef(false)
 const shareValue = shallowRef<string>()
@@ -41,7 +53,7 @@ function copyToClipboard(text: string) {
    useToast().add({
       title: "Link berhasil disalin",
       icon: "lucide:check",
-      color: "success"
+      color: "success",
    })
 }
 
@@ -56,7 +68,15 @@ const showOnboarding = shallowRef(false)
 <template>
    <AppPage>
       <template #links>
+         <UBadge
+            v-if="!editMode"
+            label="Read-only Mode"
+            icon="lucide:lock"
+            color="neutral"
+            variant="subtle"
+         />
          <UButton
+            v-if="editMode"
             label="Lihat Tutorial"
             icon="lucide:circle-help"
             variant="link"
@@ -73,7 +93,7 @@ const showOnboarding = shallowRef(false)
                <template #header>
                   <h2 class="text-lg font-semibold">Item</h2>
                   <p class="text-muted text-sm text-pretty">
-                     Masukin item yang dipesan
+                     {{ editMode ? "Masukin item yang dipesan" : "Daftar item yang dipesan" }}
                   </p>
                </template>
                <ul class="space-y-4">
@@ -87,6 +107,7 @@ const showOnboarding = shallowRef(false)
                            v-model="item.name"
                            placeholder="Nama item"
                            class="w-full"
+                           :readonly="!editMode"
                            @keydown.enter="addItem"
                         />
                         <UInputNumber
@@ -95,6 +116,7 @@ const showOnboarding = shallowRef(false)
                            class="w-full"
                            :increment="false"
                            :decrement="false"
+                           :readonly="!editMode"
                            :format-options="{
                               style: 'currency',
                               currency: 'IDR',
@@ -107,10 +129,12 @@ const showOnboarding = shallowRef(false)
                            placeholder="Jumlah"
                            :increment="false"
                            :decrement="false"
+                           :readonly="!editMode"
                            class="w-full"
                            @keydown.enter="addItem"
                         />
                         <UButton
+                           v-if="editMode"
                            icon="lucide:trash"
                            color="error"
                            variant="subtle"
@@ -121,7 +145,7 @@ const showOnboarding = shallowRef(false)
                         />
                      </UFieldGroup>
                   </li>
-                  <li>
+                  <li v-if="editMode">
                      <UButton
                         block
                         label="Tambah Item"
@@ -162,6 +186,7 @@ const showOnboarding = shallowRef(false)
                            <UInput
                               v-model="cost.name"
                               placeholder="Nama biaya"
+                              :readonly="!editMode"
                               class="w-full"
                               @keydown.enter="addAdditionalCost"
                            />
@@ -171,6 +196,7 @@ const showOnboarding = shallowRef(false)
                               placeholder="Harga"
                               :increment="false"
                               :decrement="false"
+                              :readonly="!editMode"
                               :format-options="{
                                  style: 'currency',
                                  currency: 'IDR',
@@ -179,6 +205,7 @@ const showOnboarding = shallowRef(false)
                               @keydown.enter="addAdditionalCost"
                            />
                            <UButton
+                              v-if="editMode"
                               icon="lucide:trash"
                               color="error"
                               variant="subtle"
@@ -188,6 +215,7 @@ const showOnboarding = shallowRef(false)
                            />
                         </UFieldGroup>
                         <UButton
+                           v-if="editMode"
                            block
                            label="Tambah Biaya Tambahan"
                            icon="lucide:plus"
@@ -205,6 +233,7 @@ const showOnboarding = shallowRef(false)
                         v-model="discount"
                         :increment="false"
                         :decrement="false"
+                        :readonly="!editMode"
                         placeholder="Total diskon"
                         :format-options="{
                            style: 'currency',
@@ -244,6 +273,7 @@ const showOnboarding = shallowRef(false)
             <div class="flex items-center justify-between">
                <h2 class="text-lg font-semibold">Hasil Perhitungan</h2>
                <UButton
+                  v-if="editMode"
                   label="Bagikan"
                   icon="lucide:share"
                   color="primary"
@@ -261,7 +291,7 @@ const showOnboarding = shallowRef(false)
       title="Bagikan Hasil Perhitungan"
    >
       <template #body>
-         <p class="text-pretty text-muted text-sm">
+         <p class="text-muted text-sm text-pretty">
             Salin link berikut untuk membagikan hasil perhitungan ini
          </p>
          <div class="mt-4">
@@ -296,5 +326,6 @@ const showOnboarding = shallowRef(false)
    <CalculateOnboarding
       ref="calculateOnboardingRef"
       v-model:show-onboarding="showOnboarding"
+      :trigger-on-load="editMode"
    />
 </template>

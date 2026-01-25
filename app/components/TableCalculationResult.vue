@@ -20,6 +20,14 @@ const tableColumns: TableColumn<CalculationDetail>[] = [
       size: 64,
    },
    {
+      accessorKey: "price",
+      header: "Harga (sebelum diskon)",
+      cell: ({ row }) => {
+         return $formatCurrency(row.original.price)
+      },
+      size: 128,
+   },
+   {
       accessorKey: "proportion",
       header: "Proporsi",
       meta: {
@@ -88,6 +96,7 @@ const columnVisibility = ref<
 >({
    name: true,
    qty: true,
+   price: false,
    proportion: false,
    item_discount: false,
    additional_cost: false,

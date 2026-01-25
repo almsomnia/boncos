@@ -78,6 +78,7 @@ export default function () {
          return {
             name: item.name ?? "-",
             qty: item.qty ?? 0,
+            price: item.price ?? 0,
             total_item_per_qty: totalItemPerQty,
             proportion: proportion,
             item_discount: itemDiscount,
@@ -137,17 +138,6 @@ export default function () {
       const result = $base64Encode(payload, true)
       return { data: result }
    }
-
-   onBeforeMount(async () => {
-      const route = useRoute()
-      if (route.query.share && typeof route.query.share === "string") {
-         const data = $base64Decode(route.query.share, true)
-         const result = JSON.parse(data)
-         items.value = result.items
-         discount.value = result.discount
-         additionalCosts.value = result.additional_costs
-      }
-   })
 
    return {
       items,
