@@ -123,6 +123,26 @@ export default function () {
       additionalCosts.value.splice(index, 1)
    }
 
+   async function shareCalculationResult() {
+      const payload = JSON.stringify({
+         items: items.value,
+         discount: discount.value,
+         additional_costs: additionalCosts.value,
+         subtotal: subtotal.value,
+         total: total.value,
+         calculation_result: calculationDetails.value,
+      })
+
+      const result = await $fetch(`/api/_crypt/encrypt`, {
+         method: "post",
+         body: {
+            data: payload
+         }
+      })
+
+      return result
+   }
+
    return {
       items,
       discount,
@@ -134,5 +154,6 @@ export default function () {
       subtotal,
       total,
       calculationDetails,
+      shareCalculationResult
    }
 }

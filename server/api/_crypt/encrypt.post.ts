@@ -1,4 +1,7 @@
 export default eventHandler(async (event) => {
    const { data } = await readBody<{ data: string }>(event)
-   return $crypt().encrypt(data)
+   const result = $crypt().encrypt(data)
+   return {
+      data: result
+   }
 })

@@ -4,7 +4,7 @@ definePageMeta({
 })
 
 useSeoMeta({
-   title: "Kalkulator Tagihan"
+   title: "Kalkulator Tagihan",
 })
 
 const {
@@ -18,10 +18,27 @@ const {
    subtotal,
    total,
    calculationDetails,
+   shareCalculationResult,
 } = useCalculator()
 
 addItem()
 addAdditionalCost()
+
+const shareModal = shallowRef(false)
+const shareValue = shallowRef<string>()
+const shareUrl = computed(() => {
+   return `${window.location.origin}?share=${shareValue.value}`
+})
+
+async function onShareCalculationResult() {
+   const result = await shareCalculationResult()
+   shareValue.value = result.data
+   shareModal.value = true
+}
+
+function copyToClipboard(text: string) {
+   navigator.clipboard.writeText(text)
+}
 
 // --- Onboarding Logic ---
 const showOnboarding = shallowRef(false)
@@ -191,6 +208,7 @@ watch(currentStep, () => {
                      <UButton
                         block
                         label="Tambah Item"
+                        variant="soft"
                         icon="lucide:plus"
                         @click="addItem"
                      />
@@ -256,6 +274,7 @@ watch(currentStep, () => {
                            block
                            label="Tambah Biaya Tambahan"
                            icon="lucide:plus"
+                           variant="soft"
                            class="mt-2"
                            @click="addAdditionalCost"
                         />
@@ -305,11 +324,56 @@ watch(currentStep, () => {
          class="mt-4"
       >
          <template #header>
-            <h2 class="text-lg font-semibold">Hasil Perhitungan</h2>
+            <div class="flex items-center justify-between">
+               <h2 class="text-lg font-semibold">Hasil Perhitungan</h2>
+               <UButton
+                  label="Bagikan"
+                  icon="lucide:share"
+                  color="primary"
+                  @click="onShareCalculationResult"
+               />
+            </div>
          </template>
          <TableCalculationResult :data="calculationDetails" />
       </UCard>
    </AppPage>
+
+   <!-- Share modal -->
+   <UModal
+      v-model:open="shareModal"
+      title="Bagikan Hasil Perhitungan"
+   >
+      <template #body>
+         <p class="text-pretty text-muted text-sm">
+            Salin link berikut untuk membagikan hasil perhitungan ini
+         </p>
+         <div class="mt-4">
+            <UFieldGroup class="w-full">
+               <UInput
+                  :model-value="shareUrl"
+                  readonly
+                  class="w-full"
+               />
+               <UButton
+                  icon="lucide:copy"
+                  color="primary"
+                  square
+                  @click="copyToClipboard(shareUrl)"
+               />
+            </UFieldGroup>
+         </div>
+      </template>
+      <template #footer>
+         <div class="flex-1" />
+         <UButton
+            label="Tutup"
+            color="neutral"
+            icon="lucide:x"
+            variant="soft"
+            @click="shareModal = false"
+         />
+      </template>
+   </UModal>
 
    <!-- Onboarding Overlay -->
    <Teleport to="body">
