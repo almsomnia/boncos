@@ -1,3 +1,22 @@
+### 1.2.0 (2026-01-25)
+
+##### New Features
+
+*  Add read-only mode for shared calculations and include price in calculation details. (baa2f24c)
+*  Migrate calculation result sharing from server-side encryption to client-side Base64 encoding with new shared utilities. (8fc02448)
+* **share:**
+  *  load calculator state from shared URL parameters on component mount. (62386227)
+  *  add share result modal and API response wrapper (b49b71fe)
+* **utils:**  Implement server encryption/decryption utility, add encrypt/decrypt API endpoints (50caa710)
+
+##### Refactors
+
+*  Extract onboarding logic into a new `CalculateOnboarding` component and integrate it into the calculate page. (1b7896a2)
+
+##### Code Style Changes
+
+*  text selection background color (4585b75f)
+
 ### 1.1.0 (2026-01-24)
 
 ##### New Features
