@@ -136,7 +136,7 @@ export default function () {
       })
 
       const result = $base64Encode(payload, true)
-      return { data: result }
+      return result
    }
 
    return {

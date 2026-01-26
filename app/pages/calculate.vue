@@ -7,6 +7,15 @@ useSeoMeta({
    title: "Kalkulator Tagihan",
 })
 
+type SharePayload = {
+   items: Partial<Item>[]
+   discount: number | undefined
+   additional_costs: Partial<AdditionalCost>[]
+   subtotal: number
+   total: number
+   calculation_result: CalculationDetail[]
+}
+
 const editMode = shallowRef(true)
 
 const {
@@ -30,7 +39,7 @@ const route = useRoute()
 if (route.query.share && typeof route.query.share === "string") {
    editMode.value = false
    const data = $base64Decode(route.query.share, true)
-   const result = JSON.parse(data)
+   const result = JSON.parse(data) as SharePayload
    items.value = result.items
    discount.value = result.discount
    additionalCosts.value = result.additional_costs
@@ -44,7 +53,7 @@ const shareUrl = computed(() => {
 
 async function onShareCalculationResult() {
    const result = await shareCalculationResult()
-   shareValue.value = result.data
+   shareValue.value = result
    shareModal.value = true
 }
 
@@ -55,6 +64,21 @@ function copyToClipboard(text: string) {
       icon: "lucide:check",
       color: "success",
    })
+}
+
+function onShareExternal() {
+   const shareText = calculationDetails.value.map((item) => {
+      return `${item.name} (${item.qty} pcs): ${item.total_item_per_qty}`
+   }).join("\n")
+
+   try {
+      navigator.share({
+         title: "Hasil Perhitungan Tagihan - Boncos",
+         text: `\n\n${shareText}\n\n${shareUrl.value}`,
+      })
+   } catch (e) {
+      console.error("Share failed:", e)
+   }
 }
 
 const calculateOnboardingRef = useTemplateRef("calculateOnboardingRef")
@@ -304,6 +328,7 @@ const showOnboarding = shallowRef(false)
                <UButton
                   icon="lucide:copy"
                   color="primary"
+                  variant="subtle"
                   square
                   @click="copyToClipboard(shareUrl)"
                />
@@ -318,6 +343,12 @@ const showOnboarding = shallowRef(false)
             icon="lucide:x"
             variant="soft"
             @click="shareModal = false"
+         />
+         <UButton
+            label="Bagikan"
+            color="primary"
+            icon="lucide:share"
+            @click="onShareExternal"
          />
       </template>
    </UModal>
