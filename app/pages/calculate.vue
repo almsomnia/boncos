@@ -57,27 +57,45 @@ async function onShareCalculationResult() {
    shareModal.value = true
 }
 
+const toast = useToast()
 function copyToClipboard(text: string) {
    navigator.clipboard.writeText(text)
-   useToast().add({
+   toast.add({
       title: "Link berhasil disalin",
       icon: "lucide:check",
       color: "success",
    })
 }
 
-function onShareExternal() {
-   const shareText = calculationDetails.value.map((item) => {
-      return `${item.item.name} (${item.item.qty} pcs): ${item.result.finalUnitPrice}`
-   }).join("\n")
+async function onShareExternal() {
+   const shareText = calculationDetails.value
+      .map((item) => {
+         return [
+            `*${item.item.name}* (${item.item.qty} pcs)`,
+            `Harga per item (sebelum diskon): *${$formatCurrency(item.item.unitPrice)}*`,
+            `Harga per item (setelah diskon): *${$formatCurrency(item.result.finalUnitPrice)}*`,
+         ].join("\n")
+      })
+      .join("\n\n")
 
    try {
-      navigator.share({
+      await navigator.share({
          title: "Hasil Perhitungan Tagihan - Boncos",
-         text: `\n\n${shareText}\n\n${shareUrl.value}`,
+         text: `\n\n${shareText}\n\n===\n\nLihat detail:\n${shareUrl.value}`,
+      })
+      toast.add({
+         title: "Berhasil membagikan",
+         icon: "lucide:check",
+         color: "success",
       })
    } catch (e) {
       console.error("Share failed:", e)
+      toast.add({
+         title: "Gagal membagikan",
+         description: (e as Error).message,
+         icon: "lucide:alert-circle",
+         color: "error",
+      })
    }
 }
 
@@ -117,7 +135,11 @@ const showOnboarding = shallowRef(false)
                <template #header>
                   <h2 class="text-lg font-semibold">Item</h2>
                   <p class="text-muted text-sm text-pretty">
-                     {{ editMode ? "Masukin item yang dipesan" : "Daftar item yang dipesan" }}
+                     {{
+                        editMode ?
+                           "Masukin item yang dipesan"
+                        :  "Daftar item yang dipesan"
+                     }}
                   </p>
                </template>
                <ul class="space-y-4">
