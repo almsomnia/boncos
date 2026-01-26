@@ -1,3 +1,14 @@
+### 1.3.0 (2026-01-26)
+
+##### New Features
+
+* **share:**  Add external sharing functionality and refactor `shareCalculationResult` to return the base64 string directly. (62e271e8)
+
+##### Refactors
+
+* **ui:**  consolidate toast usage and enhance share functionality (1dcdd935)
+* **calculation:**  restructure calculation detail types and update UI columns (a4e4f07f)
+
 ### 1.2.0 (2026-01-25)
 
 ##### New Features
