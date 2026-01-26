@@ -2,7 +2,7 @@
 import type { TableColumn } from "@nuxt/ui"
 import { upperFirst } from "scule"
 import { UButton } from "#components"
-import type { CalculationDetail } from "#shared/types"
+import type { CalculationDetail, DeepestPaths } from "#shared/types"
 
 const props = defineProps<{
    data: CalculationDetail[]
@@ -10,61 +10,72 @@ const props = defineProps<{
 
 const tableColumns: TableColumn<CalculationDetail>[] = [
    {
-      accessorKey: "name",
+      accessorKey: "item.name",
       header: "Nama Item",
       size: 100,
    },
    {
-      accessorKey: "qty",
+      accessorKey: "item.qty",
       header: "Jumlah",
       size: 64,
    },
    {
-      accessorKey: "price",
-      header: "Harga (sebelum diskon)",
+      accessorKey: "item.unitPrice",
+      header: "Harga per Item (sebelum diskon)",
       cell: ({ row }) => {
-         return $formatCurrency(row.original.price)
+         return $formatCurrency(row.original.item.unitPrice)
       },
       size: 128,
    },
    {
-      accessorKey: "proportion",
+      accessorKey: "item.subtotal",
+      header: "Item Subtotal (sebelum diskon)",
+      cell: ({ row }) => {
+         return $formatCurrency(row.original.item.subtotal)
+      },
+      size: 128,
+   },
+   {
+      accessorKey: "allocation.proportion",
       header: "Proporsi",
       meta: {
          class: {
             td: "text-right",
          },
       },
+      cell: ({ row }) => {
+         return $roundDecimal(row.original.allocation.proportion, 3)
+      },
       size: 64,
    },
    {
-      accessorKey: "item_discount",
-      header: "Diskon / Item",
+      accessorKey: "allocation.discount",
+      header: "Diskon Item",
       meta: {
          class: {
             td: "text-right",
          },
       },
       cell: ({ row }) => {
-         return $formatCurrency(row.original.item_discount)
+         return $formatCurrency(row.original.allocation.discount)
       },
       size: 128,
    },
    {
-      accessorKey: "additional_cost",
-      header: "Biaya Tambahan / Item",
+      accessorKey: "allocation.additionalCost",
+      header: "Biaya Tambahan Item",
       meta: {
          class: {
             td: "text-right",
          },
       },
       cell: ({ row }) => {
-         return $formatCurrency(row.original.additional_cost)
+         return $formatCurrency(row.original.allocation.additionalCost)
       },
       size: 128,
    },
    {
-      accessorKey: "total_price_after_discount",
+      accessorKey: "result.finalTotal",
       header: "Harga (setelah diskon)",
       meta: {
          class: {
@@ -72,15 +83,15 @@ const tableColumns: TableColumn<CalculationDetail>[] = [
          },
       },
       cell: ({ row }) => {
-         return $formatCurrency(row.original.total_price_after_discount)
+         return $formatCurrency(row.original.result.finalTotal)
       },
       size: 128,
    },
    {
-      accessorKey: "total_item_per_qty",
-      header: "Harga / Item (setelah diskon)",
+      accessorKey: "result.finalUnitPrice",
+      header: "Harga per Item (setelah diskon)",
       cell: ({ row }) => {
-         return $formatCurrency(row.original.total_item_per_qty)
+         return $formatCurrency(row.original.result.finalUnitPrice)
       },
       meta: {
          class: {
@@ -92,16 +103,17 @@ const tableColumns: TableColumn<CalculationDetail>[] = [
 ]
 
 const columnVisibility = ref<
-   Record<keyof CalculationDetail | (string & {}), boolean>
+   Record<DeepestPaths<CalculationDetail, "_"> | (string & {}), boolean>
 >({
-   name: true,
-   qty: true,
-   price: false,
-   proportion: false,
-   item_discount: false,
-   additional_cost: false,
-   total_price_after_discount: true,
-   total_item_per_qty: true,
+   "item_name": true,
+   "item_qty": true,
+   "item_unitPrice": true,
+   "item_subtotal": false,
+   "allocation_proportion": false,
+   "allocation_discount": false,
+   "allocation_additionalCost": false,
+   "result_finalTotal": false,
+   "result_finalUnitPrice": true,
 })
 
 const table = useTemplateRef("table")

@@ -68,7 +68,7 @@ function copyToClipboard(text: string) {
 
 function onShareExternal() {
    const shareText = calculationDetails.value.map((item) => {
-      return `${item.name} (${item.qty} pcs): ${item.total_item_per_qty}`
+      return `${item.item.name} (${item.item.qty} pcs): ${item.result.finalUnitPrice}`
    }).join("\n")
 
    try {

@@ -3,5 +3,5 @@ export default function (amount: number) {
       style: "currency",
       currency: "IDR",
       currencyDisplay: "narrowSymbol",
-   }).format(amount)
+   }).format(Number.isNaN(amount) ? 0 : amount)
 }

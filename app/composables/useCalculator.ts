@@ -35,7 +35,7 @@ export default function () {
          (acc, curr) => acc + (curr.price ?? 0) * (curr.qty ?? 0),
          0
       )
-      return $roundDecimal(result)
+      return result
    })
 
    /**
@@ -46,7 +46,7 @@ export default function () {
          subtotal.value
          + totalAdditionalCosts.value
          - Math.abs(discount.value ?? 0)
-      return $roundDecimal(result)
+      return result
    })
 
    /**
@@ -54,36 +54,35 @@ export default function () {
     * distributed proportionally based on each item's subtotal.
     */
    const calculationDetails = computed<CalculationDetail[]>(() => {
-      return items.value.map((item) => {
-         const itemSubtotal = $roundDecimal((item.price ?? 0) * (item.qty ?? 0))
+      return items.value.map((item): CalculationDetail => {
+         const itemSubtotal = (item.price ?? 0) * (item.qty ?? 0)
 
-         const proportion = $roundDecimal(itemSubtotal / subtotal.value)
+         const proportion = itemSubtotal / subtotal.value
 
-         const itemDiscount = $roundDecimal(
-            proportion * Math.abs(discount.value ?? 0)
-         )
+         const itemDiscount = proportion * Math.abs(discount.value ?? 0)
 
-         const itemAdditionalCost = $roundDecimal(
-            totalAdditionalCosts.value * proportion
-         )
+         const itemAdditionalCost = totalAdditionalCosts.value * proportion
 
-         const itemTotalPriceAfterDiscount = $roundDecimal(
-            itemSubtotal + itemAdditionalCost - itemDiscount
-         )
+         const finalTotal = itemSubtotal + itemAdditionalCost - itemDiscount
 
-         const totalItemPerQty = $roundDecimal(
-            itemTotalPriceAfterDiscount / (item.qty ?? 0)
-         )
+         const finalUnitPrice = finalTotal / (item.qty ?? 0)
 
          return {
-            name: item.name ?? "-",
-            qty: item.qty ?? 0,
-            price: item.price ?? 0,
-            total_item_per_qty: totalItemPerQty,
-            proportion: proportion,
-            item_discount: itemDiscount,
-            additional_cost: itemAdditionalCost,
-            total_price_after_discount: itemTotalPriceAfterDiscount,
+            item: {
+               name: item.name ?? "-",
+               qty: item.qty ?? 0,
+               unitPrice: item.price ?? 0,
+               subtotal: itemSubtotal,
+            },
+            allocation: {
+               proportion: proportion,
+               discount: itemDiscount,
+               additionalCost: itemAdditionalCost,
+            },
+            result: {
+               finalTotal: finalTotal,
+               finalUnitPrice: finalUnitPrice,
+            },
          }
       })
    })
