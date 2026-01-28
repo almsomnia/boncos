@@ -19,7 +19,9 @@
       "release:major": "changelog -M && git add CHANGELOG.md && git commit -m 'docs: CHANGELOG.md' && pnpm version major && git push && git push --tags",
       "release:minor": "changelog -m && git add CHANGELOG.md && git commit -m 'docs: CHANGELOG.md' && pnpm version minor && git push && git push --tags",
       "release:patch": "changelog -p && git add CHANGELOG.md && git commit -m 'docs: CHANGELOG.md' && pnpm version patch && git push && git push --tags",
-      "test:unit": "pnpx vitest --project unit"
+      "test:unit": "pnpx vitest --project unit",
+      "test:nuxt": "pnpx vitest --project nuxt",
+      "test": "pnpx vitest"
    },
    "dependencies": {
       "@nuxt/fonts": "0.13.0",
