@@ -18,7 +18,8 @@
       "format": "prettier --write .",
       "release:major": "changelog -M && git add CHANGELOG.md && git commit -m 'docs: CHANGELOG.md' && pnpm version major && git push && git push --tags",
       "release:minor": "changelog -m && git add CHANGELOG.md && git commit -m 'docs: CHANGELOG.md' && pnpm version minor && git push && git push --tags",
-      "release:patch": "changelog -p && git add CHANGELOG.md && git commit -m 'docs: CHANGELOG.md' && pnpm version patch && git push && git push --tags"
+      "release:patch": "changelog -p && git add CHANGELOG.md && git commit -m 'docs: CHANGELOG.md' && pnpm version patch && git push && git push --tags",
+      "test:unit": "pnpx vitest --project unit"
    },
    "dependencies": {
       "@nuxt/fonts": "0.13.0",
@@ -31,10 +32,14 @@
    },
    "devDependencies": {
       "@nuxt/icon": "^2.2.1",
-      "generate-changelog": "^1.8.0",
+      "@nuxt/test-utils": "^3.23.0",
       "@types/node": "^20.19.1",
+      "@vue/test-utils": "^2.4.6",
+      "generate-changelog": "^1.8.0",
+      "happy-dom": "^20.4.0",
       "prettier": "^3.8.1",
-      "prettier-plugin-tailwindcss": "^0.7.2"
+      "prettier-plugin-tailwindcss": "^0.7.2",
+      "vitest": "^4.0.18"
    },
    "license": "MIT"
 }
