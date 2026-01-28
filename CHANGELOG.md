@@ -1,3 +1,15 @@
+#### 1.3.1 (2026-01-28)
+
+##### Other Changes
+
+* nuxt` and `test` scripts for Vitest to package.json. (20e02114)
+
+##### Tests
+
+*  add unit tests for components (a2142662)
+*  Add comprehensive tests for the `useCalculator` composable, fix a potential division by zero error in proportion calculation, and update Vitest configuration to include nested test files. (1a8d6036)
+*  Set up Vitest for unit testing and add initial tests for base64, currency formatting, and decimal rounding utilities. (ac3c7595)
+
 ### 1.3.0 (2026-01-26)
 
 ##### New Features
