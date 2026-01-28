@@ -57,7 +57,7 @@ export default function () {
       return items.value.map((item): CalculationDetail => {
          const itemSubtotal = (item.price ?? 0) * (item.qty ?? 0)
 
-         const proportion = itemSubtotal / subtotal.value
+         const proportion = subtotal.value === 0 ? 0 : itemSubtotal / subtotal.value
 
          const itemDiscount = proportion * Math.abs(discount.value ?? 0)
 
