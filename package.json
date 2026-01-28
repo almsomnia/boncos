@@ -1,7 +1,7 @@
 {
    "name": "boncos",
    "description": "A sophisticated bill-splitting and expense calculator built with Nuxt 4.",
-   "version": "1.3.0",
+   "version": "1.3.1",
    "type": "module",
    "private": true,
    "author": {
