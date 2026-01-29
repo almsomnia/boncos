@@ -64,19 +64,25 @@ describe("CalculateOnboarding", () => {
       expect(document.body.innerHTML).toContain("Item Pesanan")
 
       // Find 'Lanjut' button
-      // Note: Since it's teleported to body, component.find() might not find it if it only looks at component root.
-      // But mountSuspended might handle this. If not, we search document.body.
-
-      // Usually with Teleport, we look at document.body
-      const nextBtn = Array.from(document.querySelectorAll("button")).find(
+      const getNextBtn = () => Array.from(document.querySelectorAll("button")).find(
          (b) => b.textContent?.includes("Lanjut")
       )
+      
+      let nextBtn = getNextBtn()
       expect(nextBtn).toBeTruthy()
-
       await nextBtn?.click()
 
       // Should now see step 2
-      // Note: & is escaped to &amp; in HTML
       expect(document.body.innerHTML).toContain("Biaya &amp; Diskon")
+
+      // Step 2 -> Step 3
+      nextBtn = getNextBtn()
+      await nextBtn?.click()
+      expect(document.body.innerHTML).toContain("Hasil Perhitungan")
+
+      // Step 3 -> Step 4
+      nextBtn = getNextBtn()
+      await nextBtn?.click()
+      expect(document.body.innerHTML).toContain("Pembagian Tagihan")
    })
 })

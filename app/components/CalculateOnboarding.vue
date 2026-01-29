@@ -34,6 +34,12 @@ const steps = [
       message:
          "Hasil perhitungan akan muncul di sini. Totalnya selalu sama dengan struk asli.",
    },
+   {
+      id: "onboarding-step-4",
+      title: "Pembagian Tagihan",
+      message:
+         "Bagikan tagihan ke temanmu di sini. Semuanya akan dihitung secara adil sesuai dengan pesanannya.",
+   },
 ]
 
 const targetRect = ref({ top: 0, left: 0, width: 0, height: 0 })

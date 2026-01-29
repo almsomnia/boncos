@@ -330,6 +330,7 @@ const showOnboarding = shallowRef(false)
          <TableCalculationResult :data="calculationDetails" />
       </UCard>
       <UCard
+         id="onboarding-step-4"
          class="mt-4"
       >
          <template #header>
