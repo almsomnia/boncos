@@ -1,3 +1,13 @@
+### 1.4.0 (2026-01-29)
+
+##### New Features
+
+*  Add scroll-to-top on onboarding completion, conditionally display the people assignment card, and include a test for the onboarding scroll behavior. (65f39c5f)
+*  Implement scrolling to the current onboarding step and add a test to verify its functionality. (e5bc8739)
+*  Add "Pembagian Tagihan" as the fourth onboarding step to the calculation flow and update related tests. (356ba254)
+*  Add item allocation status alert and empty state for people list. (7c4ad20f)
+*  introduce people assignment functionality with a new type, component, and composable, integrated into the calculation page. (8e811de2)
+
 #### 1.3.1 (2026-01-28)
 
 ##### Other Changes
