@@ -329,6 +329,16 @@ const showOnboarding = shallowRef(false)
          </template>
          <TableCalculationResult :data="calculationDetails" />
       </UCard>
+      <UCard
+         class="mt-4"
+      >
+         <template #header>
+            <div class="flex items-center justify-between">
+               <h2 class="text-lg font-semibold">Pembagian Tagihan</h2>
+            </div>
+         </template>
+         <CalculationPeopleAssignment :items="calculationDetails ?? []" />
+      </UCard>
    </AppPage>
 
    <!-- Share modal -->

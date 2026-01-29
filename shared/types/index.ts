@@ -27,6 +27,16 @@ export type CalculationDetail = {
    }
 }
 
+export type PeopleAssignment = {
+   name: string
+   items: {
+      name: string
+      qty: number
+      finalUnitPrice: number
+   }[]
+   finalTotal: number
+}
+
 export type NestedPaths<T, Prefix extends string = ""> = {
    [K in keyof T & string]: T[K] extends object ?
       `${Prefix}${K}` | NestedPaths<T[K], `${Prefix}${K}.`>
