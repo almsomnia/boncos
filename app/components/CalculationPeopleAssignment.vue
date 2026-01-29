@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SelectMenuItem, BadgeProps } from "@nuxt/ui"
+import type { SelectMenuItem, BadgeProps, AlertProps } from "@nuxt/ui"
 import type { CalculationDetail } from "#shared/types"
 
 const props = defineProps<{
@@ -82,6 +82,36 @@ watchEffect(() => {
          item.finalUnitPrice = selectedItem.result.finalUnitPrice * item.qty
       })
    })
+})
+
+const itemAllocationAlertProps = computed(() => {
+   let title: string
+   let color: AlertProps["color"]
+   let icon: string
+
+   const allocationStatus = props.items.map((item) => {
+      return itemAllocationBadgeColor(item)
+   })
+
+   if (allocationStatus.includes("error")) {
+      title = "Terdapat kesalahan dalam alokasi item"
+      color = "error"
+      icon = "lucide:x-circle"
+   } else if (allocationStatus.includes("warning")) {
+      title = "Terdapat item yang belum dialokasikan"
+      color = "warning"
+      icon = "lucide:alert-triangle"
+   } else {
+      title = "Semua item berhasil dialokasikan"
+      color = "success"
+      icon = "lucide:check-circle"
+   }
+
+   return {
+      title,
+      color,
+      icon,
+   }
 })
 </script>
 
@@ -174,6 +204,13 @@ watchEffect(() => {
             </div>
          </template>
       </UCard>
+      <UEmpty
+         v-if="people.length < 1"
+         title="Belum ada orang yang ditambahkan"
+         description="Klik tombol tambah orang untuk menambahkan orang"
+         icon="lucide:user"
+         variant="naked"
+      />
       <UButton
          label="Tambah Orang"
          icon="lucide:plus"
@@ -183,10 +220,17 @@ watchEffect(() => {
          @click="addPerson"
       />
       <UCard
-         variant="subtle"
+         variant="outline"
          :ui="{ body: 'sm:p-4' }"
       >
          <h3 class="mb-4 font-medium">Alokasi Item</h3>
+         <UAlert
+            :title="itemAllocationAlertProps.title"
+            :color="itemAllocationAlertProps.color"
+            :icon="itemAllocationAlertProps.icon"
+            variant="subtle"
+            class="my-4"
+         />
          <div class="flex flex-wrap gap-2 *:shrink-0">
             <UBadge
                v-for="item in props.items"
