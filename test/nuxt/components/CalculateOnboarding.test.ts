@@ -85,4 +85,42 @@ describe("CalculateOnboarding", () => {
       await nextBtn?.click()
       expect(document.body.innerHTML).toContain("Pembagian Tagihan")
    })
+
+   it("scrolls to element on step change", async () => {
+      const scrollIntoViewMock = vi.fn()
+      Element.prototype.scrollIntoView = scrollIntoViewMock
+
+      const stepsIds = ["onboarding-step-1", "onboarding-step-2"]
+      stepsIds.forEach((id) => {
+         const el = document.createElement("div")
+         el.id = id
+         document.body.appendChild(el)
+      })
+
+      const component = await mountSuspended(CalculateOnboarding, {
+         props: {
+            showOnboarding: false,
+            triggerOnLoad: false,
+         },
+         attachTo: document.body,
+      })
+
+      await component.vm.startOnboarding()
+      await new Promise((resolve) => resolve(true))
+
+      expect(scrollIntoViewMock).toHaveBeenCalled()
+
+      const getNextBtn = () =>
+         Array.from(document.querySelectorAll("button")).find((b) =>
+            b.textContent?.includes("Lanjut")
+         )
+
+      const nextBtn = getNextBtn()
+      await nextBtn?.click()
+      await new Promise((resolve) => resolve(true))
+
+      expect(scrollIntoViewMock).toHaveBeenCalledTimes(2)
+
+      stepsIds.forEach((id) => document.getElementById(id)?.remove())
+   })
 })

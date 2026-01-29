@@ -86,10 +86,17 @@ const skipOnboarding = () => {
    finishOnboarding()
 }
 
+const scrollToTarget = () => {
+   if (!steps[currentStep.value]) return
+   const el = document.getElementById(steps[currentStep.value]!.id)
+   el?.scrollIntoView({ behavior: "smooth", block: "center" })
+}
+
 const startOnboarding = () => {
    currentStep.value = 0
    showOnboarding.value = true
    nextTick(() => {
+      scrollToTarget()
       updateRect()
    })
    window.addEventListener("resize", updateRect)
@@ -111,7 +118,10 @@ onUnmounted(() => {
 })
 
 watch(currentStep, () => {
-   nextTick(() => updateRect())
+   nextTick(() => {
+      scrollToTarget()
+      updateRect()
+   })
 })
 
 defineExpose({
