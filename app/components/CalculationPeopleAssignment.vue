@@ -220,6 +220,7 @@ const itemAllocationAlertProps = computed(() => {
          @click="addPerson"
       />
       <UCard
+         v-if="people.length > 0"
          variant="outline"
          :ui="{ body: 'sm:p-4' }"
       >

@@ -123,4 +123,20 @@ describe("CalculateOnboarding", () => {
 
       stepsIds.forEach((id) => document.getElementById(id)?.remove())
    })
+
+   it("scrolls to top when finished", async () => {
+      const scrollToMock = vi.fn()
+      window.scrollTo = scrollToMock
+
+      const component = await mountSuspended(CalculateOnboarding, {
+         props: {
+            showOnboarding: true,
+            triggerOnLoad: false,
+         },
+      })
+
+      await component.vm.finishOnboarding()
+
+      expect(scrollToMock).toHaveBeenCalledWith({ top: 0, behavior: "smooth" })
+   })
 })

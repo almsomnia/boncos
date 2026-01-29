@@ -80,6 +80,7 @@ const finishOnboarding = () => {
    localStorage.setItem("boncos_onboarding_seen", "true")
    window.removeEventListener("resize", updateRect)
    window.removeEventListener("scroll", updateRect, true)
+   window.scrollTo({ top: 0, behavior: "smooth" })
 }
 
 const skipOnboarding = () => {
