@@ -1,11 +1,13 @@
+import type { PeopleAssignment } from "#shared/types"
+
 export default function () {
-   const people = ref<PeopleAssignment[]>([])
+   const people = useState<PeopleAssignment[]>("people-assignment", () => [])
 
    function addPerson() {
       people.value.push({
          name: "",
          items: [],
-         finalTotal: 0
+         finalTotal: 0,
       })
    }
 
@@ -13,9 +15,14 @@ export default function () {
       people.value.splice(index, 1)
    }
 
+   function resetPeople() {
+      people.value = []
+   }
+
    return {
       people,
       addPerson,
-      removePerson
+      removePerson,
+      resetPeople,
    }
 }
