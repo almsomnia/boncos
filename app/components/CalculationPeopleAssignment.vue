@@ -21,7 +21,8 @@ function getItemOptions(
          label: detail.item.name ?? "-",
          disabled:
             !detail.item.name
-            || person.items.some((i) => i.name == detail.item.name),
+            || person.items.some((i) => i.name == detail.item.name)
+            || countItemAllocation(detail) >= detail.item.qty,
       }
    })
 }
