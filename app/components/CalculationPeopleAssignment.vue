@@ -223,9 +223,9 @@ const itemAllocationAlertProps = computed(() => {
       <UCard
          v-if="people.length > 0"
          variant="outline"
-         :ui="{ body: 'sm:p-4' }"
+         :ui="{ root: 'ring-0 border border-dashed border-muted', body: 'sm:p-4' }"
       >
-         <h3 class="mb-4 font-medium">Alokasi Item</h3>
+         <h3 class="mb-4 font-medium">Validasi Alokasi Item</h3>
          <UAlert
             :title="itemAllocationAlertProps.title"
             :color="itemAllocationAlertProps.color"
