@@ -1,5 +1,16 @@
 <script setup lang="ts">
 const appConfig = useAppConfig()
+
+useSeoMeta({
+   title: "Beranda",
+   description:
+      "Boncos membantu kamu bagi tagihan dengan lebih adil. Hitung biaya sebenarnya per item dengan membagi ongkir, pajak, biaya layanan, dan diskon secara proporsional.",
+   ogTitle: "Boncos - Bagi Tagihan dengan Lebih Adil",
+   ogDescription:
+      "Hitung biaya sebenarnya per item dengan membagi ongkir, pajak, biaya layanan, dan diskon secara proporsional.",
+   ogImage: "/img/logo.svg",
+   twitterCard: "summary_large_image",
+})
 </script>
 
 <template>

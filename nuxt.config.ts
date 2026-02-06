@@ -2,7 +2,25 @@
 export default defineNuxtConfig({
    compatibilityDate: "2025-07-15",
    devtools: { enabled: true },
-   modules: ["@nuxt/ui", "@nuxt/fonts", "@nuxt/icon", "@nuxt/test-utils/module"],
+   modules: [
+      "@nuxt/ui",
+      "@nuxt/fonts",
+      "@nuxt/icon",
+      "@nuxt/test-utils/module",
+      "@nuxtjs/seo",
+   ],
+   site: {
+      url: "https://boncos.rivaalmero.me",
+      name: "Boncos",
+      description: "A sophisticated bill-splitting and expense calculator.",
+      defaultLocale: "id",
+   },
+   robots: {
+      disallow: ["/calculate"],
+   },
+   sitemap: {
+      exclude: ["/calculate"],
+   },
    css: ["@/assets/css/main.css"],
    fonts: {
       defaults: {

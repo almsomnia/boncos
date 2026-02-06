@@ -7,6 +7,7 @@ definePageMeta({
 
 useSeoMeta({
    title: "Kalkulator Tagihan",
+   robots: "noindex, nofollow",
 })
 
 type SharePayload = {
