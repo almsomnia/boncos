@@ -1,3 +1,9 @@
+#### 1.5.1 (2026-02-06)
+
+##### Chores
+
+*  update vulnerable pnpm dependencies (d5d50e0f)
+
 ### 1.5.0 (2026-02-06)
 
 ##### New Features
