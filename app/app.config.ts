@@ -11,5 +11,14 @@ export default defineAppConfig({
             root: "border-0",
          },
       },
+      modal: {
+         variants: {
+            fullscreen: {
+               false: {
+                  content: "max-w-2xl"
+               }
+            }
+         }
+      }
    },
 })

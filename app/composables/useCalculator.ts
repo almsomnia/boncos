@@ -17,6 +17,9 @@ export default function () {
    /** List of additional costs (e.g., tax, service) */
    const additionalCosts = ref<Partial<AdditionalCost>[]>([])
 
+   /** List of payment information (e.g., bank name, account number) */
+   const paymentInfo = ref<{ name: string; account: string }[]>([])
+
    /**
     * Computed property that calculates the sum of all additional costs.
     */
@@ -124,6 +127,24 @@ export default function () {
       additionalCosts.value.splice(index, 1)
    }
 
+   /**
+    * Adds a new empty payment info entry.
+    */
+   function addPaymentInfo() {
+      paymentInfo.value.push({
+         name: "",
+         account: "",
+      })
+   }
+
+   /**
+    * Removes a payment info entry at the specified index.
+    * @param {number} index - The index of the payment info to remove
+    */
+   function removePaymentInfo(index: number) {
+      paymentInfo.value.splice(index, 1)
+   }
+
    async function shareCalculationResult() {
       const payload = JSON.stringify({
          items: items.value,
@@ -149,6 +170,9 @@ export default function () {
       subtotal,
       total,
       calculationDetails,
+      paymentInfo,
+      addPaymentInfo,
+      removePaymentInfo,
       shareCalculationResult,
    }
 }

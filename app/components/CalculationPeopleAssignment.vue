@@ -2,9 +2,15 @@
 import type { SelectMenuItem, BadgeProps, AlertProps } from "@nuxt/ui"
 import type { CalculationDetail } from "#shared/types"
 
-const props = defineProps<{
-   items: CalculationDetail[]
-}>()
+const props = withDefaults(
+   defineProps<{
+      items: CalculationDetail[]
+      editable?: boolean
+   }>(),
+   {
+      editable: true,
+   }
+)
 
 const { people, addPerson, removePerson } = usePeopleAssignment()
 
@@ -126,6 +132,7 @@ const itemAllocationAlertProps = computed(() => {
             <div class="flex items-center justify-between">
                <h3>Orang #{{ personIndex + 1 }}</h3>
                <UButton
+                  v-if="editable"
                   icon="lucide:trash"
                   color="error"
                   variant="ghost"
@@ -140,6 +147,7 @@ const itemAllocationAlertProps = computed(() => {
                <UInput
                   v-model="person.name"
                   placeholder="Nama"
+                  :readonly="!editable"
                   class="w-full md:w-1/2"
                />
             </UFormField>
@@ -155,6 +163,7 @@ const itemAllocationAlertProps = computed(() => {
                         :items="getItemOptions(person)"
                         value-key="label"
                         placeholder="Pilih item"
+                        :disabled="!editable"
                         class="w-full"
                      />
                      <UInputNumber
@@ -162,6 +171,7 @@ const itemAllocationAlertProps = computed(() => {
                         placeholder="Qty"
                         :increment="false"
                         :decrement="false"
+                        :readonly="!editable"
                         class="w-full"
                      />
                   </UFieldGroup>
@@ -173,6 +183,7 @@ const itemAllocationAlertProps = computed(() => {
                         {{ $formatCurrency(item.finalUnitPrice) }}
                      </UFormField>
                      <UButton
+                        v-if="editable"
                         icon="lucide:trash"
                         color="error"
                         variant="ghost"
@@ -183,6 +194,7 @@ const itemAllocationAlertProps = computed(() => {
                   </div>
                </UCard>
                <UButton
+                  v-if="editable"
                   label="Tambah Item"
                   icon="lucide:plus"
                   variant="soft"
@@ -208,11 +220,16 @@ const itemAllocationAlertProps = computed(() => {
       <UEmpty
          v-if="people.length < 1"
          title="Belum ada orang yang ditambahkan"
-         description="Klik tombol tambah orang untuk menambahkan orang"
+         :description="
+            editable ?
+               'Klik tombol tambah orang untuk menambahkan orang'
+            :  'Tidak ada data pembagian tagihan'
+         "
          icon="lucide:user"
          variant="naked"
       />
       <UButton
+         v-if="editable"
          label="Tambah Orang"
          icon="lucide:plus"
          variant="soft"

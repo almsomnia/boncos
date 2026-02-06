@@ -127,4 +127,23 @@ describe("useCalculator", () => {
       expect(typeof result).toBe("string")
       expect(result.length).toBeGreaterThan(0)
    })
+
+   it("manages payment information", () => {
+      const { paymentInfo, addPaymentInfo, removePaymentInfo } = useCalculator()
+      expect(paymentInfo.value).toEqual([])
+
+      addPaymentInfo()
+      expect(paymentInfo.value).toHaveLength(1)
+      expect(paymentInfo.value[0]).toEqual({ name: "", account: "" })
+
+      paymentInfo.value[0]!.name = "Bank BCA"
+      paymentInfo.value[0]!.account = "123456789"
+
+      addPaymentInfo()
+      expect(paymentInfo.value).toHaveLength(2)
+
+      removePaymentInfo(0)
+      expect(paymentInfo.value).toHaveLength(1)
+      expect(paymentInfo.value[0]!.name).toBe("")
+   })
 })

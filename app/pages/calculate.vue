@@ -13,6 +13,7 @@ type SharePayload = {
    items: Partial<Item>[]
    discount: number | undefined
    additional_costs: Partial<AdditionalCost>[]
+   payment_info?: { name: string; account: string }[]
    subtotal: number
    total: number
    calculation_result: CalculationDetail[]
@@ -32,6 +33,9 @@ const {
    subtotal,
    total,
    calculationDetails,
+   paymentInfo,
+   addPaymentInfo,
+   removePaymentInfo,
 } = useCalculator()
 
 const { people, resetPeople } = usePeopleAssignment()
@@ -47,6 +51,9 @@ if (route.query.share && typeof route.query.share === "string") {
    items.value = result.items
    discount.value = result.discount
    additionalCosts.value = result.additional_costs
+   if (result.payment_info) {
+      paymentInfo.value = result.payment_info
+   }
    if (result.people_assignment) {
       people.value = result.people_assignment
    }
@@ -72,6 +79,12 @@ const shareValue = computed(() => {
 
    if (shareOptions.assignment) {
       payload.people_assignment = people.value
+   }
+
+   // Always include payment info if it has at least one valid entry
+   const validPayments = paymentInfo.value.filter((p) => p.name || p.account)
+   if (validPayments.length > 0) {
+      payload.payment_info = validPayments
    }
 
    return $base64Encode(JSON.stringify(payload), true)
@@ -123,6 +136,17 @@ async function onShareExternal() {
                0
             )
             return `*${p.name || "Orang #" + (i + 1)}*: ${$formatCurrency(total)}`
+         })
+         .join("\n")
+   }
+
+   const validPayments = paymentInfo.value.filter((p) => p.name || p.account)
+   if (validPayments.length > 0) {
+      if (shareText) shareText += "\n\n---\n\n"
+      shareText += "*Informasi Pembayaran*\n\n"
+      shareText += validPayments
+         .map((p) => {
+            return `${p.name}: ${p.account}`
          })
          .join("\n")
    }
@@ -356,6 +380,31 @@ const showOnboarding = shallowRef(false)
                      description="Pastikan semua harga sudah sesuai"
                      class="mt-2"
                   />
+                  <UAlert
+                     v-if="!editMode && paymentInfo.length > 0"
+                     title="Informasi Pembayaran"
+                     color="primary"
+                     variant="subtle"
+                     icon="lucide:credit-card"
+                     class="mt-4"
+                  >
+                     <template #description>
+                        <ul class="mt-2 space-y-1">
+                           <li
+                              v-for="(payment, index) in paymentInfo"
+                              :key="index"
+                              class="border-primary/10 flex flex-col border-b pb-1 last:border-0 last:pb-0"
+                           >
+                              <span class="text-sm font-medium">
+                                 {{ payment.name }}
+                              </span>
+                              <span class="font-mono text-sm">
+                                 {{ payment.account }}
+                              </span>
+                           </li>
+                        </ul>
+                     </template>
+                  </UAlert>
                </template>
             </UCard>
          </div>
@@ -378,7 +427,10 @@ const showOnboarding = shallowRef(false)
                <h2 class="text-lg font-semibold">Pembagian Tagihan</h2>
             </div>
          </template>
-         <CalculationPeopleAssignment :items="calculationDetails ?? []" />
+         <CalculationPeopleAssignment
+            :items="calculationDetails ?? []"
+            :editable="editMode"
+         />
       </UCard>
    </AppPage>
 
@@ -421,10 +473,15 @@ const showOnboarding = shallowRef(false)
                />
             </UFieldGroup>
 
-            <div class="grid grid-cols-2 gap-4">
+            <USeparator label="atau" />
+
+            <p class="text-muted text-sm">
+               Pilih informasi yang ingin dibagikan
+            </p>
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                <label
                   for="share-calculation"
-                  class="block"
+                  class="block cursor-pointer"
                >
                   <input
                      type="checkbox"
@@ -433,7 +490,7 @@ const showOnboarding = shallowRef(false)
                      class="peer hidden"
                   />
                   <div
-                     class="peer-disabled:bg-muted/50 peer-disabled:text-muted rounded-lg border border-dashed p-4 transition"
+                     class="peer-disabled:bg-muted/50 peer-disabled:text-muted h-full rounded-lg border border-dashed p-4 transition"
                      :class="{
                         'border-muted': !shareOptions.result,
                         'border-primary bg-primary/5': shareOptions.result,
@@ -449,19 +506,13 @@ const showOnboarding = shallowRef(false)
                            <h4 class="text-sm font-semibold">
                               Hasil Perhitungan
                            </h4>
-                           <p
-                              class="text-muted mt-1 line-clamp-2 text-xs text-pretty"
-                           >
-                              Rincian harga sebelum dan setelah dilakukan
-                              perhitungan
-                           </p>
                         </div>
                      </div>
                   </div>
                </label>
                <label
                   for="share-assignment"
-                  class="block has-disabled:cursor-not-allowed"
+                  class="block cursor-pointer has-disabled:cursor-not-allowed"
                >
                   <input
                      type="checkbox"
@@ -471,7 +522,7 @@ const showOnboarding = shallowRef(false)
                      :disabled="people.length === 0"
                   />
                   <div
-                     class="peer-disabled:bg-muted/50 peer-disabled:text-muted rounded-lg border border-dashed p-4 transition"
+                     class="peer-disabled:bg-muted/50 peer-disabled:text-muted h-full rounded-lg border border-dashed p-4 transition"
                      :class="{
                         'border-muted': !shareOptions.assignment,
                         'border-primary bg-primary/5': shareOptions.assignment,
@@ -487,16 +538,75 @@ const showOnboarding = shallowRef(false)
                            <h4 class="text-sm font-semibold">
                               Pembagian Tagihan
                            </h4>
-                           <p
-                              class="text-muted mt-1 line-clamp-2 text-xs text-pretty"
-                           >
-                              Rincian pembagian tagihan per orang
-                           </p>
                         </div>
                      </div>
                   </div>
                </label>
             </div>
+            <UCard :ui="{ body: 'sm:p-4' }">
+               <h3 class="font-medium">Informasi Pembayaran</h3>
+               <div class="mt-4 space-y-4">
+                  <UEmpty
+                     v-if="paymentInfo.length === 0"
+                     icon="lucide:credit-card"
+                     title="Tidak ada info pembayaran"
+                     variant="naked"
+                     :actions="[
+                        {
+                           label: 'Tambah Info Pembayaran',
+                           icon: 'lucide:plus',
+                           color: 'primary',
+                           variant: 'soft',
+                           onClick: () => {
+                              addPaymentInfo()
+                           },
+                        },
+                     ]"
+                     :ui="{
+                        title: 'text-sm',
+                     }"
+                  />
+                  <template v-else>
+                     <div
+                        v-for="(payment, index) in paymentInfo"
+                        :key="index"
+                        class="flex gap-2"
+                     >
+                        <UFieldGroup class="w-full">
+                           <UInput
+                              v-model="payment.name"
+                              placeholder="Nama Bank/App"
+                              :readonly="!editMode"
+                              class="flex-1"
+                           />
+                           <UInput
+                              v-model="payment.account"
+                              placeholder="No. Rekening"
+                              :readonly="!editMode"
+                              class="flex-2"
+                           />
+                           <UButton
+                              v-if="editMode"
+                              icon="lucide:trash"
+                              color="error"
+                              variant="subtle"
+                              size="sm"
+                              square
+                              @click="removePaymentInfo(index)"
+                           />
+                        </UFieldGroup>
+                     </div>
+                     <UButton
+                        v-if="editMode"
+                        label="Tambah Info Pembayaran"
+                        icon="lucide:plus"
+                        variant="soft"
+                        block
+                        @click="addPaymentInfo"
+                     />
+                  </template>
+               </div>
+            </UCard>
          </div>
       </template>
       <template #footer>
