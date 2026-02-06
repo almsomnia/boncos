@@ -1,3 +1,18 @@
+### 1.5.0 (2026-02-06)
+
+##### New Features
+
+* **calculator:**  add payment information support and enhance sharing experience (5b32a365)
+* **sharing:**  enhance share functionality and people assignment integration (7fd0d6f2)
+
+##### Bug Fixes
+
+* **people-assignment:**  disable item selection when fully allocated (d266c2d4)
+
+##### Code Style Changes
+
+*  add dashed border to UCard and update item allocation heading text. (9a05cabd)
+
 ### 1.4.0 (2026-01-29)
 
 ##### New Features
