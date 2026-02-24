@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-**Boncos** is a Nuxt 4 web application designed as a sophisticated bill-splitting and expense calculator. Its primary function is to calculate the "true" cost per item by proportionally distributing shared costs (like taxes, service charges, shipping) and discounts across a list of items based on their subtotal contribution.
+**Boncos** is a web application designed as a sophisticated bill-splitting and expense calculator. Its primary function is to calculate the "true" cost per item by proportionally distributing shared costs (like taxes, service charges, shipping) and discounts across a list of items based on their subtotal contribution.
 
 ## Tech Stack
 
@@ -17,15 +17,6 @@
 
 The project follows the [Nuxt 4 future structure](https://nuxt.com/docs/getting-started/upgrade#future-structure) where the source code is located in the `app/` directory.
 
-- `app/app.vue`: The root component wrapping the application in `UApp`.
-- `app/pages/index.vue`: The main page containing the calculator logic, state management, and input forms.
-- `app/components/`: Vue components.
-   - `TableCalculationResult.vue`: Displays the detailed breakdown of costs per item.
-- `app/utils/`: Helper functions (auto-imported).
-   - `$formatCurrency.ts`: Formats numbers to IDR currency.
-   - `$roundDecimal.ts`: Handles decimal rounding logic.
-- `nuxt.config.ts`: Nuxt configuration, including modules and import presets.
-
 ## Key Features & Logic
 
 - **Item Management:** Users can add multiple items with Name, Price, and Quantity.
@@ -39,40 +30,9 @@ The project follows the [Nuxt 4 future structure](https://nuxt.com/docs/getting-
 ## Development Conventions
 
 - **Component Style:** Vue 3 Composition API with `<script setup lang="ts">`.
-- **UI Components:** Use `@nuxt/ui` components (e.g., `<UCard>`, `<UInput>`, `<UButton>`, `<UTable>`).
+- **UI Components:** Use [@nuxt/ui](https://ui.nuxt.com/llms.txt) components.
 - **Utils Naming:** Utility functions are prefixed with `$` (e.g., `$formatCurrency`) and are auto-imported.
-- **State Management:** Local `ref` and `computed` properties are primarily used within pages for calculator logic.
 - **Formatting:** Prettier is configured and used for code formatting.
-
-## Build and Run Commands
-
-Use **pnpm** for package management.
-
-### Setup
-
-```bash
-pnpm install
-```
-
-### Development Server
-
-```bash
-pnpm dev
-```
-
-Runs on `http://localhost:3000`.
-
-### Production Build
-
-```bash
-pnpm build
-```
-
-### Preview Production Build
-
-```bash
-pnpm preview
-```
 
 ## Styling & Theming
 

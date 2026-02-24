@@ -1,6 +1,6 @@
 # Boncos
 
-**Boncos** is a sophisticated bill-splitting and expense calculator built with Nuxt 4. It helps you calculate the "true" cost of items by proportionally distributing shared costs (like taxes, service charges, and shipping) and discounts across all items.
+**Boncos** is a sophisticated bill-splitting and expense calculator. It helps you calculate the "true" cost of items by proportionally distributing shared costs (like taxes, service charges, and shipping) and discounts across all items.
 
 ## Key Features
 
