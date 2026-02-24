@@ -1,6 +1,10 @@
 <script setup lang="ts">
 const appConfig = useAppConfig()
 
+definePageMeta({
+   layout: "home",
+})
+
 useSeoMeta({
    title: "Beranda",
    description:
@@ -18,7 +22,7 @@ useSeoMeta({
       <!-- Hero Section -->
       <section
          id="hero"
-         class="relative px-6 py-24 sm:py-32 lg:px-8"
+         class="relative py-42 md:px-6 lg:px-8 h-[calc(100vh-var(--ui-header-height))] flex items-center"
       >
          <!-- Background Mesh Gradient -->
          <div
@@ -51,21 +55,21 @@ useSeoMeta({
          </div>
 
          <!-- Hero Content -->
-         <div class="mx-auto max-w-2xl text-center">
+         <div class="mx-auto max-w-2xl text-center lg:max-w-4xl pb-16">
             <h1
-               class="text-5xl font-bold tracking-tight text-balance sm:text-7xl"
+               class="text-highlighted text-5xl font-bold tracking-tight text-balance sm:text-7xl lg:text-8xl"
             >
                Bagi Tagihan dengan
                <span class="text-primary-500">Lebih Adil</span>.
             </h1>
             <p
-               class="mt-8 text-lg font-medium text-pretty text-neutral-500 sm:text-xl/8 dark:text-neutral-400"
+               class="mx-auto mt-12 text-lg font-medium text-pretty sm:text-xl/8 lg:max-w-3xl text-toned"
             >
-               {{ appConfig.appName }} menghitung biaya "sebenarnya" per item
-               dengan membagi ongkir, pajak, biaya layanan, dan diskon secara
-               proporsional. Semua kebagian adil, sampai ke Rupiah terakhir.
+               Kalkulator pintar yang membagi ongkir, pajak, dan diskon ke
+               setiap item secara proporsional. Akurat sampai Rupiah terakhir
+               tanpa ribet.
             </p>
-            <div class="mt-10 flex items-center justify-center gap-x-4">
+            <div class="mt-16 flex items-center justify-center gap-x-4">
                <UButton
                   to="#how"
                   size="xl"
@@ -117,7 +121,7 @@ useSeoMeta({
       <!-- Features Section -->
       <section
          id="features"
-         class="mx-auto max-w-7xl px-6 pb-24 sm:pb-32 lg:px-8"
+         class="mx-auto max-w-7xl pb-32 sm:pb-48 md:px-6 lg:px-8"
       >
          <div class="mx-auto max-w-3xl lg:text-center">
             <h2
@@ -126,33 +130,30 @@ useSeoMeta({
                Kenapa {{ appConfig.appName }}?
             </h2>
             <p
-               class="mt-2 text-4xl font-semibold tracking-tight text-pretty sm:text-5xl"
+               class="text-highlighted mt-2 text-4xl font-semibold tracking-tight text-pretty sm:text-5xl"
             >
                Semua yang Kamu Butuhkan untuk Pembagian Tagihan yang Adil
             </p>
          </div>
          <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
-            <dl
-               class="grid grid-cols-1 gap-8 lg:grid-cols-3"
-            >
+            <dl class="grid grid-cols-1 gap-8 lg:grid-cols-3">
                <UCard>
                   <div class="flex flex-col">
                      <dt
-                        class="flex items-center gap-x-3 text-base/7 font-semibold"
+                        class="flex items-center gap-x-3 text-lg font-semibold"
                      >
                         <UIcon
                            name="lucide:percent"
                            class="text-primary-500 size-5 flex-none"
                         />
-                        Distribusi Proporsional
+                        Hitungan Presisi
                      </dt>
                      <dd
-                        class="mt-4 flex flex-auto flex-col text-base/7 text-neutral-600 dark:text-neutral-400"
+                        class="mt-4 flex flex-auto flex-col text-neutral-600 dark:text-neutral-400"
                      >
                         <p class="flex-auto text-pretty">
-                           Pajak, ongkir, dan biaya layanan dibagi berdasarkan
-                           total harga item masing-masing, tidak ada yang
-                           membayar lebih dari seharusnya.
+                           Pajak, ongkir, dan biaya layanan dibagi sesuai porsi
+                           harga tiap barang. Ga ada lagi yang dirugikan.
                         </p>
                      </dd>
                   </div>
@@ -160,20 +161,21 @@ useSeoMeta({
                <UCard>
                   <div class="flex flex-col">
                      <dt
-                        class="flex items-center gap-x-3 text-base/7 font-semibold"
+                        class="flex items-center gap-x-3 text-lg font-semibold"
                      >
                         <UIcon
                            name="lucide:calculator"
                            class="text-primary-500 size-5 flex-none"
                         />
-                        Rincian yang Transparan
+                        Transparansi Total
                      </dt>
                      <dd
-                        class="mt-4 flex flex-auto flex-col text-base/7 text-neutral-600 dark:text-neutral-400"
+                        class="mt-4 flex flex-auto flex-col text-neutral-600 dark:text-neutral-400"
                      >
                         <p class="flex-auto text-pretty">
-                           Lihat dengan jelas berapa harga akhir setiap item
-                           setelah ditambah biaya tambahan dan dikurangi diskon.
+                           Cek detail harga asli per item setelah dikalkulasi
+                           dengan diskon dan biaya tambahan secara
+                           <i>real-time</i>.
                         </p>
                      </dd>
                   </div>
@@ -181,21 +183,20 @@ useSeoMeta({
                <UCard>
                   <div class="flex flex-col">
                      <dt
-                        class="flex items-center gap-x-3 text-base/7 font-semibold"
+                        class="flex items-center gap-x-3 text-lg font-semibold"
                      >
                         <UIcon
                            name="lucide:zap"
                            class="text-primary-500 size-5 flex-none"
                         />
-                        Cepat & Simpel
+                        Bagi Per Orang Anti Ribet
                      </dt>
                      <dd
-                        class="mt-4 flex flex-auto flex-col text-base/7 text-neutral-600 dark:text-neutral-400"
+                        class="mt-4 flex flex-auto flex-col text-neutral-600 dark:text-neutral-400"
                      >
                         <p class="flex-auto text-pretty">
-                           Tampilan minimalis yang dirancang untuk input cepat.
-                           Hasil langsung keluar dalam hitungan detik, bukan
-                           menit.
+                           Kelompokkan pesanan berdasarkan orang yang memesan.
+                           Hasil akhir langsung terbagi per orang.
                         </p>
                      </dd>
                   </div>
@@ -207,7 +208,7 @@ useSeoMeta({
       <!-- How to use section -->
       <section
          id="how"
-         class="mx-auto max-w-7xl px-6 pb-24 sm:pb-32 lg:px-8"
+         class="mx-auto max-w-7xl py-8 sm:py-16 lg:px-8"
       >
          <UCard
             variant="soft"
@@ -224,32 +225,32 @@ useSeoMeta({
                      Cara Pakai
                   </h2>
                   <p
-                     class="mt-2 text-3xl font-semibold tracking-tight text-pretty lg:text-4xl"
+                     class="text-highlighted mt-2 text-3xl font-semibold tracking-tight text-pretty lg:text-4xl"
                   >
                      Hitung cepat dalam 4 langkah
                   </p>
                </div>
                <div
-                  class="flex w-full flex-col flex-wrap gap-8 lg:gap-16 lg:w-2/3 lg:flex-row [&>p]:ps-8 [&>p]:lg:ms-0"
+                  class="flex w-full flex-col flex-wrap gap-8 lg:w-2/3 lg:flex-row lg:gap-16 [&>p]:ps-8 [&>p]:lg:ms-0"
                >
                   <p
-                     class="before:text-primary-500 w-full grow-2 leading-relaxed text-sm md:text-base text-pretty before:absolute before:-translate-x-8 before:-translate-y-2 before:text-3xl before:font-bold before:content-['1'] lg:w-[30%]"
+                     class="before:text-primary-500 w-full grow-2 text-sm leading-relaxed text-pretty before:absolute before:-translate-x-8 before:-translate-y-2 before:text-3xl before:font-bold before:content-['1'] md:text-base lg:w-[30%]"
                   >
                      Masukkan nama item, harga, dan jumlah pesanan.
                   </p>
                   <p
-                     class="before:text-primary-500 w-full grow-2 leading-relaxed text-sm md:text-base text-pretty before:absolute before:-translate-x-8 before:-translate-y-2 before:text-3xl before:font-bold before:content-['2'] lg:w-[30%]"
+                     class="before:text-primary-500 w-full grow-2 text-sm leading-relaxed text-pretty before:absolute before:-translate-x-8 before:-translate-y-2 before:text-3xl before:font-bold before:content-['2'] md:text-base lg:w-[30%]"
                   >
                      Tambahkan biaya tambahan seperti ongkir dan pajak. Jangan
                      lupa masukin juga diskon pesanan.
                   </p>
                   <p
-                     class="before:text-primary-500 w-full grow-2 leading-relaxed text-sm md:text-base text-pretty before:absolute before:-translate-x-8 before:-translate-y-2 before:text-3xl before:font-bold before:content-['3'] lg:w-[30%]"
+                     class="before:text-primary-500 w-full grow-2 text-sm leading-relaxed text-pretty before:absolute before:-translate-x-8 before:-translate-y-2 before:text-3xl before:font-bold before:content-['3'] md:text-base lg:w-[30%]"
                   >
                      Boncos bakal membagi biaya secara proporsional.
                   </p>
                   <p
-                     class="before:text-primary-500 w-full grow-2 leading-relaxed text-sm md:text-base text-pretty before:absolute before:-translate-x-8 before:-translate-y-2 before:text-3xl before:font-bold before:content-['4'] lg:w-[30%]"
+                     class="before:text-primary-500 w-full grow-2 text-sm leading-relaxed text-pretty before:absolute before:-translate-x-8 before:-translate-y-2 before:text-3xl before:font-bold before:content-['4'] md:text-base lg:w-[30%]"
                   >
                      Dapatkan harga akhir per item (100% sesuai struk).
                   </p>
