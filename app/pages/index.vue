@@ -214,7 +214,7 @@ useSeoMeta({
             variant="soft"
             class="bg-primary-50 dark:bg-primary-950/20"
             :ui="{
-               body: 'sm:p-8 py-8',
+               body: 'sm:p-16 p-8',
             }"
          >
             <div class="flex flex-col gap-20 lg:flex-row">

@@ -436,14 +436,14 @@ const showOnboarding = shallowRef(false)
    </AppPage>
 
    <!-- Floating share button -->
-   <div class="fixed inset-x-0 bottom-4 z-20 flex items-center justify-center">
+   <div class="fixed inset-x-0 bottom-4 z-20 flex items-center justify-center pointer-events-none">
       <UButton
          label="Bagikan"
          icon="lucide:share"
          size="lg"
          color="neutral"
          :ui="{
-            base: 'border-4 border-accented/25 rounded-full shadow hover:shadow-lg',
+            base: 'border-4 border-accented/25 rounded-full shadow hover:shadow-lg cursor-pointer pointer-events-auto',
          }"
          @click="onOpenShareModal"
       />

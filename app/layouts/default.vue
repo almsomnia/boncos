@@ -14,6 +14,15 @@ const appConfig = useAppConfig()
       </template>
       <template #right>
          <UColorModeButton />
+         <USeparator orientation="vertical" class="h-6" />
+         <UButton
+            label="Masuk"
+            variant="ghost"
+         />
+         <UButton
+            label="Daftar"
+            variant="solid"
+         />
       </template>
    </UHeader>
    <UContainer>
@@ -21,11 +30,18 @@ const appConfig = useAppConfig()
          <slot />
       </UPage>
    </UContainer>
-   <UFooter :ui="{ root: 'h-(--footer-height)' }">
+   <UFooter :ui="{ root: 'border-t border-default mt-12' }">
       <template #left>
-         <span class="text-muted text-sm">
+         <span class="text-muted text-xs">
             &copy; <NuxtTime :datetime="new Date()" year="numeric"  /> Riva Almero
          </span>
+      </template>
+      <template #right>
+         <UButton
+            icon="fa6-brands:github"
+            color="neutral"
+            variant="ghost"
+         />
       </template>
    </UFooter>
 </template>

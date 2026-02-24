@@ -39,6 +39,7 @@ const menuItems: NavigationMenuItem[][] = [
       />
       <template #right>
          <UColorModeButton />
+         <USeparator orientation="vertical" class="h-6" />
          <UButton
             label="Mulai Sekarang"
             trailing-icon="lucide:chevron-right"
