@@ -4,6 +4,10 @@
    "version": "1.5.1",
    "type": "module",
    "private": true,
+   "repository": {
+      "type": "git",
+      "url": "https://github.com/almsomnia/boncos"
+   },
    "author": {
       "name": "Riva Almero",
       "email": "rivaalms@proton.me",
@@ -38,6 +42,8 @@
       "@nuxt/test-utils": "^3.23.0",
       "@types/node": "^20.19.1",
       "@vue/test-utils": "^2.4.6",
+      "@vueuse/core": "^14.2.1",
+      "@vueuse/nuxt": "^14.2.1",
       "generate-changelog": "^1.8.0",
       "happy-dom": "^20.4.0",
       "prettier": "^3.8.1",

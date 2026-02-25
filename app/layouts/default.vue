@@ -1,5 +1,15 @@
 <script setup lang="ts">
+import { breakpointsTailwind } from "@vueuse/core"
+
 const appConfig = useAppConfig()
+const config = useRuntimeConfig()
+
+const breakpoints = useBreakpoints(breakpointsTailwind)
+const mounted = useMounted()
+
+const isDesktop = computed(() => {
+   return mounted.value && breakpoints.greaterOrEqual('lg').value
+})
 </script>
 
 <template>
@@ -16,12 +26,19 @@ const appConfig = useAppConfig()
          <UColorModeButton />
          <USeparator orientation="vertical" class="h-6" />
          <UButton
-            label="Masuk"
+            icon="fa6-brands:github"
+            color="neutral"
             variant="ghost"
+            :href="config.public.repoUrl"
+            target="_blank"
          />
          <UButton
-            label="Daftar"
-            variant="solid"
+            icon="lucide:coffee"
+            color="secondary"
+            :variant="isDesktop ? 'solid' : 'ghost'"
+            :label="isDesktop ? 'Beliin Gua Kopi' : undefined"
+            :href="config.public.donateUrl"
+            target="_blank"
          />
       </template>
    </UHeader>
@@ -41,6 +58,8 @@ const appConfig = useAppConfig()
             icon="fa6-brands:github"
             color="neutral"
             variant="ghost"
+            :href="config.public.repoUrl"
+            target="_blank"
          />
       </template>
    </UFooter>

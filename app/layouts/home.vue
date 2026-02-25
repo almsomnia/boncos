@@ -1,25 +1,34 @@
 <script setup lang="ts">
+import { breakpointsTailwind } from "@vueuse/core"
+
 import type { NavigationMenuItem } from "#ui/types"
 const appConfig = useAppConfig()
+const config = useRuntimeConfig()
 
 const menuItems: NavigationMenuItem[][] = [
    [
       {
          label: "Fitur",
-         to: "#features"
+         to: "#features",
       },
       {
          label: "Cara Pakai",
-         to: "#how"
-      }
+         to: "#how",
+      },
    ]
 ]
+
+const breakpoints = useBreakpoints(breakpointsTailwind)
+const mounted = useMounted()
+
+const isDesktop = computed(() => {
+   return mounted.value && breakpoints.greaterOrEqual('lg').value
+})
 </script>
 
 <template>
    <UHeader
       :title="appConfig.appName"
-      :toggle="{ class: 'hidden' }"
    >
       <template #title>
          <div class="flex items-center gap-2">
@@ -37,10 +46,34 @@ const menuItems: NavigationMenuItem[][] = [
          orientation="horizontal"
          :items="menuItems"
       />
+      <template #body>
+         <UNavigationMenu
+            orientation="vertical"
+            :items="menuItems"
+         >
+            <template #list-trailing>
+               <USeparator class="mt-2" />
+               <UButton
+                  label="Mulai Sekarang"
+                  to="/calculate"
+                  trailing-icon="lucide:arrow-right"
+                  size="lg"
+                  block
+                  :ui="{
+                     trailingIcon: 'ms-0'
+                  }"
+               />
+            </template>
+         </UNavigationMenu>
+      </template>
       <template #right>
          <UColorModeButton />
-         <USeparator orientation="vertical" class="h-6" />
+         <USeparator
+            orientation="vertical"
+            class="h-6"
+         />
          <UButton
+            v-if="isDesktop"
             label="Mulai Sekarang"
             trailing-icon="lucide:chevron-right"
             to="/calculate"
@@ -103,12 +136,20 @@ const menuItems: NavigationMenuItem[][] = [
                <h4 class="text-default mb-4 font-bold">Sumber Daya</h4>
                <ul class="list-none space-y-2">
                   <li>
-                     <NuxtLink class="text-muted hover:text-default transition">
+                     <NuxtLink
+                        class="text-muted hover:text-default transition"
+                        :href="config.public.repoUrl"
+                        target="_blank"
+                     >
                         GitHub
                      </NuxtLink>
                   </li>
                   <li>
-                     <NuxtLink class="text-muted hover:text-default transition">
+                     <NuxtLink
+                        class="text-muted hover:text-default transition"
+                        href="mailto:rivaalms@proton.me"
+                        target="_blank"
+                     >
                         Kontak
                      </NuxtLink>
                   </li>

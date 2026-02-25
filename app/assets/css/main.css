@@ -3,7 +3,9 @@
 
 @layer base {
    :root {
-      --min-page-height: calc(100dvh - var(--ui-header-height) - var(--footer-height));
+      --min-page-height: calc(
+         100dvh - var(--ui-header-height) - var(--footer-height)
+      );
       --footer-height: --spacing(27);
    }
 
@@ -14,7 +16,7 @@
    }
 
    :root {
-      @apply selection:bg-lime-500/75 dark:selection:bg-lime-400/75 scroll-smooth;
+      @apply selection:bg-secondary-500/75 dark:selection:bg-secondary-400/75 scroll-smooth selection:text-neutral-50;
    }
 
    input::-webkit-inner-spin-button,

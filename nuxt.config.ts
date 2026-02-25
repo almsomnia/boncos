@@ -8,6 +8,7 @@ export default defineNuxtConfig({
       "@nuxt/icon",
       "@nuxt/test-utils/module",
       "@nuxtjs/seo",
+      "@vueuse/nuxt"
    ],
    site: {
       url: "https://boncos.rivaalmero.me",
@@ -38,5 +39,9 @@ export default defineNuxtConfig({
    },
    runtimeConfig: {
       cryptKey: import.meta.env.CRYPT_KEY,
+      public: {
+         donateUrl: import.meta.env.DONATE_URL,
+         repoUrl: import.meta.env.REPO_URL,
+      }
    }
 })
