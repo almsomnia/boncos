@@ -46,6 +46,7 @@ export default defineNuxtConfig({
       },
    },
    i18n: {
+      strategy: "no_prefix",
       defaultLocale: "id",
       locales: [
          {
@@ -59,5 +60,12 @@ export default defineNuxtConfig({
             file: "en.json",
          },
       ],
+      detectBrowserLanguage: {
+         useCookie: true,
+         cookieKey: "i18n_lang",
+         redirectOn: "root",
+         alwaysRedirect: false,
+         fallbackLocale: "id",
+      },
    },
 })
