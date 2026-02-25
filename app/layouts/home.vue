@@ -8,11 +8,11 @@ const config = useRuntimeConfig()
 const menuItems: NavigationMenuItem[][] = [
    [
       {
-         label: "Fitur",
+         label: $t("landing.header.menuItem.features"),
          to: "#features",
       },
       {
-         label: "Cara Pakai",
+         label: $t("landing.header.menuItem.howToUse"),
          to: "#how",
       },
    ]
@@ -54,7 +54,7 @@ const isDesktop = computed(() => {
             <template #list-trailing>
                <USeparator class="mt-2" />
                <UButton
-                  label="Mulai Sekarang"
+                  :label="$t('landing.header.cta.primary')"
                   to="/calculate"
                   trailing-icon="lucide:arrow-right"
                   size="lg"
@@ -74,7 +74,7 @@ const isDesktop = computed(() => {
          />
          <UButton
             v-if="isDesktop"
-            label="Mulai Sekarang"
+            :label="$t('landing.header.cta.primary')"
             trailing-icon="lucide:chevron-right"
             to="/calculate"
          />
@@ -103,8 +103,7 @@ const isDesktop = computed(() => {
             </NuxtLink>
             <div class="mt-4">
                <p class="text-muted text-sm text-pretty">
-                  Hitung biaya "sebenarnya" secara instan. Distribusi biaya
-                  bersama dan diskon proporsional dalam hitungan detik.
+                  {{ $t('landing.footer.description') }}
                </p>
             </div>
          </div>
@@ -112,14 +111,14 @@ const isDesktop = computed(() => {
       <template #right>
          <div class="grid basis-full grid-cols-2 text-sm">
             <div class="">
-               <h4 class="text-default mb-4 font-bold">Produk</h4>
+               <h4 class="text-default mb-4 font-bold">{{ $t('landing.footer.links.product.title') }}</h4>
                <ul class="list-none space-y-2">
                   <li>
                      <NuxtLink
                         to="/#features"
                         class="text-muted hover:text-default transition"
                      >
-                        Fitur
+                        {{ $t('landing.footer.links.product.item.feature') }}
                      </NuxtLink>
                   </li>
                   <li>
@@ -127,13 +126,13 @@ const isDesktop = computed(() => {
                         to="/#how"
                         class="text-muted hover:text-default transition"
                      >
-                        Cara Pakai
+                        {{ $t('landing.footer.links.product.item.howToUse') }}
                      </NuxtLink>
                   </li>
                </ul>
             </div>
             <div class="">
-               <h4 class="text-default mb-4 font-bold">Sumber Daya</h4>
+               <h4 class="text-default mb-4 font-bold">{{ $t('landing.footer.links.resource.title') }}</h4>
                <ul class="list-none space-y-2">
                   <li>
                      <NuxtLink
@@ -141,7 +140,7 @@ const isDesktop = computed(() => {
                         :href="config.public.repoUrl"
                         target="_blank"
                      >
-                        GitHub
+                        {{ $t('landing.footer.links.resource.item.github') }}
                      </NuxtLink>
                   </li>
                   <li>
@@ -150,7 +149,7 @@ const isDesktop = computed(() => {
                         href="mailto:rivaalms@proton.me"
                         target="_blank"
                      >
-                        Kontak
+                        {{ $t('landing.footer.links.resource.item.contact') }}
                      </NuxtLink>
                   </li>
                </ul>
@@ -166,7 +165,7 @@ const isDesktop = computed(() => {
                   :datetime="new Date()"
                   year="numeric"
                />
-               Boncos. All rights reserved.
+               {{ appConfig.appName }}. All rights reserved.
             </span>
          </UContainer>
       </template>

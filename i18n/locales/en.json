@@ -1,0 +1,74 @@
+{
+   "landing": {
+      "header": {
+         "menuItem": {
+            "features": "Features",
+            "howToUse": "How to Use"
+         },
+         "cta": {
+            "primary": "Get Started"
+         }
+      },
+      "footer": {
+         "description": "Calculate the \"true\" cost instantly. Proportional distribution of shared costs and discounts in seconds.",
+         "links": {
+            "product": {
+               "title": "Product",
+               "item": {
+                  "feature": "Features",
+                  "howToUse": "How to Use"
+               }
+            },
+            "resource": {
+               "title": "Resources",
+               "item": {
+                  "github": "GitHub",
+                  "contact": "Contact"
+               }
+            }
+         }
+      },
+      "hero": {
+         "headline": "Split Bills with",
+         "headlineEmphasis": "More Fairness",
+         "subheadline": "A smart calculator that proportionally distributes shipping, taxes, and discounts to each item. Accurate to the last cent without any hassle.",
+         "cta": {
+            "primary": "Calculate Now",
+            "secondary": "How to Use"
+         }
+      },
+      "features": {
+         "overline": "Why {appName}?",
+         "title": "Everything You Need for Fair Bill Splitting",
+         "items": [
+            {
+               "title": "Precision Calculation",
+               "description": "Taxes, shipping, and service fees are split based on each item's price portion. No more unfair splitting."
+            },
+            {
+               "title": "Total Transparency",
+               "description": "Check the final price details per item after being calculated with discounts and additional fees in real-time."
+            },
+            {
+               "title": "Hassle-Free Split per Person",
+               "description": "Group orders based on the person who ordered. The final result is automatically divided per person."
+            }
+         ]
+      },
+      "howToUse": {
+         "overline": "How to Use",
+         "title": "Calculate Quickly in Three Steps",
+         "items": [
+            {
+               "description": "Enter the item name, price, and quantity as per the receipt."
+            },
+            {
+               "description": "Add additional costs like shipping or discounts."
+            },
+            {
+               "description": "Get 100% accurate final prices."
+            }
+         ]
+      }
+   }
+}

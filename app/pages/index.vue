@@ -15,6 +15,27 @@ useSeoMeta({
    ogImage: "/img/logo.svg",
    twitterCard: "summary_large_image",
 })
+
+const features = [
+   {
+      index: 0,
+      icon: "lucide:percent",
+   },
+   {
+      index: 1,
+      icon: "lucide:calculator",
+   },
+   {
+      index: 2,
+      icon: "lucide:zap",
+   },
+]
+
+function formatStepNumber(number: number) {
+   return Intl.NumberFormat("id-ID", {
+      minimumIntegerDigits: 2,
+   }).format(number)
+}
 </script>
 
 <template>
@@ -59,21 +80,22 @@ useSeoMeta({
             <h1
                class="text-highlighted text-5xl font-bold tracking-tight text-balance sm:text-7xl lg:text-8xl"
             >
-               Bagi Tagihan dengan
-               <span class="text-primary-500">Lebih Adil</span>.
+               {{ $t("landing.hero.headline") }}
+               <span class="text-primary-500">{{
+                  $t("landing.hero.headlineEmphasis")
+               }}</span
+               >.
             </h1>
             <p
                class="text-toned mx-auto mt-12 text-lg font-medium text-pretty sm:text-xl/8 lg:max-w-3xl"
             >
-               Kalkulator pintar yang membagi ongkir, pajak, dan diskon ke
-               setiap item secara proporsional. Akurat sampai Rupiah terakhir
-               tanpa ribet.
+               {{ $t("landing.hero.subheadline") }}
             </p>
             <div class="mt-16 flex items-center justify-center gap-x-4">
                <UButton
                   to="#how"
                   size="xl"
-                  label="Cara Pakai"
+                  :label="$t('landing.hero.cta.secondary')"
                   icon="lucide:circle-help"
                   color="neutral"
                   variant="soft"
@@ -81,7 +103,7 @@ useSeoMeta({
                <UButton
                   to="/calculate"
                   size="xl"
-                  label="Hitung Sekarang"
+                  :label="$t('landing.hero.cta.primary')"
                   trailing-icon="lucide:arrow-right"
                />
             </div>
@@ -127,76 +149,34 @@ useSeoMeta({
             <h2
                class="text-primary-500 text-base/7 font-bold tracking-wider uppercase"
             >
-               Kenapa {{ appConfig.appName }}?
+               {{ $t("landing.features.overline", { appName: appConfig.appName }) }}
             </h2>
             <p
                class="text-highlighted mt-2 text-4xl font-semibold tracking-tight text-pretty sm:text-5xl"
             >
-               Semua yang Kamu Butuhkan untuk Pembagian Tagihan yang Adil
+               {{ $t("landing.features.title") }}
             </p>
          </div>
          <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
             <dl class="grid grid-cols-1 gap-8 lg:grid-cols-3">
-               <UCard>
+               <UCard v-for="feature in features">
                   <div class="flex flex-col">
                      <dt
                         class="flex items-center gap-x-3 text-lg font-semibold"
                      >
                         <UIcon
-                           name="lucide:percent"
+                           :name="feature.icon"
                            class="text-primary-500 size-5 flex-none"
                         />
-                        Hitungan Presisi
+                        {{ $t(`landing.features.items[${feature.index}].title`) }}
                      </dt>
                      <dd
                         class="mt-4 flex flex-auto flex-col text-neutral-600 dark:text-neutral-400"
                      >
                         <p class="flex-auto text-pretty">
-                           Pajak, ongkir, dan biaya layanan dibagi sesuai porsi
-                           harga tiap barang. Ga ada lagi yang dirugikan.
-                        </p>
-                     </dd>
-                  </div>
-               </UCard>
-               <UCard>
-                  <div class="flex flex-col">
-                     <dt
-                        class="flex items-center gap-x-3 text-lg font-semibold"
-                     >
-                        <UIcon
-                           name="lucide:calculator"
-                           class="text-primary-500 size-5 flex-none"
-                        />
-                        Transparansi Total
-                     </dt>
-                     <dd
-                        class="mt-4 flex flex-auto flex-col text-neutral-600 dark:text-neutral-400"
-                     >
-                        <p class="flex-auto text-pretty">
-                           Cek detail harga asli per item setelah dikalkulasi
-                           dengan diskon dan biaya tambahan secara
-                           <i>real-time</i>.
-                        </p>
-                     </dd>
-                  </div>
-               </UCard>
-               <UCard>
-                  <div class="flex flex-col">
-                     <dt
-                        class="flex items-center gap-x-3 text-lg font-semibold"
-                     >
-                        <UIcon
-                           name="lucide:zap"
-                           class="text-primary-500 size-5 flex-none"
-                        />
-                        Bagi Per Orang Anti Ribet
-                     </dt>
-                     <dd
-                        class="mt-4 flex flex-auto flex-col text-neutral-600 dark:text-neutral-400"
-                     >
-                        <p class="flex-auto text-pretty">
-                           Kelompokkan pesanan berdasarkan orang yang memesan.
-                           Hasil akhir langsung terbagi per orang.
+                           {{
+                              $t(`landing.features.items[${feature.index}].description`)
+                           }}
                         </p>
                      </dd>
                   </div>
@@ -214,57 +194,32 @@ useSeoMeta({
             <h2
                class="text-primary-500 text-base/7 font-bold tracking-wider uppercase"
             >
-               Cara Pakai
+               {{ $t("landing.howToUse.overline") }}
             </h2>
             <p
                class="text-highlighted mt-2 max-w-md text-4xl font-semibold tracking-tight text-pretty sm:text-5xl"
             >
-               Hitung Cepat Dalam Tiga Langkah
+               {{ $t("landing.howToUse.title") }}
             </p>
          </div>
          <div class="mt-8 grid gap-8 md:grid-cols-3">
-            <div class="group relative">
+            <div
+               v-for="step in 3"
+               class="group relative"
+            >
                <div class="relative mb-2">
                   <span
                      class="text-primary block text-8xl font-bold opacity-0 transition-opacity select-none group-hover:opacity-25"
                   >
-                     01
+                     {{ formatStepNumber(step) }}
                   </span>
                   <div
                      class="bg-primary absolute start-0 bottom-0 h-1 w-16 translate-y-3/2 rounded-full"
                   />
                </div>
                <p class="text-pretty">
-                  Masukkan nama item, harga, dan jumlah sesuai struk.
+                  {{ $t(`landing.howToUse.items[${step - 1}].description`) }}
                </p>
-            </div>
-            <div class="group relative">
-               <div class="relative mb-2">
-                  <span
-                     class="text-primary block text-8xl font-bold opacity-0 transition-opacity select-none group-hover:opacity-25"
-                  >
-                     02
-                  </span>
-                  <div
-                     class="bg-primary absolute start-0 bottom-0 h-1 w-16 translate-y-3/2 rounded-full"
-                  />
-               </div>
-               <p class="text-pretty">
-                  Tambahkan biaya tambahan seperti ongkir atau diskon.
-               </p>
-            </div>
-            <div class="group relative">
-               <div class="relative mb-2">
-                  <span
-                     class="text-primary block text-8xl font-bold opacity-0 transition-opacity select-none group-hover:opacity-25"
-                  >
-                     03
-                  </span>
-                  <div
-                     class="bg-primary absolute start-0 bottom-0 h-1 w-16 translate-y-3/2 rounded-full"
-                  />
-               </div>
-               <p class="text-pretty">Dapatkan harga akhir yang 100% akurat.</p>
             </div>
          </div>
       </section>

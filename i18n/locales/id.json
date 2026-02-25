@@ -1,0 +1,74 @@
+{
+   "landing": {
+      "header": {
+         "menuItem": {
+            "features": "Fitur",
+            "howToUse": "Cara Pakai"
+         },
+         "cta": {
+            "primary": "Mulai Sekarang"
+         }
+      },
+      "footer": {
+         "description": "Hitung biaya \"sebenarnya\" secara instan. Distribusi biaya bersama dan diskon proporsional dalam hitungan detik.",
+         "links": {
+            "product": {
+               "title": "Produk",
+               "item": {
+                  "feature": "Fitur",
+                  "howToUse": "Cara Pakai"
+               }
+            },
+            "resource": {
+               "title": "Sumber Daya",
+               "item": {
+                  "github": "GitHub",
+                  "contact": "Kontak"
+               }
+            }
+         }
+      },
+      "hero": {
+         "headline": "Bagi Tagihan dengan",
+         "headlineEmphasis": "Lebih Adil",
+         "subheadline": "Kalkulator pintar yang membagi ongkir, pajak, dan diskon ke setiap item secara proporsional. Akurat sampai Rupiah terakhir tanpa ribet.",
+         "cta": {
+            "primary": "Mulai Sekarang",
+            "secondary": "Cara Pakai"
+         }
+      },
+      "features": {
+         "overline": "Kenapa {appName}?",
+         "title": "Semua yang Kamu Butuhkan untuk Pembagian Tagihan yang Adil",
+         "items": [
+            {
+               "title": "Hitungan Presisi",
+               "description": "Pajak, ongkir, dan biaya layanan dibagi sesuai porsi harga tiap barang. Ga ada lagi yang dirugikan."
+            },
+            {
+               "title": "Transparansi Total",
+               "description": "Cek detail harga asli per item setelah dikalkulasi dengan diskon dan biaya tambahan secara real-time."
+            },
+            {
+               "title": "Bagi Per Orang Anti Ribet",
+               "description": "Kelompokkan pesanan berdasarkan orang yang memesan. Hasil akhir langsung terbagi per orang."
+            }
+         ]
+      },
+      "howToUse": {
+         "overline": "Cara Pakai",
+         "title": "Hitung Cepat Dalam Tiga Langkah",
+         "items": [
+            {
+               "description": "Masukkan nama item, harga, dan jumlah sesuai struk."
+            },
+            {
+               "description": "Tambahkan biaya tambahan seperti ongkir atau diskon."
+            },
+            {
+               "description": "Dapatkan harga akhir yang 100% akurat."
+            }
+         ]
+      }
+   }
+}

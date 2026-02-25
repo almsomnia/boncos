@@ -8,7 +8,8 @@ export default defineNuxtConfig({
       "@nuxt/icon",
       "@nuxt/test-utils/module",
       "@nuxtjs/seo",
-      "@vueuse/nuxt"
+      "@vueuse/nuxt",
+      "@nuxtjs/i18n",
    ],
    site: {
       url: "https://boncos.rivaalmero.me",
@@ -42,6 +43,21 @@ export default defineNuxtConfig({
       public: {
          donateUrl: import.meta.env.DONATE_URL,
          repoUrl: import.meta.env.REPO_URL,
-      }
-   }
+      },
+   },
+   i18n: {
+      defaultLocale: "id",
+      locales: [
+         {
+            code: "id",
+            name: "Indonesia",
+            file: "id.json",
+         },
+         {
+            code: "en",
+            name: "English",
+            file: "en.json",
+         },
+      ],
+   },
 })
