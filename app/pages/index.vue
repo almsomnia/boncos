@@ -22,7 +22,7 @@ useSeoMeta({
       <!-- Hero Section -->
       <section
          id="hero"
-         class="relative py-42 md:px-6 lg:px-8 h-[calc(100vh-var(--ui-header-height))] flex items-center"
+         class="relative flex h-[calc(100vh-var(--ui-header-height))] items-center py-42 md:px-6 lg:px-8"
       >
          <!-- Background Mesh Gradient -->
          <div
@@ -55,7 +55,7 @@ useSeoMeta({
          </div>
 
          <!-- Hero Content -->
-         <div class="mx-auto max-w-2xl text-center lg:max-w-4xl pb-16">
+         <div class="mx-auto max-w-2xl pb-16 text-center lg:max-w-4xl">
             <h1
                class="text-highlighted text-5xl font-bold tracking-tight text-balance sm:text-7xl lg:text-8xl"
             >
@@ -63,7 +63,7 @@ useSeoMeta({
                <span class="text-primary-500">Lebih Adil</span>.
             </h1>
             <p
-               class="mx-auto mt-12 text-lg font-medium text-pretty sm:text-xl/8 lg:max-w-3xl text-toned"
+               class="text-toned mx-auto mt-12 text-lg font-medium text-pretty sm:text-xl/8 lg:max-w-3xl"
             >
                Kalkulator pintar yang membagi ongkir, pajak, dan diskon ke
                setiap item secara proporsional. Akurat sampai Rupiah terakhir
@@ -210,53 +210,63 @@ useSeoMeta({
          id="how"
          class="mx-auto max-w-7xl py-8 sm:py-16 lg:px-8"
       >
-         <UCard
-            variant="soft"
-            class="bg-primary-50 dark:bg-primary-950/20"
-            :ui="{
-               body: 'sm:p-16 p-8',
-            }"
-         >
-            <div class="flex flex-col gap-20 lg:flex-row">
-               <div class="w-full lg:w-1/3">
-                  <h2
-                     class="text-primary-500 text-base/7 font-bold tracking-wider uppercase"
+         <div class="mx-auto">
+            <h2
+               class="text-primary-500 text-base/7 font-bold tracking-wider uppercase"
+            >
+               Cara Pakai
+            </h2>
+            <p
+               class="text-highlighted mt-2 max-w-md text-4xl font-semibold tracking-tight text-pretty sm:text-5xl"
+            >
+               Hitung Cepat Dalam Tiga Langkah
+            </p>
+         </div>
+         <div class="mt-8 grid gap-8 md:grid-cols-3">
+            <div class="group relative">
+               <div class="relative mb-2">
+                  <span
+                     class="text-primary block text-8xl font-bold opacity-0 transition-opacity select-none group-hover:opacity-25"
                   >
-                     Cara Pakai
-                  </h2>
-                  <p
-                     class="text-highlighted mt-2 text-3xl font-semibold tracking-tight text-pretty lg:text-4xl"
-                  >
-                     Hitung cepat dalam 4 langkah
-                  </p>
+                     01
+                  </span>
+                  <div
+                     class="bg-primary absolute start-0 bottom-0 h-1 w-16 translate-y-3/2 rounded-full"
+                  />
                </div>
-               <div
-                  class="flex w-full flex-col flex-wrap gap-8 lg:w-2/3 lg:flex-row lg:gap-16 [&>p]:ps-8 [&>p]:lg:ms-0"
-               >
-                  <p
-                     class="before:text-primary-500 w-full grow-2 text-sm leading-relaxed text-pretty before:absolute before:-translate-x-8 before:-translate-y-2 before:text-3xl before:font-bold before:content-['1'] md:text-base lg:w-[30%]"
-                  >
-                     Masukkan nama item, harga, dan jumlah pesanan.
-                  </p>
-                  <p
-                     class="before:text-primary-500 w-full grow-2 text-sm leading-relaxed text-pretty before:absolute before:-translate-x-8 before:-translate-y-2 before:text-3xl before:font-bold before:content-['2'] md:text-base lg:w-[30%]"
-                  >
-                     Tambahkan biaya tambahan seperti ongkir dan pajak. Jangan
-                     lupa masukin juga diskon pesanan.
-                  </p>
-                  <p
-                     class="before:text-primary-500 w-full grow-2 text-sm leading-relaxed text-pretty before:absolute before:-translate-x-8 before:-translate-y-2 before:text-3xl before:font-bold before:content-['3'] md:text-base lg:w-[30%]"
-                  >
-                     Boncos bakal membagi biaya secara proporsional.
-                  </p>
-                  <p
-                     class="before:text-primary-500 w-full grow-2 text-sm leading-relaxed text-pretty before:absolute before:-translate-x-8 before:-translate-y-2 before:text-3xl before:font-bold before:content-['4'] md:text-base lg:w-[30%]"
-                  >
-                     Dapatkan harga akhir per item (100% sesuai struk).
-                  </p>
-               </div>
+               <p class="text-pretty">
+                  Masukkan nama item, harga, dan jumlah sesuai struk.
+               </p>
             </div>
-         </UCard>
+            <div class="group relative">
+               <div class="relative mb-2">
+                  <span
+                     class="text-primary block text-8xl font-bold opacity-0 transition-opacity select-none group-hover:opacity-25"
+                  >
+                     02
+                  </span>
+                  <div
+                     class="bg-primary absolute start-0 bottom-0 h-1 w-16 translate-y-3/2 rounded-full"
+                  />
+               </div>
+               <p class="text-pretty">
+                  Tambahkan biaya tambahan seperti ongkir atau diskon.
+               </p>
+            </div>
+            <div class="group relative">
+               <div class="relative mb-2">
+                  <span
+                     class="text-primary block text-8xl font-bold opacity-0 transition-opacity select-none group-hover:opacity-25"
+                  >
+                     03
+                  </span>
+                  <div
+                     class="bg-primary absolute start-0 bottom-0 h-1 w-16 translate-y-3/2 rounded-full"
+                  />
+               </div>
+               <p class="text-pretty">Dapatkan harga akhir yang 100% akurat.</p>
+            </div>
+         </div>
       </section>
    </div>
 </template>
