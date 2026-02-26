@@ -33,6 +33,9 @@ const mounted = useMounted()
 const isDesktop = computed(() => {
    return mounted.value && breakpoints.greaterOrEqual("lg").value
 })
+const isTablet = computed(() => {
+   return mounted.value && breakpoints.greaterOrEqual("md").value
+})
 </script>
 
 <template>
@@ -67,6 +70,7 @@ const isDesktop = computed(() => {
             class="h-6"
          />
          <UButton
+            v-if="isTablet"
             icon="fa6-brands:github"
             color="neutral"
             variant="ghost"
