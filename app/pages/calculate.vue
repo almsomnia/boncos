@@ -59,9 +59,13 @@ if (route.query.share && typeof route.query.share === "string") {
 }
 
 const { locale } = useI18n()
-watch(locale, (value) => {
-   route.meta.title = $t("calculate.page.title")
-}, { immediate: true })
+watch(
+   locale,
+   (value) => {
+      route.meta.title = $t("calculate.page.title")
+   },
+   { immediate: true }
+)
 
 const shareModal = shallowRef(false)
 const shareOptions = reactive({
@@ -489,11 +493,11 @@ const showOnboarding = shallowRef(false)
    <!-- Share modal -->
    <UModal
       v-model:open="shareModal"
-      title="Bagikan Hasil Perhitungan"
+      :title="$t('calculate.share.modal.title')"
    >
       <template #body>
          <p class="text-muted text-sm text-pretty">
-            Salin link berikut untuk membagikan hasil perhitungan ini
+            {{ $t("calculate.share.modal.url.description") }}
          </p>
          <div class="mt-4 space-y-4">
             <UFieldGroup class="w-full">
@@ -511,10 +515,10 @@ const showOnboarding = shallowRef(false)
                />
             </UFieldGroup>
 
-            <USeparator label="atau" />
+            <USeparator :label="$t('calculate.share.modal.separator')" />
 
             <p class="text-muted text-sm">
-               Pilih informasi yang ingin dibagikan
+               {{ $t("calculate.share.modal.text.description") }}
             </p>
             <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                <label
@@ -542,7 +546,7 @@ const showOnboarding = shallowRef(false)
                         </div>
                         <div class="mt-4 text-center">
                            <h4 class="text-sm font-semibold">
-                              Hasil Perhitungan
+                              {{ $t("calculate.share.modal.text.options.result") }}
                            </h4>
                         </div>
                      </div>
@@ -574,7 +578,7 @@ const showOnboarding = shallowRef(false)
                         </div>
                         <div class="mt-4 text-center">
                            <h4 class="text-sm font-semibold">
-                              Pembagian Tagihan
+                              {{ $t("calculate.share.modal.text.options.assignment") }}
                            </h4>
                         </div>
                      </div>
@@ -582,16 +586,18 @@ const showOnboarding = shallowRef(false)
                </label>
             </div>
             <UCard :ui="{ body: 'sm:p-4' }">
-               <h3 class="font-medium">Informasi Pembayaran</h3>
+               <h3 class="font-medium">
+                  {{ $t("calculate.share.modal.payment.title") }}
+               </h3>
                <div class="mt-4 space-y-4">
                   <UEmpty
                      v-if="paymentInfo.length === 0"
                      icon="lucide:credit-card"
-                     title="Tidak ada info pembayaran"
+                     :title="$t('calculate.share.modal.payment.empty.title')"
                      variant="naked"
                      :actions="[
                         {
-                           label: 'Tambah Info Pembayaran',
+                           label: $t('calculate.share.modal.payment.empty.actions.add'),
                            icon: 'lucide:plus',
                            color: 'primary',
                            variant: 'soft',
@@ -613,13 +619,13 @@ const showOnboarding = shallowRef(false)
                         <UFieldGroup class="w-full">
                            <UInput
                               v-model="payment.name"
-                              placeholder="Nama Bank/App"
+                              :placeholder="$t('calculate.share.modal.payment.form.input.name.placeholder')"
                               :readonly="!editMode"
                               class="flex-1"
                            />
                            <UInput
                               v-model="payment.account"
-                              placeholder="No. Rekening"
+                              :placeholder="$t('calculate.share.modal.payment.form.input.account.placeholder')"
                               :readonly="!editMode"
                               class="flex-2"
                            />
@@ -636,7 +642,7 @@ const showOnboarding = shallowRef(false)
                      </div>
                      <UButton
                         v-if="editMode"
-                        label="Tambah Info Pembayaran"
+                        :label="$t('calculate.share.modal.payment.form.actions.add')"
                         icon="lucide:plus"
                         variant="soft"
                         block
@@ -645,24 +651,17 @@ const showOnboarding = shallowRef(false)
                   </template>
                </div>
             </UCard>
+            <div class="flex items-center">
+               <UButton
+                  :label="$t('calculate.share.modal.actions.share')"
+                  color="primary"
+                  icon="lucide:share"
+                  class="ms-auto"
+                  @click="onShareExternal"
+                  :disabled="Object.values(shareOptions).every((value) => !value)"
+               />
+            </div>
          </div>
-      </template>
-      <template #footer>
-         <div class="flex-1" />
-         <UButton
-            label="Tutup"
-            color="neutral"
-            icon="lucide:x"
-            variant="soft"
-            @click="shareModal = false"
-         />
-         <UButton
-            label="Bagikan"
-            color="primary"
-            icon="lucide:share"
-            @click="onShareExternal"
-            :disabled="Object.values(shareOptions).every((value) => !value)"
-         />
       </template>
    </UModal>
 

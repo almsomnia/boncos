@@ -199,7 +199,7 @@
          },
          "allocationValidation": {
             "title": "Validasi Alokasi Item",
-            "alert":{
+            "alert": {
                "error": {
                   "title": "Terdapat kesalahan dalam alokasi item"
                },
@@ -216,7 +216,46 @@
          }
       },
       "share": {
-         "label": "Bagikan"
+         "label": "Bagikan",
+         "modal": {
+            "title": "Bagikan Hasil Perhitungan",
+            "url": {
+               "description": "Salin link berikut untuk membagikan hasil perhitungan ini"
+            },
+            "separator": "atau",
+            "text": {
+               "description": "Pilih informasi yang ingin dibagikan",
+               "options": {
+                  "result": "Hasil Perhitungan",
+                  "assignment": "Pembagian Tagihan"
+               }
+            },
+            "payment": {
+               "title": "Informasi Pembayaran",
+               "form": {
+                  "input": {
+                     "name": {
+                        "placeholder": "Nama Bank/Aplikasi"
+                     },
+                     "account": {
+                        "placeholder": "No. Rekening"
+                     }
+                  },
+                  "actions": {
+                     "add": "Tambah Info Pembayaran"
+                  }
+               },
+               "empty": {
+                  "title": "Tidak ada info pembayaran",
+                  "actions": {
+                     "add": "Tambah Info Pembayaran"
+                  }
+               }
+            },
+            "actions": {
+               "share": "Bagikan"
+            }
+         }
       }
    }
 }

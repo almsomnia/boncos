@@ -216,7 +216,46 @@
          }
       },
       "share": {
-         "label": "Share"
+         "label": "Share",
+         "modal": {
+            "title": "Share Calculation Results",
+            "url": {
+               "description": "Copy the following link to share these calculation results"
+            },
+            "separator": "or",
+            "text": {
+               "description": "Select the information you want to share",
+               "options": {
+                  "result": "Calculation Results",
+                  "assignment": "Bill Splitting"
+               }
+            },
+            "payment": {
+               "title": "Payment Information",
+               "form": {
+                  "input": {
+                     "name": {
+                        "placeholder": "Bank Name/App Name"
+                     },
+                     "account": {
+                        "placeholder": "Account Number"
+                     }
+                  },
+                  "actions": {
+                     "add": "Add Payment Info"
+                  }
+               },
+               "empty": {
+                  "title": "No payment information",
+                  "actions": {
+                     "add": "Add Payment Info"
+                  }
+               }
+            },
+            "actions": {
+               "share": "Share"
+            }
+         }
       }
    }
 }
