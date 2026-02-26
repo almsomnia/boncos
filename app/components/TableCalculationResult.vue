@@ -8,112 +8,114 @@ const props = defineProps<{
    data: CalculationDetail[]
 }>()
 
-const tableColumns: TableColumn<CalculationDetail>[] = [
-   {
-      accessorKey: "item.name",
-      header: "Nama Item",
-      size: 100,
-   },
-   {
-      accessorKey: "item.qty",
-      header: "Jumlah",
-      size: 64,
-   },
-   {
-      accessorKey: "item.unitPrice",
-      header: "Harga per Item (sebelum diskon)",
-      cell: ({ row }) => {
-         return $formatCurrency(row.original.item.unitPrice)
+const tableColumns = computed<TableColumn<CalculationDetail>[]>(() => {
+   return [
+      {
+         accessorKey: "item.name",
+         header: $t("calculate.results.table.columns.itemName"),
+         size: 100,
       },
-      size: 128,
-   },
-   {
-      accessorKey: "item.subtotal",
-      header: "Item Subtotal (sebelum diskon)",
-      cell: ({ row }) => {
-         return $formatCurrency(row.original.item.subtotal)
+      {
+         accessorKey: "item.qty",
+         header: $t("calculate.results.table.columns.itemQty"),
+         size: 64,
       },
-      size: 128,
-   },
-   {
-      accessorKey: "allocation.proportion",
-      header: "Proporsi",
-      meta: {
-         class: {
-            td: "text-right",
+      {
+         accessorKey: "item.unitPrice",
+         header: $t("calculate.results.table.columns.itemUnitPrice"),
+         cell: ({ row }) => {
+            return $formatCurrency(row.original.item.unitPrice)
          },
+         size: 128,
       },
-      cell: ({ row }) => {
-         return $roundDecimal(row.original.allocation.proportion, 3)
-      },
-      size: 64,
-   },
-   {
-      accessorKey: "allocation.discount",
-      header: "Diskon Item",
-      meta: {
-         class: {
-            td: "text-right",
+      {
+         accessorKey: "item.subtotal",
+         header: $t("calculate.results.table.columns.itemSubtotal"),
+         cell: ({ row }) => {
+            return $formatCurrency(row.original.item.subtotal)
          },
+         size: 128,
       },
-      cell: ({ row }) => {
-         return $formatCurrency(row.original.allocation.discount)
-      },
-      size: 128,
-   },
-   {
-      accessorKey: "allocation.additionalCost",
-      header: "Biaya Tambahan Item",
-      meta: {
-         class: {
-            td: "text-right",
+      {
+         accessorKey: "allocation.proportion",
+         header: $t("calculate.results.table.columns.allocationProportion"),
+         meta: {
+            class: {
+               td: "text-right",
+            },
          },
-      },
-      cell: ({ row }) => {
-         return $formatCurrency(row.original.allocation.additionalCost)
-      },
-      size: 128,
-   },
-   {
-      accessorKey: "result.finalTotal",
-      header: "Harga (setelah diskon)",
-      meta: {
-         class: {
-            td: "text-right",
+         cell: ({ row }) => {
+            return $roundDecimal(row.original.allocation.proportion, 3)
          },
+         size: 64,
       },
-      cell: ({ row }) => {
-         return $formatCurrency(row.original.result.finalTotal)
-      },
-      size: 128,
-   },
-   {
-      accessorKey: "result.finalUnitPrice",
-      header: "Harga per Item (setelah diskon)",
-      cell: ({ row }) => {
-         return $formatCurrency(row.original.result.finalUnitPrice)
-      },
-      meta: {
-         class: {
-            td: "text-right font-semibold text-highlighted",
+      {
+         accessorKey: "allocation.discount",
+         header: $t("calculate.results.table.columns.allocationDiscount"),
+         meta: {
+            class: {
+               td: "text-right",
+            },
          },
+         cell: ({ row }) => {
+            return $formatCurrency(row.original.allocation.discount)
+         },
+         size: 128,
       },
-      size: 128,
-   },
-]
+      {
+         accessorKey: "allocation.additionalCost",
+         header: $t("calculate.results.table.columns.allocationAdditionalCost"),
+         meta: {
+            class: {
+               td: "text-right",
+            },
+         },
+         cell: ({ row }) => {
+            return $formatCurrency(row.original.allocation.additionalCost)
+         },
+         size: 128,
+      },
+      {
+         accessorKey: "result.finalTotal",
+         header: $t("calculate.results.table.columns.resultFinalTotal"),
+         meta: {
+            class: {
+               td: "text-right",
+            },
+         },
+         cell: ({ row }) => {
+            return $formatCurrency(row.original.result.finalTotal)
+         },
+         size: 128,
+      },
+      {
+         accessorKey: "result.finalUnitPrice",
+         header: $t("calculate.results.table.columns.resultFinalUnitPrice"),
+         cell: ({ row }) => {
+            return $formatCurrency(row.original.result.finalUnitPrice)
+         },
+         meta: {
+            class: {
+               td: "text-right font-semibold text-highlighted",
+            },
+         },
+         size: 128,
+      },
+   ]
+})
 
 const columnVisibility = ref<
    Record<DeepestPaths<CalculationDetail, "_"> | (string & {}), boolean>
 >({
-   "item_name": true,
-   "item_qty": true,
-   "item_unitPrice": true,
-   "item_subtotal": false,
-   "allocation_proportion": false,
-   "allocation_discount": false,
-   "allocation_additionalCost": false,
-   "result_finalTotal": false,
-   "result_finalUnitPrice": true,
+   item_name: true,
+   item_qty: true,
+   item_unitPrice: true,
+   item_subtotal: false,
+   allocation_proportion: false,
+   allocation_discount: false,
+   allocation_additionalCost: false,
+   result_finalTotal: false,
+   result_finalUnitPrice: true,
 })
 
 const table = useTemplateRef("table")
@@ -146,7 +148,7 @@ const table = useTemplateRef("table")
             :content="{ align: 'end' }"
          >
             <UButton
-               label="Kolom"
+               :label="$t('calculate.results.filter.column')"
                color="neutral"
                variant="outline"
                trailing-icon="lucide:chevron-down"

@@ -101,15 +101,21 @@ const itemAllocationAlertProps = computed(() => {
    })
 
    if (allocationStatus.includes("error")) {
-      title = "Terdapat kesalahan dalam alokasi item"
+      title = $t(
+         "calculate.distribution.allocationValidation.alert.error.title"
+      )
       color = "error"
       icon = "lucide:x-circle"
    } else if (allocationStatus.includes("warning")) {
-      title = "Terdapat item yang belum dialokasikan"
+      title = $t(
+         "calculate.distribution.allocationValidation.alert.warning.title"
+      )
       color = "warning"
       icon = "lucide:alert-triangle"
    } else {
-      title = "Semua item berhasil dialokasikan"
+      title = $t(
+         "calculate.distribution.allocationValidation.alert.success.title"
+      )
       color = "success"
       icon = "lucide:check-circle"
    }
@@ -130,7 +136,13 @@ const itemAllocationAlertProps = computed(() => {
       >
          <template #header>
             <div class="flex items-center justify-between">
-               <h3>Orang #{{ personIndex + 1 }}</h3>
+               <h3>
+                  {{
+                     $t("calculate.distribution.form.title", {
+                        count: `#${personIndex + 1}`,
+                     })
+                  }}
+               </h3>
                <UButton
                   v-if="editable"
                   icon="lucide:trash"
@@ -146,7 +158,11 @@ const itemAllocationAlertProps = computed(() => {
             <UFormField>
                <UInput
                   v-model="person.name"
-                  placeholder="Nama"
+                  :placeholder="
+                     $t(
+                        'calculate.distribution.form.input.personName.placeholder'
+                     )
+                  "
                   :readonly="!editable"
                   class="w-full md:w-1/2"
                />
@@ -162,13 +178,21 @@ const itemAllocationAlertProps = computed(() => {
                         v-model="item.name"
                         :items="getItemOptions(person)"
                         value-key="label"
-                        placeholder="Pilih item"
+                        :placeholder="
+                           $t(
+                              'calculate.distribution.form.input.item.placeholder'
+                           )
+                        "
                         :disabled="!editable"
                         class="w-full"
                      />
                      <UInputNumber
                         v-model="item.qty"
-                        placeholder="Qty"
+                        :placeholder="
+                           $t(
+                              'calculate.distribution.form.input.qty.placeholder'
+                           )
+                        "
                         :increment="false"
                         :decrement="false"
                         :readonly="!editable"
@@ -177,7 +201,7 @@ const itemAllocationAlertProps = computed(() => {
                   </UFieldGroup>
                   <div class="mt-2 flex items-center justify-between gap-4">
                      <UFormField
-                        label="Total"
+                        :label="$t('calculate.distribution.form.summary.total')"
                         :ui="{ label: 'text-xs' }"
                      >
                         {{ $formatCurrency(item.finalUnitPrice) }}
@@ -195,7 +219,7 @@ const itemAllocationAlertProps = computed(() => {
                </UCard>
                <UButton
                   v-if="editable"
-                  label="Tambah Item"
+                  :label="$t('calculate.distribution.form.actions.item.add')"
                   icon="lucide:plus"
                   variant="soft"
                   class="min-h-34 justify-center"
@@ -210,7 +234,9 @@ const itemAllocationAlertProps = computed(() => {
          </div>
          <template #footer>
             <div class="flex w-full font-medium">
-               <span> Total Tagihan: </span>
+               <span>
+                  {{ $t("calculate.distribution.summary.totalBill") }}:
+               </span>
                <span class="flex-1 text-end">
                   {{ $formatCurrency(countPersonTotalBill(person)) }}
                </span>
@@ -219,18 +245,18 @@ const itemAllocationAlertProps = computed(() => {
       </UCard>
       <UEmpty
          v-if="people.length < 1"
-         title="Belum ada orang yang ditambahkan"
+         :title="$t('calculate.distribution.empty.title')"
          :description="
             editable ?
-               'Klik tombol tambah orang untuk menambahkan orang'
-            :  'Tidak ada data pembagian tagihan'
+               $t('calculate.distribution.empty.description')
+            :  $t('calculate.distribution.empty.readOnlyDescription')
          "
          icon="lucide:user"
          variant="naked"
       />
       <UButton
          v-if="editable"
-         label="Tambah Orang"
+         :label="$t('calculate.distribution.empty.actions.addPerson')"
          icon="lucide:plus"
          variant="soft"
          block
@@ -240,9 +266,14 @@ const itemAllocationAlertProps = computed(() => {
       <UCard
          v-if="people.length > 0"
          variant="outline"
-         :ui="{ root: 'ring-0 border border-dashed border-muted', body: 'sm:p-4' }"
+         :ui="{
+            root: 'ring-0 border border-dashed border-muted',
+            body: 'sm:p-4',
+         }"
       >
-         <h3 class="mb-4 font-medium">Validasi Alokasi Item</h3>
+         <h3 class="mb-4 font-medium">
+            {{ $t("calculate.distribution.allocationValidation.title") }}
+         </h3>
          <UAlert
             :title="itemAllocationAlertProps.title"
             :color="itemAllocationAlertProps.color"
@@ -257,7 +288,12 @@ const itemAllocationAlertProps = computed(() => {
                :color="itemAllocationBadgeColor(item)"
                size="lg"
             >
-               {{ item.item.name }}: {{ countItemAllocation(item) }} dari
+               {{ item.item.name }}: {{ countItemAllocation(item) }}
+               {{
+                  $t(
+                     "calculate.distribution.allocationValidation.badges.countSeparator"
+                  )
+               }}
                {{ item.item.qty }}
             </UBadge>
          </div>

@@ -70,5 +70,153 @@
             }
          ]
       }
+   },
+   "calculate": {
+      "page": {
+         "title": "Bill Calculator",
+         "actions": {
+            "secondary": "View Tutorial"
+         }
+      },
+      "items": {
+         "title": "Items",
+         "subtitle": "Enter the ordered items",
+         "readOnlySubtitle": "List of ordered items",
+         "form": {
+            "input": {
+               "itemName": {
+                  "placeholder": "Item Name"
+               },
+               "itemPrice": {
+                  "placeholder": "Price"
+               },
+               "itemQuantity": {
+                  "placeholder": "Quantity"
+               }
+            },
+            "actions": {
+               "add": "Add Item"
+            }
+         },
+         "summary": {
+            "subtotal": "Subtotal"
+         }
+      },
+      "additionals": {
+         "title": "Additional Costs",
+         "subtitle": "Shipping, taxes, service, etc.",
+         "form": {
+            "input": {
+               "additionalName": {
+                  "placeholder": "Cost Name"
+               },
+               "additionalPrice": {
+                  "placeholder": "Price"
+               }
+            },
+            "actions": {
+               "add": "Add Additional Cost"
+            }
+         }
+      },
+      "discount": {
+         "title": "Discount",
+         "subtitle": "Total discount",
+         "form": {
+            "input": {
+               "amount": {
+                  "placeholder": "Total Discount"
+               }
+            }
+         }
+      },
+      "summary": {
+         "total": "Total",
+         "alert": {
+            "title": "Important",
+            "description": "Make sure all prices are correct"
+         },
+         "payment": {
+            "title": "Payment Info"
+         }
+      },
+      "results": {
+         "title": "Calculation Results",
+         "filter": {
+            "column": "Columns"
+         },
+         "table": {
+            "columns": {
+               "itemName": "Item Name",
+               "itemQty": "Quantity",
+               "itemUnitPrice": "Unit Price (before discount)",
+               "itemSubtotal": "Item Subtotal (before discount)",
+               "allocationProportion": "Proportion",
+               "allocationDiscount": "Item Discount",
+               "allocationAdditionalCost": "Item Additional Cost",
+               "resultFinalTotal": "Price (after discount)",
+               "resultFinalUnitPrice": "Unit Price (after discount)"
+            }
+         }
+      },
+      "distribution": {
+         "title": "Bill Splitting",
+         "form": {
+            "title": "Person {count}",
+            "input": {
+               "personName": {
+                  "placeholder": "Name"
+               },
+               "item": {
+                  "placeholder": "Select Item"
+               },
+               "qty": {
+                  "placeholder": "Quantity"
+               }
+            },
+            "summary": {
+               "total": "Total"
+            },
+            "actions": {
+               "item": {
+                  "add": "Add Item"
+               },
+               "person": {
+                  "add": "Add Person"
+               }
+            }
+         },
+         "summary": {
+            "totalBill": "Total Bill"
+         },
+         "empty": {
+            "title": "No people added yet",
+            "description": "Click the add person button to add people",
+            "readOnlyDescription": "No bill splitting data available",
+            "actions": {
+               "addPerson": "Add Person"
+            }
+         },
+         "allocationValidation": {
+            "title": "Item Allocation Validation",
+            "alert": {
+               "error": {
+                  "title": "There are errors in item allocation"
+               },
+               "warning": {
+                  "title": "There are items that haven't been allocated"
+               },
+               "success": {
+                  "title": "All items successfully allocated"
+               }
+            },
+            "badges": {
+               "countSeparator": "of"
+            }
+         }
+      },
+      "share": {
+         "label": "Share"
+      }
    }
 }

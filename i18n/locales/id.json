@@ -70,5 +70,153 @@
             }
          ]
       }
+   },
+   "calculate": {
+      "page": {
+         "title": "Kalkulator Tagihan",
+         "actions": {
+            "secondary": "Lihat Tutorial"
+         }
+      },
+      "items": {
+         "title": "Item",
+         "subtitle": "Masukin item yang dipesan",
+         "readOnlySubtitle": "Daftar item yang dipesan",
+         "form": {
+            "input": {
+               "itemName": {
+                  "placeholder": "Nama Item"
+               },
+               "itemPrice": {
+                  "placeholder": "Harga"
+               },
+               "itemQuantity": {
+                  "placeholder": "Jumlah"
+               }
+            },
+            "actions": {
+               "add": "Tambah Item"
+            }
+         },
+         "summary": {
+            "subtotal": "Subtotal"
+         }
+      },
+      "additionals": {
+         "title": "Biaya Tambahan",
+         "subtitle": "Ongkir, pajak, layanan, dll",
+         "form": {
+            "input": {
+               "additionalName": {
+                  "placeholder": "Nama Biaya"
+               },
+               "additionalPrice": {
+                  "placeholder": "Harga"
+               }
+            },
+            "actions": {
+               "add": "Tambah Biaya Tambahan"
+            }
+         }
+      },
+      "discount": {
+         "title": "Diskon",
+         "subtitle": "Total diskon",
+         "form": {
+            "input": {
+               "amount": {
+                  "placeholder": "Total Diskon"
+               }
+            }
+         }
+      },
+      "summary": {
+         "total": "Total",
+         "alert": {
+            "title": "Penting",
+            "description": "Pastikan semua harga sudah sesuai"
+         },
+         "payment": {
+            "title": "Informasi Pembayaran"
+         }
+      },
+      "results": {
+         "title": "Hasil Perhitungan",
+         "filter": {
+            "column": "Kolom"
+         },
+         "table": {
+            "columns": {
+               "itemName": "Nama Item",
+               "itemQty": "Jumlah",
+               "itemUnitPrice": "Harga per Item (sebelum diskon)",
+               "itemSubtotal": "Item Subtotal (sebelum diskon)",
+               "allocationProportion": "Proporsi",
+               "allocationDiscount": "Diskon Item",
+               "allocationAdditionalCost": "Biaya Tambahan Item",
+               "resultFinalTotal": "Harga (setelah diskon)",
+               "resultFinalUnitPrice": "Harga per Item (setelah diskon)"
+            }
+         }
+      },
+      "distribution": {
+         "title": "Pembagian Tagihan",
+         "form": {
+            "title": "Orang {count}",
+            "input": {
+               "personName": {
+                  "placeholder": "Nama"
+               },
+               "item": {
+                  "placeholder": "Pilih Item"
+               },
+               "qty": {
+                  "placeholder": "Jumlah"
+               }
+            },
+            "summary": {
+               "total": "Total"
+            },
+            "actions": {
+               "item": {
+                  "add": "Tambah Item"
+               },
+               "person": {
+                  "add": "Tambah Orang"
+               }
+            }
+         },
+         "summary": {
+            "totalBill": "Total Tagihan"
+         },
+         "empty": {
+            "title": "Belum ada orang yang ditambahkan",
+            "description": "Klik tombol tambah orang untuk menambahkan orang",
+            "readOnlyDescription": "Tidak ada data pembagian tagihan",
+            "actions": {
+               "addPerson": "Tambah Orang"
+            }
+         },
+         "allocationValidation": {
+            "title": "Validasi Alokasi Item",
+            "alert":{
+               "error": {
+                  "title": "Terdapat kesalahan dalam alokasi item"
+               },
+               "warning": {
+                  "title": "Terdapat item yang belum dialokasikan"
+               },
+               "success": {
+                  "title": "Semua item berhasil dialokasikan"
+               }
+            },
+            "badges": {
+               "countSeparator": "dari"
+            }
+         }
+      },
+      "share": {
+         "label": "Bagikan"
+      }
    }
 }

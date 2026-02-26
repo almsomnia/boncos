@@ -1,8 +1,31 @@
 <script setup lang="ts">
 import { breakpointsTailwind } from "@vueuse/core"
+import type { SelectItem } from "#ui/types"
 
 const appConfig = useAppConfig()
 const config = useRuntimeConfig()
+
+const { locales, setLocale, locale } = useI18n()
+const localeOptions = computed(() => {
+   return locales.value.map((l) => {
+      return {
+         label: l.code.toUpperCase(),
+         value: l.code,
+         icon: `circle-flags:${l.code}`,
+      }
+   }) satisfies SelectItem[]
+})
+const localeModel = computed({
+   get: () => {
+      return locale.value
+   },
+   set: (value) => {
+      setLocale(value)
+   },
+})
+const localeSelectIcon = computed(
+   () => localeOptions.value.find((l) => l.value === locale.value)?.icon
+)
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const mounted = useMounted()
@@ -23,6 +46,14 @@ const isDesktop = computed(() => {
          </div>
       </template>
       <template #right>
+         <USelect
+            v-model="localeModel"
+            :items="localeOptions"
+            :icon="localeSelectIcon"
+            variant="ghost"
+            label-key="label"
+            value-key="value"
+         />
          <UColorModeButton />
          <USeparator orientation="vertical" class="h-6" />
          <UButton

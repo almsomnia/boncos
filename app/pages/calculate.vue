@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import type { PeopleAssignment } from "#shared/types"
 
-definePageMeta({
-   title: "Kalkulator Tagihan",
-})
-
 useSeoMeta({
    title: "Kalkulator Tagihan",
    robots: "noindex, nofollow",
@@ -61,6 +57,11 @@ if (route.query.share && typeof route.query.share === "string") {
 } else {
    resetPeople()
 }
+
+const { locale } = useI18n()
+watch(locale, (value) => {
+   route.meta.title = $t("calculate.page.title")
+}, { immediate: true })
 
 const shareModal = shallowRef(false)
 const shareOptions = reactive({
@@ -193,7 +194,7 @@ const showOnboarding = shallowRef(false)
          />
          <UButton
             v-if="editMode"
-            label="Lihat Tutorial"
+            :label="$t('calculate.page.actions.secondary')"
             icon="lucide:circle-help"
             variant="link"
             color="neutral"
@@ -207,12 +208,14 @@ const showOnboarding = shallowRef(false)
          >
             <UCard>
                <template #header>
-                  <h2 class="text-lg font-semibold">Item</h2>
+                  <h2 class="text-lg font-semibold">
+                     {{ $t("calculate.items.title") }}
+                  </h2>
                   <p class="text-muted text-sm text-pretty">
                      {{
                         editMode ?
-                           "Masukin item yang dipesan"
-                        :  "Daftar item yang dipesan"
+                           $t("calculate.items.subtitle")
+                        :  $t("calculate.items.readOnlySubtitle")
                      }}
                   </p>
                </template>
@@ -225,14 +228,22 @@ const showOnboarding = shallowRef(false)
                      <UFieldGroup class="w-full">
                         <UInput
                            v-model="item.name"
-                           placeholder="Nama item"
+                           :placeholder="
+                              $t(
+                                 'calculate.items.form.input.itemName.placeholder'
+                              )
+                           "
                            class="w-full"
                            :readonly="!editMode"
                            @keydown.enter="addItem"
                         />
                         <UInputNumber
                            v-model="item.price"
-                           placeholder="Harga item"
+                           :placeholder="
+                              $t(
+                                 'calculate.items.form.input.itemPrice.placeholder'
+                              )
+                           "
                            class="w-full"
                            :increment="false"
                            :decrement="false"
@@ -246,7 +257,11 @@ const showOnboarding = shallowRef(false)
                         />
                         <UInputNumber
                            v-model="item.qty"
-                           placeholder="Jumlah"
+                           :placeholder="
+                              $t(
+                                 'calculate.items.form.input.itemQuantity.placeholder'
+                              )
+                           "
                            :increment="false"
                            :decrement="false"
                            :readonly="!editMode"
@@ -268,7 +283,7 @@ const showOnboarding = shallowRef(false)
                   <li v-if="editMode">
                      <UButton
                         block
-                        label="Tambah Item"
+                        :label="$t('calculate.items.form.actions.add')"
                         variant="soft"
                         icon="lucide:plus"
                         @click="addItem"
@@ -278,7 +293,9 @@ const showOnboarding = shallowRef(false)
                <template #footer>
                   <div class="space-y-4">
                      <div class="text-toned flex text-sm">
-                        <span class="w-3/5"> Subtotal </span>
+                        <span class="w-3/5">
+                           {{ $t("calculate.items.summary.subtotal") }}
+                        </span>
                         <span class="w-2/5 text-right">
                            {{ $formatCurrency(subtotal) }}
                         </span>
@@ -294,8 +311,8 @@ const showOnboarding = shallowRef(false)
             <UCard variant="subtle">
                <div class="space-y-4">
                   <UFormField
-                     label="Biaya Tambahan"
-                     description="Ongkir, pajak, biaya layanan dll."
+                     :label="$t('calculate.additionals.title')"
+                     :description="$t('calculate.additionals.subtitle')"
                   >
                      <div class="space-y-2">
                         <UFieldGroup
@@ -305,7 +322,11 @@ const showOnboarding = shallowRef(false)
                         >
                            <UInput
                               v-model="cost.name"
-                              placeholder="Nama biaya"
+                              :placeholder="
+                                 $t(
+                                    'calculate.additionals.form.input.additionalName.placeholder'
+                                 )
+                              "
                               :readonly="!editMode"
                               class="w-full"
                               @keydown.enter="addAdditionalCost"
@@ -313,7 +334,11 @@ const showOnboarding = shallowRef(false)
                            <UInputNumber
                               v-model="cost.amount"
                               class="w-full"
-                              placeholder="Harga"
+                              :placeholder="
+                                 $t(
+                                    'calculate.additionals.form.input.additionalPrice.placeholder'
+                                 )
+                              "
                               :increment="false"
                               :decrement="false"
                               :readonly="!editMode"
@@ -337,7 +362,7 @@ const showOnboarding = shallowRef(false)
                         <UButton
                            v-if="editMode"
                            block
-                           label="Tambah Biaya Tambahan"
+                           :label="$t('calculate.additionals.form.actions.add')"
                            icon="lucide:plus"
                            variant="soft"
                            class="mt-2"
@@ -346,15 +371,19 @@ const showOnboarding = shallowRef(false)
                      </div>
                   </UFormField>
                   <UFormField
-                     label="Diskon"
-                     description="Total diskon"
+                     :label="$t('calculate.discount.title')"
+                     :description="$t('calculate.discount.subtitle')"
                   >
                      <UInputNumber
                         v-model="discount"
                         :increment="false"
                         :decrement="false"
                         :readonly="!editMode"
-                        placeholder="Total diskon"
+                        :placeholder="
+                           $t(
+                              'calculate.discount.form.input.amount.placeholder'
+                           )
+                        "
                         :format-options="{
                            style: 'currency',
                            currency: 'IDR',
@@ -367,23 +396,25 @@ const showOnboarding = shallowRef(false)
                <template #footer>
                   <div class="space-y-4">
                      <div class="text-highlighted flex font-semibold">
-                        <span class="w-3/5"> Total </span>
+                        <span class="w-3/5">
+                           {{ $t("calculate.summary.total") }}
+                        </span>
                         <span class="w-2/5 text-right">
                            {{ $formatCurrency(total) }}
                         </span>
                      </div>
                   </div>
                   <UAlert
-                     title="Penting"
+                     :title="$t('calculate.summary.alert.title')"
                      color="info"
                      variant="subtle"
                      icon="lucide:info"
-                     description="Pastikan semua harga sudah sesuai"
+                     :description="$t('calculate.summary.alert.description')"
                      class="mt-2"
                   />
                   <UAlert
                      v-if="!editMode && paymentInfo.length > 0"
-                     title="Informasi Pembayaran"
+                     :title="$t('calculate.summary.payment.title')"
                      color="primary"
                      variant="subtle"
                      icon="lucide:credit-card"
@@ -415,7 +446,9 @@ const showOnboarding = shallowRef(false)
          class="mt-4"
       >
          <template #header>
-            <h2 class="text-lg font-semibold">Hasil Perhitungan</h2>
+            <h2 class="text-lg font-semibold">
+               {{ $t("calculate.results.title") }}
+            </h2>
          </template>
          <TableCalculationResult :data="calculationDetails" />
       </UCard>
@@ -425,7 +458,9 @@ const showOnboarding = shallowRef(false)
       >
          <template #header>
             <div class="flex items-center justify-between">
-               <h2 class="text-lg font-semibold">Pembagian Tagihan</h2>
+               <h2 class="text-lg font-semibold">
+                  {{ $t("calculate.distribution.title") }}
+               </h2>
             </div>
          </template>
          <CalculationPeopleAssignment
@@ -436,9 +471,11 @@ const showOnboarding = shallowRef(false)
    </AppPage>
 
    <!-- Floating share button -->
-   <div class="fixed inset-x-0 bottom-4 z-20 flex items-center justify-center pointer-events-none">
+   <div
+      class="pointer-events-none fixed inset-x-0 bottom-4 z-20 flex items-center justify-center"
+   >
       <UButton
-         label="Bagikan"
+         :label="$t('calculate.share.label')"
          icon="lucide:share"
          size="lg"
          color="neutral"
