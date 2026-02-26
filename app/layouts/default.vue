@@ -31,15 +31,22 @@ const breakpoints = useBreakpoints(breakpointsTailwind)
 const mounted = useMounted()
 
 const isDesktop = computed(() => {
-   return mounted.value && breakpoints.greaterOrEqual('lg').value
+   return mounted.value && breakpoints.greaterOrEqual("lg").value
 })
 </script>
 
 <template>
-   <UHeader :title="appConfig.appName" :toggle="{ class: 'hidden' }">
+   <UHeader
+      :title="appConfig.appName"
+      :toggle="{ class: 'hidden' }"
+   >
       <template #title>
          <div class="flex items-center gap-2">
-            <img src="/img/logo.svg" alt="App Logo" class="h-8 w-8" />
+            <img
+               src="/img/logo.svg"
+               alt="App Logo"
+               class="h-8 w-8"
+            />
             <span class="text-xl font-bold">
                {{ appConfig.appName }}
             </span>
@@ -55,7 +62,10 @@ const isDesktop = computed(() => {
             value-key="value"
          />
          <UColorModeButton />
-         <USeparator orientation="vertical" class="h-6" />
+         <USeparator
+            orientation="vertical"
+            class="h-6"
+         />
          <UButton
             icon="fa6-brands:github"
             color="neutral"
@@ -67,7 +77,7 @@ const isDesktop = computed(() => {
             icon="lucide:coffee"
             color="secondary"
             :variant="isDesktop ? 'solid' : 'ghost'"
-            :label="isDesktop ? 'Beliin Gua Kopi' : undefined"
+            :label="isDesktop ? $t('layout.header.donate') : undefined"
             :href="config.public.donateUrl"
             target="_blank"
          />
@@ -81,7 +91,12 @@ const isDesktop = computed(() => {
    <UFooter :ui="{ root: 'border-t border-default mt-12' }">
       <template #left>
          <span class="text-muted text-xs">
-            &copy; <NuxtTime :datetime="new Date()" year="numeric"  /> Riva Almero
+            &copy;
+            <NuxtTime
+               :datetime="new Date()"
+               year="numeric"
+            />
+            Boncos. All rights reserved.
          </span>
       </template>
       <template #right>

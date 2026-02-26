@@ -71,6 +71,11 @@
          ]
       }
    },
+   "layout": {
+      "header": {
+         "donate": "Beliin Gua Kopi"
+      }
+   },
    "calculate": {
       "page": {
          "title": "Kalkulator Tagihan",
@@ -256,6 +261,32 @@
                "share": "Bagikan"
             }
          }
+      }
+   },
+   "onboarding": {
+      "steps": {
+         "1": {
+            "title": "Item Pesanan",
+            "description": "Masukkan semua item yang dipesan beserta jumlah dan harga per itemnya."
+         },
+         "2": {
+            "title": "Biaya & Diskon",
+            "description": "Biaya tambahan (ongkir, pajak) dan diskon akan dibagi secara proporsional ke semua item."
+         },
+         "3": {
+            "title": "Hasil Perhitungan",
+            "description": "Hasil perhitungan akan muncul di sini. Totalnya selalu sama dengan struk asli."
+         },
+         "4": {
+            "title": "Pembagian Tagihan",
+            "description": "Bagikan tagihan ke temanmu di sini. Semuanya akan dihitung secara adil sesuai dengan pesanannya."
+         }
+      },
+      "actions": {
+         "next": "Lanjut",
+         "previous": "Kembali",
+         "skip": "Lewati",
+         "finish": "Selesai"
       }
    }
 }

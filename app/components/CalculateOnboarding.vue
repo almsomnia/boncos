@@ -18,27 +18,23 @@ const onboardingPosition = shallowRef<"bottom" | "top">("bottom")
 const steps = [
    {
       id: "onboarding-step-1",
-      title: "Item Pesanan",
-      message:
-         "Masukkan semua item yang dipesan beserta jumlah dan harga per itemnya.",
+      title: $t("onboarding.steps.1.title"),
+      message: $t("onboarding.steps.1.description"),
    },
    {
       id: "onboarding-step-2",
-      title: "Biaya & Diskon",
-      message:
-         "Biaya tambahan (ongkir, pajak) dan diskon akan dibagi secara proporsional ke semua item.",
+      title: $t("onboarding.steps.2.title"),
+      message: $t("onboarding.steps.2.description"),
    },
    {
       id: "onboarding-step-3",
-      title: "Hasil Perhitungan",
-      message:
-         "Hasil perhitungan akan muncul di sini. Totalnya selalu sama dengan struk asli.",
+      title: $t("onboarding.steps.3.title"),
+      message: $t("onboarding.steps.3.description"),
    },
    {
       id: "onboarding-step-4",
-      title: "Pembagian Tagihan",
-      message:
-         "Bagikan tagihan ke temanmu di sini. Semuanya akan dihitung secara adil sesuai dengan pesanannya.",
+      title: $t("onboarding.steps.4.title"),
+      message: $t("onboarding.steps.4.description"),
    },
 ]
 
@@ -217,10 +213,9 @@ defineExpose({
                         color="neutral"
                         variant="ghost"
                         size="sm"
+                        :label="$t('onboarding.actions.skip')"
                         @click="skipOnboarding"
-                     >
-                        Lewati
-                     </UButton>
+                     />
                      <div class="flex gap-2">
                         <UButton
                            v-if="currentStep > 0"
@@ -229,9 +224,8 @@ defineExpose({
                            size="sm"
                            icon="lucide:arrow-left"
                            @click="prevStep"
-                        >
-                           Kembali
-                        </UButton>
+                           :label="$t('onboarding.actions.previous')"
+                        />
                         <UButton
                            size="sm"
                            :trailing-icon="
@@ -240,13 +234,12 @@ defineExpose({
                               :  'lucide:check'
                            "
                            @click="nextStep"
-                        >
-                           {{
+                           :label="
                               currentStep < steps.length - 1 ?
-                                 "Lanjut"
-                              :  "Selesai"
-                           }}
-                        </UButton>
+                                 $t('onboarding.actions.next')
+                              :  $t('onboarding.actions.finish')
+                           "
+                        />
                      </div>
                   </div>
                </template>

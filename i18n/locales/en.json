@@ -71,6 +71,11 @@
          ]
       }
    },
+   "layout": {
+      "header": {
+         "donate": "Buy Me a Coffee"
+      }
+   },
    "calculate": {
       "page": {
          "title": "Bill Calculator",
@@ -256,6 +261,32 @@
                "share": "Share"
             }
          }
+      }
+   },
+   "onboarding": {
+      "steps": {
+         "1": {
+            "title": "Ordered Items",
+            "description": "Enter all ordered items along with their quantity and price per item."
+         },
+         "2": {
+            "title": "Costs & Discounts",
+            "description": "Additional costs (shipping, taxes) and discounts will be proportionally distributed to all items."
+         },
+         "3": {
+            "title": "Calculation Results",
+            "description": "The calculation results will appear here. The total always matches the original receipt."
+         },
+         "4": {
+            "title": "Bill Splitting",
+            "description": "Split the bill with your friends here. Everything will be calculated fairly based on their orders."
+         }
+      },
+      "actions": {
+         "next": "Next",
+         "previous": "Previous",
+         "skip": "Skip",
+         "finish": "Finish"
       }
    }
 }
