@@ -1,3 +1,28 @@
+### 1.6.0 (2026-02-27)
+
+##### Chores
+
+*  Add `@iconify-json/lucide` to dev dependencies. ([fa440ff7](https://github.com/almsomnia/boncos/commit/fa440ff752a2a3b86a25d67d461344ac8b268c9f))
+
+##### Documentation Changes
+
+*  streamline documentation by removing Nuxt 4 specifics and detailed project structure and build instructions. ([0aa8ceab](https://github.com/almsomnia/boncos/commit/0aa8ceabd1b45b0f9b11a12a64a379714f4618a6))
+
+##### New Features
+
+*  Update donate button display logic to use `isTablet` instead of `isDesktop` for variant and label. ([61bda10c](https://github.com/almsomnia/boncos/commit/61bda10cf9f88b94686c071b0a16b4ef08963e60))
+*  Add `isTablet` computed property and conditionally display the GitHub button based on tablet breakpoint. ([8c436f71](https://github.com/almsomnia/boncos/commit/8c436f71bf7a2dbda05514e56a636e364762c401))
+*  Implement internationalization for onboarding steps, actions, and the header donate button, and update footer copyright. ([c9f9c347](https://github.com/almsomnia/boncos/commit/c9f9c3475961e9486375163c7736382f90dbc106))
+*  Implement i18n for the share calculation results modal, including options for sharing results, bill splitting, and payment information. ([cd3196ce](https://github.com/almsomnia/boncos/commit/cd3196ce6a3259c1984de1a753d0f57aeac39c3d))
+*  Add i18n localization for the bill calculation feature and update components to use new keys. ([31a9fd83](https://github.com/almsomnia/boncos/commit/31a9fd83116a00b40527ac40fc1c4e9ac0fc0de1))
+*  implement i18n browser language detection and add a language switcher UI. ([fb1d5d9a](https://github.com/almsomnia/boncos/commit/fb1d5d9a0a58f905646416c18088b88c265df3f4))
+*  implement internationalization with English and Indonesian locales and integrate translation keys into components. ([d8c242d3](https://github.com/almsomnia/boncos/commit/d8c242d3390a029254334fc1780f8ed8e9e5c014))
+*  Implement responsive UI with external links, improved navigation, and updated color scheme. ([c430bff4](https://github.com/almsomnia/boncos/commit/c430bff47c11932ab6173e0c14b4275ac03e1889))
+*  Redesign the "How to Use" section from a 4-step card to a 3-step grid layout and reorder Tailwind CSS classes for consistency. ([a1505473](https://github.com/almsomnia/boncos/commit/a1505473ef73b1dd0edc38e73b5a07e6be6dbe80))
+*  Add header navigation buttons and separators, update footer content and styling, and refine component padding and share button interactivity. ([86f55348](https://github.com/almsomnia/boncos/commit/86f553481b8954c0ddd63481179d31c1b3a55258))
+*  Introduce a new `home` layout and update the index page to utilize it with refreshed hero and features content. ([611fdd00](https://github.com/almsomnia/boncos/commit/611fdd003f51bd9f64ca8db10eb44407f298a175))
+* **seo:**  integrate @nuxtjs/seo and configure metadata for pages ([441ba565](https://github.com/almsomnia/boncos/commit/441ba565574f1dff7cd0b2e7258fe972762f006b))
+
 #### 1.5.1 (2026-02-06)
 
 ##### Chores
