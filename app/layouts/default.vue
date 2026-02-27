@@ -80,8 +80,8 @@ const isTablet = computed(() => {
          <UButton
             icon="lucide:coffee"
             color="secondary"
-            :variant="isDesktop ? 'solid' : 'ghost'"
-            :label="isDesktop ? $t('layout.header.donate') : undefined"
+            :variant="isTablet ? 'solid' : 'ghost'"
+            :label="isTablet ? $t('layout.header.donate') : undefined"
             :href="config.public.donateUrl"
             target="_blank"
          />
