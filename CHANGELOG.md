@@ -1,3 +1,17 @@
+#### 1.6.2 (2026-02-27)
+
+##### New Features
+
+*  Migrate project to Bun, updating package manager scripts, Nuxt Nitro preset, and dependency configurations. ([042401e0](https://github.com/almsomnia/boncos/commit/042401e08bf45fab250312787ab3b63405ba1ec3))
+
+##### Bug Fixes
+
+*  Enhance share functionality with a generated-from signature, simplified title, and dynamic styling for share options. ([ffc9ac39](https://github.com/almsomnia/boncos/commit/ffc9ac39243cab176ae02e27819a6f0cc73ca151))
+
+##### Refactors
+
+*  extract share calculation modal into a dedicated component ([5c3cb23f](https://github.com/almsomnia/boncos/commit/5c3cb23f4eb4fa7508595083dfa9f19958c7c1f0))
+
 #### 1.6.1 (2026-02-27)
 
 ##### Bug Fixes
