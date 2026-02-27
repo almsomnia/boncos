@@ -96,86 +96,11 @@ const shareValue = computed(() => {
    return $base64Encode(JSON.stringify(payload), true)
 })
 
-const shareUrl = computed(() => {
-   return `${window.location.origin}${window.location.pathname}?share=${shareValue.value}`
-})
-
 function onOpenShareModal() {
    if (people.value.length > 0) {
       shareOptions.assignment = true
    }
    shareModal.value = true
-}
-
-const toast = useToast()
-function copyToClipboard(text: string) {
-   navigator.clipboard.writeText(text)
-   toast.add({
-      title: "Link berhasil disalin",
-      icon: "lucide:check",
-      color: "success",
-   })
-}
-
-async function onShareExternal() {
-   let shareText = ""
-
-   if (shareOptions.result) {
-      shareText += calculationDetails.value
-         .map((item) => {
-            return [
-               `*${item.item.name}* (${item.item.qty} pcs)`,
-               `Harga per item (sebelum diskon): *${$formatCurrency(item.item.unitPrice)}*`,
-               `Harga per item (setelah diskon): *${$formatCurrency(item.result.finalUnitPrice)}*`,
-            ].join("\n")
-         })
-         .join("\n\n")
-   }
-
-   if (shareOptions.assignment && people.value.length > 0) {
-      if (shareText) shareText += "\n\n---\n\n"
-      shareText += "*Pembagian Tagihan*\n\n"
-      shareText += people.value
-         .map((p, i) => {
-            const total = p.items.reduce(
-               (acc, item) => acc + item.finalUnitPrice,
-               0
-            )
-            return `*${p.name || "Orang #" + (i + 1)}*: ${$formatCurrency(total)}`
-         })
-         .join("\n")
-   }
-
-   const validPayments = paymentInfo.value.filter((p) => p.name || p.account)
-   if (validPayments.length > 0) {
-      if (shareText) shareText += "\n\n---\n\n"
-      shareText += "*Informasi Pembayaran*\n\n"
-      shareText += validPayments
-         .map((p) => {
-            return `${p.name}: ${p.account}`
-         })
-         .join("\n")
-   }
-
-   try {
-      await navigator.share({
-         title: "Hasil Perhitungan Tagihan - Boncos",
-         text: `\n\n${shareText}\n\n`,
-      })
-      toast.add({
-         title: "Berhasil membagikan",
-         icon: "lucide:check",
-         color: "success",
-      })
-   } catch (e) {
-      console.error("Share failed:", e)
-      toast.add({
-         title: "Gagal membagikan",
-         description: (e as Error).message,
-         icon: "lucide:alert-circle",
-         color: "error",
-      })
-   }
 }
 
 const calculateOnboardingRef = useTemplateRef("calculateOnboardingRef")
@@ -491,179 +416,16 @@ const showOnboarding = shallowRef(false)
    </div>
 
    <!-- Share modal -->
-   <UModal
-      v-model:open="shareModal"
-      :title="$t('calculate.share.modal.title')"
-   >
-      <template #body>
-         <p class="text-muted text-sm text-pretty">
-            {{ $t("calculate.share.modal.url.description") }}
-         </p>
-         <div class="mt-4 space-y-4">
-            <UFieldGroup class="w-full">
-               <UInput
-                  :model-value="shareUrl"
-                  readonly
-                  class="w-full"
-               />
-               <UButton
-                  icon="lucide:copy"
-                  color="primary"
-                  variant="subtle"
-                  square
-                  @click="copyToClipboard(shareUrl)"
-               />
-            </UFieldGroup>
-
-            <USeparator :label="$t('calculate.share.modal.separator')" />
-
-            <p class="text-muted text-sm">
-               {{ $t("calculate.share.modal.text.description") }}
-            </p>
-            <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-               <label
-                  for="share-calculation"
-                  class="block cursor-pointer"
-               >
-                  <input
-                     type="checkbox"
-                     v-model="shareOptions.result"
-                     id="share-calculation"
-                     class="peer hidden"
-                  />
-                  <div
-                     class="peer-disabled:bg-muted/50 peer-disabled:text-muted h-full rounded-lg border border-dashed p-4 transition"
-                     :class="{
-                        'border-muted': !shareOptions.result,
-                        'border-primary bg-primary/5': shareOptions.result,
-                     }"
-                  >
-                     <div class="flex flex-col items-center">
-                        <div
-                           class="bg-muted text-muted flex size-8 items-center justify-center rounded-full"
-                        >
-                           <UIcon name="lucide:calculator" />
-                        </div>
-                        <div class="mt-4 text-center">
-                           <h4 class="text-sm font-semibold">
-                              {{ $t("calculate.share.modal.text.options.result") }}
-                           </h4>
-                        </div>
-                     </div>
-                  </div>
-               </label>
-               <label
-                  for="share-assignment"
-                  class="block cursor-pointer has-disabled:cursor-not-allowed"
-               >
-                  <input
-                     type="checkbox"
-                     v-model="shareOptions.assignment"
-                     id="share-assignment"
-                     class="peer hidden"
-                     :disabled="people.length === 0"
-                  />
-                  <div
-                     class="peer-disabled:bg-muted/50 peer-disabled:text-muted h-full rounded-lg border border-dashed p-4 transition"
-                     :class="{
-                        'border-muted': !shareOptions.assignment,
-                        'border-primary bg-primary/5': shareOptions.assignment,
-                     }"
-                  >
-                     <div class="flex flex-col items-center">
-                        <div
-                           class="bg-muted text-muted flex size-8 items-center justify-center rounded-full"
-                        >
-                           <UIcon name="lucide:users" />
-                        </div>
-                        <div class="mt-4 text-center">
-                           <h4 class="text-sm font-semibold">
-                              {{ $t("calculate.share.modal.text.options.assignment") }}
-                           </h4>
-                        </div>
-                     </div>
-                  </div>
-               </label>
-            </div>
-            <UCard :ui="{ body: 'sm:p-4' }">
-               <h3 class="font-medium">
-                  {{ $t("calculate.share.modal.payment.title") }}
-               </h3>
-               <div class="mt-4 space-y-4">
-                  <UEmpty
-                     v-if="paymentInfo.length === 0"
-                     icon="lucide:credit-card"
-                     :title="$t('calculate.share.modal.payment.empty.title')"
-                     variant="naked"
-                     :actions="[
-                        {
-                           label: $t('calculate.share.modal.payment.empty.actions.add'),
-                           icon: 'lucide:plus',
-                           color: 'primary',
-                           variant: 'soft',
-                           onClick: () => {
-                              addPaymentInfo()
-                           },
-                        },
-                     ]"
-                     :ui="{
-                        title: 'text-sm',
-                     }"
-                  />
-                  <template v-else>
-                     <div
-                        v-for="(payment, index) in paymentInfo"
-                        :key="index"
-                        class="flex gap-2"
-                     >
-                        <UFieldGroup class="w-full">
-                           <UInput
-                              v-model="payment.name"
-                              :placeholder="$t('calculate.share.modal.payment.form.input.name.placeholder')"
-                              :readonly="!editMode"
-                              class="flex-1"
-                           />
-                           <UInput
-                              v-model="payment.account"
-                              :placeholder="$t('calculate.share.modal.payment.form.input.account.placeholder')"
-                              :readonly="!editMode"
-                              class="flex-2"
-                           />
-                           <UButton
-                              v-if="editMode"
-                              icon="lucide:trash"
-                              color="error"
-                              variant="subtle"
-                              size="sm"
-                              square
-                              @click="removePaymentInfo(index)"
-                           />
-                        </UFieldGroup>
-                     </div>
-                     <UButton
-                        v-if="editMode"
-                        :label="$t('calculate.share.modal.payment.form.actions.add')"
-                        icon="lucide:plus"
-                        variant="soft"
-                        block
-                        @click="addPaymentInfo"
-                     />
-                  </template>
-               </div>
-            </UCard>
-            <div class="flex items-center">
-               <UButton
-                  :label="$t('calculate.share.modal.actions.share')"
-                  color="primary"
-                  icon="lucide:share"
-                  class="ms-auto"
-                  @click="onShareExternal"
-                  :disabled="Object.values(shareOptions).every((value) => !value)"
-               />
-            </div>
-         </div>
-      </template>
-   </UModal>
+    <ModalShareCalculation
+      v-model:show="shareModal"
+      :share-value="shareValue"
+      v-model:payment-info="paymentInfo"
+      @payment-info:add="addPaymentInfo"
+      @payment-info:remove="removePaymentInfo"
+      :edit-mode="editMode"
+      :calculation-details="calculationDetails"
+      :people="people"
+    />
 
    <!-- Onboarding -->
    <CalculateOnboarding
