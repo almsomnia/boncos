@@ -108,9 +108,12 @@ async function onShareExternal() {
          .join("\n")
    }
 
+   shareText += `\n\n===\n\n`
+   shareText += `Di-generate dari Boncos - ${window.location.origin}`
+
    try {
       await navigator.share({
-         title: "Hasil Perhitungan Tagihan - Boncos",
+         title: "Hasil Perhitungan Tagihan",
          text: `\n\n${shareText}\n\n`,
       })
       toast.add({
@@ -184,9 +187,9 @@ async function onShareExternal() {
                   >
                      <div class="flex flex-col items-center">
                         <div
-                           class="flex size-8 items-center justify-center rounded-full"
+                           class="flex size-8 items-center justify-center rounded-full transition"
                            :class="[
-                              shareOptionModel.result ?
+                              shareOptionModel[option.modelKey] ?
                                  'bg-primary text-inverted'
                               :  'bg-muted text-muted',
                            ]"
