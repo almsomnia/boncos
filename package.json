@@ -20,12 +20,20 @@
       "preview": "nuxt preview",
       "postinstall": "nuxt prepare",
       "format": "prettier --write .",
-      "release:major": "changelog -M && git add CHANGELOG.md && git commit -m 'docs: CHANGELOG.md' && pnpm version major && git push && git push --tags",
-      "release:minor": "changelog -m && git add CHANGELOG.md && git commit -m 'docs: CHANGELOG.md' && pnpm version minor && git push && git push --tags",
-      "release:patch": "changelog -p && git add CHANGELOG.md && git commit -m 'docs: CHANGELOG.md' && pnpm version patch && git push && git push --tags",
-      "test:unit": "pnpx vitest --project unit",
-      "test:nuxt": "pnpx vitest --project nuxt",
-      "test": "pnpx vitest"
+      "release:major": "changelog -M && git add CHANGELOG.md && git commit -m 'docs: CHANGELOG.md' && bun pm version major && git push && git push --tags",
+      "release:minor": "changelog -m && git add CHANGELOG.md && git commit -m 'docs: CHANGELOG.md' && bun pm version minor && git push && git push --tags",
+      "release:patch": "changelog -p && git add CHANGELOG.md && git commit -m 'docs: CHANGELOG.md' && bun pm version patch && git push && git push --tags",
+      "test:unit": "bunx vitest --project unit",
+      "test:nuxt": "bunx vitest --project nuxt",
+      "test": "bunx vitest"
+   },
+   "overrides": {
+      "markdown-it": ">=14.1.1",
+      "devalue": ">=5.6.3",
+      "fast-xml-parser": ">=5.3.8",
+      "tar": ">=7.5.8",
+      "minimatch": ">=10.2.3",
+      "rollup": ">=4.59.0"
    },
    "dependencies": {
       "@nuxt/fonts": "0.13.0",
@@ -52,5 +60,8 @@
       "prettier-plugin-tailwindcss": "^0.7.2",
       "vitest": "^4.0.18"
    },
-   "license": "MIT"
+   "license": "MIT",
+   "trustedDependencies": [
+      "@parcel/watcher"
+   ]
 }

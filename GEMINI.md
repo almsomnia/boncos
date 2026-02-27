@@ -11,7 +11,7 @@
 - **UI Component Library:** [@nuxt/ui](https://ui.nuxt.com) (v4)
 - **Styling:** [Tailwind CSS 4](https://tailwindcss.com)
 - **Icons:** [@nuxt/icon](https://nuxt.com/modules/icon) (using Lucide icons in UI)
-- **Package Manager:** pnpm (inferred from lockfile)
+- **Package Manager:** Bun
 
 ## Project Structure
 
