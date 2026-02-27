@@ -1,3 +1,9 @@
+#### 1.6.1 (2026-02-27)
+
+##### Bug Fixes
+
+*  Add pnpm-workspace overrides to resolve vulnerabilities and refresh the lock file. ([fe747e2b](https://github.com/almsomnia/boncos/commit/fe747e2b9058c2d8ec7dd87daa34679fbaa101f3))
+
 ### 1.6.0 (2026-02-27)
 
 ##### Chores
