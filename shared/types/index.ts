@@ -9,6 +9,11 @@ export type AdditionalCost = {
    amount: number
 }
 
+export type Discount = {
+   name: string
+   amount: number
+}
+
 export type CalculationDetail = {
    item: {
       name: string | undefined

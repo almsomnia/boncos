@@ -129,9 +129,15 @@
          "subtitle": "Total discount",
          "form": {
             "input": {
+               "name": {
+                  "placeholder": "Discount Name"
+               },
                "amount": {
-                  "placeholder": "Total Discount"
+                  "placeholder": "Amount"
                }
+            },
+            "actions": {
+               "add": "Add Discount"
             }
          }
       },

@@ -3,10 +3,10 @@ import useCalculator from "../../../app/composables/useCalculator"
 
 describe("useCalculator", () => {
    it("initializes with default values", () => {
-      const { items, discount, additionalCosts, subtotal, total } =
+      const { items, discounts, additionalCosts, subtotal, total } =
          useCalculator()
       expect(items.value).toEqual([])
-      expect(discount.value).toBeUndefined()
+      expect(discounts.value).toEqual([])
       expect(additionalCosts.value).toEqual([])
       expect(subtotal.value).toBe(0)
       expect(total.value).toBe(0)
@@ -55,7 +55,7 @@ describe("useCalculator", () => {
    })
 
    it("calculates total correctly with additional costs and discount", () => {
-      const { items, additionalCosts, discount, total } = useCalculator()
+      const { items, additionalCosts, discounts, total } = useCalculator()
 
       // Subtotal: 1000 * 1 = 1000
       items.value = [{ name: "A", price: 1000, qty: 1 }]
@@ -66,15 +66,18 @@ describe("useCalculator", () => {
          { name: "Service", amount: 50 },
       ]
 
-      // Discount: 200
-      discount.value = 200
+      // Discounts: 150 + 50 = 200
+      discounts.value = [
+         { name: "Promo", amount: 150 },
+         { name: "Member", amount: 50 },
+      ]
 
       // Total = 1000 + 150 - 200 = 950
       expect(total.value).toBe(950)
    })
 
    it("calculates calculationDetails with proportional distribution", () => {
-      const { items, additionalCosts, discount, calculationDetails } =
+      const { items, additionalCosts, discounts, calculationDetails } =
          useCalculator()
 
       // Item A: 1000 * 1 = 1000
@@ -88,8 +91,11 @@ describe("useCalculator", () => {
       // Total Additional: 200 (10% of subtotal)
       additionalCosts.value = [{ name: "Tax", amount: 200 }]
 
-      // Discount: 100
-      discount.value = 100
+      // Discounts: 60 + 40 = 100
+      discounts.value = [
+         { name: "D1", amount: 60 },
+         { name: "D2", amount: 40 },
+      ]
 
       // Each item contributes 50% (1000/2000)
       // Allocation per item:
@@ -126,6 +132,17 @@ describe("useCalculator", () => {
       const result = await shareCalculationResult()
       expect(typeof result).toBe("string")
       expect(result.length).toBeGreaterThan(0)
+   })
+
+   it("adds and removes discounts", () => {
+      const { discounts, addDiscount, removeDiscount } = useCalculator()
+      addDiscount()
+      expect(discounts.value).toHaveLength(1)
+
+      discounts.value[0]!.amount = 5000
+
+      removeDiscount(0)
+      expect(discounts.value).toHaveLength(0)
    })
 
    it("manages payment information", () => {

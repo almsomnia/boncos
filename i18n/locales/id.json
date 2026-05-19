@@ -129,9 +129,15 @@
          "subtitle": "Total diskon",
          "form": {
             "input": {
+               "name": {
+                  "placeholder": "Nama Diskon"
+               },
                "amount": {
-                  "placeholder": "Total Diskon"
+                  "placeholder": "Harga"
                }
+            },
+            "actions": {
+               "add": "Tambah Diskon"
             }
          }
       },

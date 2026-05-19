@@ -8,7 +8,9 @@ useSeoMeta({
 
 type SharePayload = {
    items: Partial<Item>[]
-   discount: number | undefined
+   /** @deprecated, use discounts instead */
+   discount?: number
+   discounts?: Partial<Discount>[]
    additional_costs: Partial<AdditionalCost>[]
    payment_info?: { name: string; account: string }[]
    subtotal: number
@@ -21,12 +23,14 @@ const editMode = shallowRef(true)
 
 const {
    items,
-   discount,
+   discounts,
    additionalCosts,
    addItem,
    removeItem,
    addAdditionalCost,
    removeAdditionalCost,
+   addDiscount,
+   removeDiscount,
    subtotal,
    total,
    calculationDetails,
@@ -39,6 +43,7 @@ const { people, resetPeople } = usePeopleAssignment()
 
 addItem()
 addAdditionalCost()
+addDiscount()
 
 const route = useRoute()
 if (route.query.share && typeof route.query.share === "string") {
@@ -46,7 +51,13 @@ if (route.query.share && typeof route.query.share === "string") {
    const data = $base64Decode(route.query.share, true)
    const result = JSON.parse(data) as SharePayload
    items.value = result.items
-   discount.value = result.discount
+
+   if (result.discounts) {
+      discounts.value = result.discounts
+   } else if (result.discount !== undefined) {
+      discounts.value = [{ name: "Discount", amount: result.discount }]
+   }
+
    additionalCosts.value = result.additional_costs
    if (result.payment_info) {
       paymentInfo.value = result.payment_info
@@ -76,7 +87,7 @@ const shareOptions = reactive({
 const shareValue = computed(() => {
    const payload: SharePayload = {
       items: items.value,
-      discount: discount.value,
+      discounts: discounts.value,
       additional_costs: additionalCosts.value,
       subtotal: subtotal.value,
       total: total.value,
@@ -303,23 +314,61 @@ const showOnboarding = shallowRef(false)
                      :label="$t('calculate.discount.title')"
                      :description="$t('calculate.discount.subtitle')"
                   >
-                     <UInputNumber
-                        v-model="discount"
-                        :increment="false"
-                        :decrement="false"
-                        :readonly="!editMode"
-                        :placeholder="
-                           $t(
-                              'calculate.discount.form.input.amount.placeholder'
-                           )
-                        "
-                        :format-options="{
-                           style: 'currency',
-                           currency: 'IDR',
-                           currencyDisplay: 'narrowSymbol',
-                        }"
-                        class="w-full"
-                     />
+                     <div class="space-y-2">
+                        <UFieldGroup
+                           v-for="(d, index) in discounts"
+                           :key="index"
+                           class="w-full"
+                        >
+                           <UInput
+                              v-model="d.name"
+                              :placeholder="
+                                 $t(
+                                    'calculate.discount.form.input.name.placeholder'
+                                 )
+                              "
+                              :readonly="!editMode"
+                              class="w-full"
+                              @keydown.enter="addDiscount"
+                           />
+                           <UInputNumber
+                              v-model="d.amount"
+                              class="w-full"
+                              :placeholder="
+                                 $t(
+                                    'calculate.discount.form.input.amount.placeholder'
+                                 )
+                              "
+                              :increment="false"
+                              :decrement="false"
+                              :readonly="!editMode"
+                              :format-options="{
+                                 style: 'currency',
+                                 currency: 'IDR',
+                                 currencyDisplay: 'narrowSymbol',
+                              }"
+                              @keydown.enter="addDiscount"
+                           />
+                           <UButton
+                              v-if="editMode"
+                              icon="lucide:trash"
+                              color="error"
+                              variant="subtle"
+                              size="sm"
+                              @click="removeDiscount(index)"
+                              :disabled="discounts.length < 2"
+                           />
+                        </UFieldGroup>
+                        <UButton
+                           v-if="editMode"
+                           block
+                           :label="$t('calculate.discount.form.actions.add')"
+                           icon="lucide:plus"
+                           variant="soft"
+                           class="mt-2"
+                           @click="addDiscount"
+                        />
+                     </div>
                   </UFormField>
                </div>
                <template #footer>

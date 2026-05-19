@@ -1,4 +1,4 @@
-import type { Item, AdditionalCost, CalculationDetail } from "#shared/types"
+import type { Item, AdditionalCost, Discount, CalculationDetail } from "#shared/types"
 import { $base64Encode, $base64Decode } from "#shared/utils"
 
 /**
@@ -11,8 +11,8 @@ export default function () {
    /** List of items to calculate */
    const items = ref<Partial<Item>[]>([])
 
-   /** Total discount amount to be applied */
-   const discount = shallowRef<number>()
+   /** List of discounts to be applied */
+   const discounts = ref<Partial<Discount>[]>([])
 
    /** List of additional costs (e.g., tax, service) */
    const additionalCosts = ref<Partial<AdditionalCost>[]>([])
@@ -25,6 +25,16 @@ export default function () {
     */
    const totalAdditionalCosts = computed(() => {
       return additionalCosts.value.reduce(
+         (acc, curr) => acc + (curr.amount ?? 0),
+         0
+      )
+   })
+
+   /**
+    * Computed property that calculates the sum of all discounts.
+    */
+   const totalDiscounts = computed(() => {
+      return discounts.value.reduce(
          (acc, curr) => acc + (curr.amount ?? 0),
          0
       )
@@ -48,7 +58,7 @@ export default function () {
       const result =
          subtotal.value
          + totalAdditionalCosts.value
-         - Math.abs(discount.value ?? 0)
+         - Math.abs(totalDiscounts.value)
       return result
    })
 
@@ -62,7 +72,7 @@ export default function () {
 
          const proportion = subtotal.value === 0 ? 0 : itemSubtotal / subtotal.value
 
-         const itemDiscount = proportion * Math.abs(discount.value ?? 0)
+         const itemDiscount = proportion * Math.abs(totalDiscounts.value)
 
          const itemAdditionalCost = totalAdditionalCosts.value * proportion
 
@@ -128,6 +138,24 @@ export default function () {
    }
 
    /**
+    * Adds a new empty discount entry.
+    */
+   function addDiscount() {
+      discounts.value.push({
+         name: undefined,
+         amount: undefined,
+      })
+   }
+
+   /**
+    * Removes a discount entry at the specified index.
+    * @param {number} index - The index of the discount to remove
+    */
+   function removeDiscount(index: number) {
+      discounts.value.splice(index, 1)
+   }
+
+   /**
     * Adds a new empty payment info entry.
     */
    function addPaymentInfo() {
@@ -148,7 +176,7 @@ export default function () {
    async function shareCalculationResult() {
       const payload = JSON.stringify({
          items: items.value,
-         discount: discount.value,
+         discounts: discounts.value,
          additional_costs: additionalCosts.value,
          subtotal: subtotal.value,
          total: total.value,
@@ -161,12 +189,14 @@ export default function () {
 
    return {
       items,
-      discount,
+      discounts,
       additionalCosts,
       addItem,
       removeItem,
       addAdditionalCost,
       removeAdditionalCost,
+      addDiscount,
+      removeDiscount,
       subtotal,
       total,
       calculationDetails,
@@ -176,3 +206,4 @@ export default function () {
       shareCalculationResult,
    }
 }
+
