@@ -1,3 +1,22 @@
+### 1.7.0 (2026-05-19)
+
+##### New Features
+
+*  internationalize share calculation text in ModalShareCalculation component ([fee77b77](https://github.com/almsomnia/boncos/commit/fee77b77bdc0b8b241091c33501ce18aa8ce811e))
+*  add copy-to-clipboard functionality to the share calculation modal ([8b5d875d](https://github.com/almsomnia/boncos/commit/8b5d875de04b98377a3a480e1e3eb545ac67520d))
+*  add reset functionality for payment information with local storage persistence ([2e3b03bd](https://github.com/almsomnia/boncos/commit/2e3b03bd134578bd575b27f227c7e0b409ad6564))
+
+##### Bug Fixes
+
+*  remove decimal places from formatted currency output ([8418673d](https://github.com/almsomnia/boncos/commit/8418673dd06c44c0c9617312dfa56da5ac079b5e))
+
+##### Refactors
+
+*  remove unused type imports and clean up stale tests and currency formatting expectations ([d100f2a1](https://github.com/almsomnia/boncos/commit/d100f2a15ec28dc75cace5ff7fae3b15a4e581a3))
+*  update Tailwind utility classes and improve formatting for landing page i18n strings ([b3028f69](https://github.com/almsomnia/boncos/commit/b3028f69a991a9703b000d4c7376f8e25494a0b1))
+*  localize toast notifications in ModalShareCalculation using i18n keys ([41f04364](https://github.com/almsomnia/boncos/commit/41f04364b9132f64ca73250f90402976047ffa69))
+*  migrate single discount to a list of multiple discount entries in calculator composable and UI ([0e5f8249](https://github.com/almsomnia/boncos/commit/0e5f8249c5dccb0e25c34cb2250f69b0d09b0a6b))
+
 #### 1.6.2 (2026-02-27)
 
 ##### New Features
