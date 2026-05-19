@@ -287,6 +287,19 @@
                   "title": "Informasi Pembayaran"
                },
                "footer": "Di-generate dari Boncos -"
+            },
+            "toast": {
+               "copyLink": {
+                  "success": "Link berhasil disalin"
+               },
+               "copyText": {
+                  "success": "Teks berhasil disalin",
+                  "error": "Gagal menyalin"
+               },
+               "share": {
+                  "success": "Berhasil membagikan",
+                  "error": "Gagal membagikan"
+               }
             }
          }
       }

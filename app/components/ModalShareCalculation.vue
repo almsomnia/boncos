@@ -31,7 +31,7 @@ const shareUrl = computed(() => {
 function copyToClipboard(text: string) {
    navigator.clipboard.writeText(text)
    toast.add({
-      title: "Link berhasil disalin",
+      title: $t("calculate.share.modal.toast.copyLink.success"),
       icon: "lucide:check",
       color: "success",
    })
@@ -136,14 +136,14 @@ async function onCopyAsText() {
    try {
       await navigator.clipboard.writeText(shareText)
       toast.add({
-         title: "Berhasil menyalin teks",
+         title: $t("calculate.share.modal.toast.copyText.success"),
          icon: "lucide:check",
          color: "success",
       })
    } catch (e) {
       console.error("Copy failed:", e)
       toast.add({
-         title: "Gagal menyalin",
+         title: $t("calculate.share.modal.toast.copyText.error"),
          description: (e as Error).message,
          icon: "lucide:alert-circle",
          color: "error",
@@ -160,7 +160,7 @@ async function onShareExternal() {
          text: `\n\n${shareText}\n\n`,
       })
       toast.add({
-         title: "Berhasil membagikan",
+         title: $t("calculate.share.modal.toast.share.success"),
          icon: "lucide:check",
          color: "success",
       })
@@ -169,7 +169,7 @@ async function onShareExternal() {
 
       console.error("Share failed:", e)
       toast.add({
-         title: "Gagal membagikan",
+         title: $t("calculate.share.modal.toast.share.error"),
          description: (e as Error).message,
          icon: "lucide:alert-circle",
          color: "error",

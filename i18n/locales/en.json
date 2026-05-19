@@ -287,6 +287,19 @@
                   "title": "Payment Information"
                },
                "footer": "Generated from Boncos -"
+            },
+            "toast": {
+               "copyLink": {
+                  "success": "Link copied successfully"
+               },
+               "copyText": {
+                  "success": "Text copied successfully",
+                  "error": "Failed to copy"
+               },
+               "share": {
+                  "success": "Shared successfully",
+                  "error": "Failed to share"
+               }
             }
          }
       }
