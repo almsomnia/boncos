@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { PeopleAssignment } from "#shared/types"
-
 useSeoMeta({
    title: "Kalkulator Tagihan",
    robots: "noindex, nofollow",

@@ -1,5 +1,3 @@
-import type { PeopleAssignment } from "#shared/types"
-
 export default function () {
    const people = useState<PeopleAssignment[]>("people-assignment", () => [])
 

@@ -2,7 +2,6 @@
 import type { TableColumn } from "@nuxt/ui"
 import { upperFirst } from "scule"
 import { UButton } from "#components"
-import type { CalculationDetail, DeepestPaths } from "#shared/types"
 
 const props = defineProps<{
    data: CalculationDetail[]

@@ -1,11 +1,3 @@
-import type {
-   Item,
-   AdditionalCost,
-   Discount,
-   CalculationDetail,
-} from "#shared/types"
-import { $base64Encode, $base64Decode } from "#shared/utils"
-
 /**
  * Composable that manages the state and logic for the bill-splitting calculator.
  * It handles items, additional costs, discounts, and calculates proportional breakdowns.

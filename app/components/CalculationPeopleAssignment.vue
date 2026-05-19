@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { SelectMenuItem, BadgeProps, AlertProps } from "@nuxt/ui"
-import type { CalculationDetail } from "#shared/types"
 
 const props = withDefaults(
    defineProps<{
