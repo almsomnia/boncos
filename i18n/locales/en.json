@@ -253,7 +253,13 @@
                      }
                   },
                   "actions": {
-                     "add": "Add Payment Info"
+                     "add": "Add Payment Info",
+                     "reset": "Reset Info",
+                     "resetConfirm": {
+                        "title": "Clear payment info?",
+                        "confirm": "Yes, Clear",
+                        "cancel": "Cancel"
+                     }
                   }
                },
                "empty": {

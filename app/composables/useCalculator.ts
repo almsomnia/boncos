@@ -1,4 +1,9 @@
-import type { Item, AdditionalCost, Discount, CalculationDetail } from "#shared/types"
+import type {
+   Item,
+   AdditionalCost,
+   Discount,
+   CalculationDetail,
+} from "#shared/types"
 import { $base64Encode, $base64Decode } from "#shared/utils"
 
 /**
@@ -18,7 +23,10 @@ export default function () {
    const additionalCosts = ref<Partial<AdditionalCost>[]>([])
 
    /** List of payment information (e.g., bank name, account number) */
-   const paymentInfo = ref<{ name: string; account: string }[]>([])
+   const paymentInfo = useLocalStorage<{ name: string; account: string }[]>(
+      "boncos_payment_info",
+      []
+   )
 
    /**
     * Computed property that calculates the sum of all additional costs.
@@ -34,10 +42,7 @@ export default function () {
     * Computed property that calculates the sum of all discounts.
     */
    const totalDiscounts = computed(() => {
-      return discounts.value.reduce(
-         (acc, curr) => acc + (curr.amount ?? 0),
-         0
-      )
+      return discounts.value.reduce((acc, curr) => acc + (curr.amount ?? 0), 0)
    })
 
    /**
@@ -70,7 +75,8 @@ export default function () {
       return items.value.map((item): CalculationDetail => {
          const itemSubtotal = (item.price ?? 0) * (item.qty ?? 0)
 
-         const proportion = subtotal.value === 0 ? 0 : itemSubtotal / subtotal.value
+         const proportion =
+            subtotal.value === 0 ? 0 : itemSubtotal / subtotal.value
 
          const itemDiscount = proportion * Math.abs(totalDiscounts.value)
 
@@ -173,6 +179,13 @@ export default function () {
       paymentInfo.value.splice(index, 1)
    }
 
+   /**
+    * Resets payment information.
+    */
+   function resetPaymentInfo() {
+      paymentInfo.value = []
+   }
+
    async function shareCalculationResult() {
       const payload = JSON.stringify({
          items: items.value,
@@ -203,7 +216,7 @@ export default function () {
       paymentInfo,
       addPaymentInfo,
       removePaymentInfo,
+      resetPaymentInfo,
       shareCalculationResult,
    }
 }
-

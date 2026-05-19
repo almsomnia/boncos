@@ -37,6 +37,7 @@ const {
    paymentInfo,
    addPaymentInfo,
    removePaymentInfo,
+   resetPaymentInfo,
 } = useCalculator()
 
 const { people, resetPeople } = usePeopleAssignment()
@@ -471,6 +472,7 @@ const showOnboarding = shallowRef(false)
       v-model:payment-info="paymentInfo"
       @payment-info:add="addPaymentInfo"
       @payment-info:remove="removePaymentInfo"
+      @payment-info:reset="resetPaymentInfo"
       :edit-mode="editMode"
       :calculation-details="calculationDetails"
       :people="people"

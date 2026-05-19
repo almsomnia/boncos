@@ -253,7 +253,13 @@
                      }
                   },
                   "actions": {
-                     "add": "Tambah Info Pembayaran"
+                     "add": "Tambah Info Pembayaran",
+                     "reset": "Hapus Info",
+                     "resetConfirm": {
+                        "title": "Hapus info pembayaran?",
+                        "confirm": "Ya, Hapus",
+                        "cancel": "Batal"
+                     }
                   }
                },
                "empty": {

@@ -19,6 +19,7 @@ const props = defineProps<{
 const emit = defineEmits<{
    "paymentInfo:add": []
    "paymentInfo:remove": [index: number]
+   "paymentInfo:reset": []
 }>()
 
 const toast = useToast()
@@ -66,6 +67,15 @@ function addPaymentInfo() {
 
 function removePaymentInfo(index: number) {
    emit("paymentInfo:remove", index)
+}
+
+function resetPaymentInfo() {
+   emit("paymentInfo:reset")
+}
+
+const resetPaymentPopoverModel = ref(false)
+function closeResetPaymentPopover() {
+   resetPaymentPopoverModel.value = false
 }
 
 async function onShareExternal() {
@@ -206,9 +216,62 @@ async function onShareExternal() {
                </label>
             </div>
             <UCard :ui="{ body: 'sm:p-4' }">
-               <h3 class="font-medium">
-                  {{ $t("calculate.share.modal.payment.title") }}
-               </h3>
+               <div class="flex items-center justify-between">
+                  <h3 class="font-medium">
+                     {{ $t("calculate.share.modal.payment.title") }}
+                  </h3>
+                  <UPopover
+                     v-if="paymentInfo.length > 0"
+                     v-model:open="resetPaymentPopoverModel"
+                  >
+                     <UButton
+                        color="error"
+                        variant="ghost"
+                        size="xs"
+                        icon="lucide:rotate-ccw"
+                        :label="
+                           $t(
+                              'calculate.share.modal.payment.form.actions.reset'
+                           )
+                        "
+                     />
+
+                     <template #content>
+                        <div class="p-4">
+                           <p class="mb-4 text-sm font-medium">
+                              {{
+                                 $t(
+                                    "calculate.share.modal.payment.form.actions.resetConfirm.title"
+                                 )
+                              }}
+                           </p>
+                           <div class="flex justify-end gap-2">
+                              <UButton
+                                 color="neutral"
+                                 variant="ghost"
+                                 size="xs"
+                                 :label="
+                                    $t(
+                                       'calculate.share.modal.payment.form.actions.resetConfirm.cancel'
+                                    )
+                                 "
+                                 @click="closeResetPaymentPopover"
+                              />
+                              <UButton
+                                 color="error"
+                                 size="xs"
+                                 :label="
+                                    $t(
+                                       'calculate.share.modal.payment.form.actions.resetConfirm.confirm'
+                                    )
+                                 "
+                                 @click="resetPaymentInfo"
+                              />
+                           </div>
+                        </div>
+                     </template>
+                  </UPopover>
+               </div>
                <div class="mt-4 space-y-4">
                   <UEmpty
                      v-if="paymentInfo.length === 0"
