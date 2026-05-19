@@ -270,7 +270,8 @@
                }
             },
             "actions": {
-               "share": "Bagikan"
+               "share": "Bagikan",
+               "copyText": "Salin sebagai Teks"
             }
          }
       }

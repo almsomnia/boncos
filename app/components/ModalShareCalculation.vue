@@ -78,7 +78,7 @@ function closeResetPaymentPopover() {
    resetPaymentPopoverModel.value = false
 }
 
-async function onShareExternal() {
+function generateShareText() {
    let shareText = ""
 
    if (shareOptionModel.result) {
@@ -107,12 +107,14 @@ async function onShareExternal() {
          .join("\n")
    }
 
-   const validPayments = paymentInfo.value.filter((p) => p.name || p.account)
+   const validPayments = paymentInfo.value.filter(
+      (p: any) => p.name || p.account
+   )
    if (validPayments.length > 0) {
       if (shareText) shareText += "\n\n---\n\n"
       shareText += "*Informasi Pembayaran*\n\n"
       shareText += validPayments
-         .map((p) => {
+         .map((p: any) => {
             return `${p.name}: ${p.account}`
          })
          .join("\n")
@@ -120,6 +122,32 @@ async function onShareExternal() {
 
    shareText += `\n\n===\n\n`
    shareText += `Di-generate dari Boncos - ${window.location.origin}`
+
+   return shareText
+}
+
+async function onCopyAsText() {
+   const shareText = generateShareText()
+   try {
+      await navigator.clipboard.writeText(shareText)
+      toast.add({
+         title: "Berhasil menyalin teks",
+         icon: "lucide:check",
+         color: "success",
+      })
+   } catch (e) {
+      console.error("Copy failed:", e)
+      toast.add({
+         title: "Gagal menyalin",
+         description: (e as Error).message,
+         icon: "lucide:alert-circle",
+         color: "error",
+      })
+   }
+}
+
+async function onShareExternal() {
+   const shareText = generateShareText()
 
    try {
       await navigator.share({
@@ -132,6 +160,8 @@ async function onShareExternal() {
          color: "success",
       })
    } catch (e) {
+      if ((e as Error).name === "AbortError") return
+
       console.error("Share failed:", e)
       toast.add({
          title: "Gagal membagikan",
@@ -346,15 +376,23 @@ async function onShareExternal() {
                   </template>
                </div>
             </UCard>
-            <div class="flex items-center">
+            <div class="flex items-center justify-end gap-2">
                <UButton
                   :label="$t('calculate.share.modal.actions.share')"
+                  variant="outline"
                   color="primary"
                   icon="lucide:share"
-                  class="ms-auto"
                   @click="onShareExternal"
                   :disabled="
-                     Object.values(shareOptions).every((value) => !value)
+                     Object.values(shareOptionModel).every((value) => !value)
+                  "
+               />
+               <UButton
+                  :label="$t('calculate.share.modal.actions.copyText')"
+                  icon="lucide:copy"
+                  @click="onCopyAsText"
+                  :disabled="
+                     Object.values(shareOptionModel).every((value) => !value)
                   "
                />
             </div>
