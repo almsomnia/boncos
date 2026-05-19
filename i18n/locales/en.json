@@ -272,6 +272,21 @@
             "actions": {
                "share": "Share",
                "copyText": "Copy as Text"
+            },
+            "shareText": {
+               "item": {
+                  "qty": "{count} pcs",
+                  "unitPriceBefore": "Unit price (before discount):",
+                  "unitPriceAfter": "Unit price (after discount):"
+               },
+               "assignment": {
+                  "title": "Bill Splitting",
+                  "person": "Person {count}"
+               },
+               "payment": {
+                  "title": "Payment Information"
+               },
+               "footer": "Generated from Boncos -"
             }
          }
       }

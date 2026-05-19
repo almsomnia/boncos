@@ -272,6 +272,21 @@
             "actions": {
                "share": "Bagikan",
                "copyText": "Salin sebagai Teks"
+            },
+            "shareText": {
+               "item": {
+                  "qty": "{count} pcs",
+                  "unitPriceBefore": "Harga per item (sebelum diskon):",
+                  "unitPriceAfter": "Harga per item (setelah diskon):"
+               },
+               "assignment": {
+                  "title": "Pembagian Tagihan",
+                  "person": "Orang {count}"
+               },
+               "payment": {
+                  "title": "Informasi Pembayaran"
+               },
+               "footer": "Di-generate dari Boncos -"
             }
          }
       }

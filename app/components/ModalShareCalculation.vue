@@ -85,9 +85,9 @@ function generateShareText() {
       shareText += props.calculationDetails
          .map((item) => {
             return [
-               `*${item.item.name}* (${item.item.qty} pcs)`,
-               `Harga per item (sebelum diskon): *${$formatCurrency(item.item.unitPrice)}*`,
-               `Harga per item (setelah diskon): *${$formatCurrency(item.result.finalUnitPrice)}*`,
+               `*${item.item.name}* (${$t("calculate.share.modal.shareText.item.qty", { count: item.item.qty })})`,
+               `${$t("calculate.share.modal.shareText.item.unitPriceBefore")} *${$formatCurrency(item.item.unitPrice)}*`,
+               `${$t("calculate.share.modal.shareText.item.unitPriceAfter")} *${$formatCurrency(item.result.finalUnitPrice)}*`,
             ].join("\n")
          })
          .join("\n\n")
@@ -95,14 +95,19 @@ function generateShareText() {
 
    if (shareOptionModel.assignment && props.people.length > 0) {
       if (shareText) shareText += "\n\n---\n\n"
-      shareText += "*Pembagian Tagihan*\n\n"
+      shareText += `*${$t("calculate.share.modal.shareText.assignment.title")}*\n\n`
       shareText += props.people
          .map((p, i) => {
             const total = p.items.reduce(
                (acc, item) => acc + item.finalUnitPrice,
                0
             )
-            return `*${p.name || "Orang #" + (i + 1)}*: ${$formatCurrency(total)}`
+            const personLabel =
+               p.name ||
+               $t("calculate.share.modal.shareText.assignment.person", {
+                  count: i + 1,
+               })
+            return `*${personLabel}*: ${$formatCurrency(total)}`
          })
          .join("\n")
    }
@@ -112,7 +117,7 @@ function generateShareText() {
    )
    if (validPayments.length > 0) {
       if (shareText) shareText += "\n\n---\n\n"
-      shareText += "*Informasi Pembayaran*\n\n"
+      shareText += `*${$t("calculate.share.modal.shareText.payment.title")}*\n\n`
       shareText += validPayments
          .map((p: any) => {
             return `${p.name}: ${p.account}`
@@ -121,7 +126,7 @@ function generateShareText() {
    }
 
    shareText += `\n\n===\n\n`
-   shareText += `Di-generate dari Boncos - ${window.location.origin}`
+   shareText += `${$t("calculate.share.modal.shareText.footer")} ${window.location.origin}`
 
    return shareText
 }
