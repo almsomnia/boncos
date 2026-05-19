@@ -51,7 +51,7 @@ function formatStepNumber(number: number) {
             aria-hidden="true"
          >
             <div
-               class="from-primary-200 to-primary-500 relative left-[calc(50%-11rem)] aspect-1155/678 w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-linear-to-tr opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+               class="from-primary-200 to-primary-500 relative left-[calc(50%-11rem)] aspect-1155/678 w-144.5 -translate-x-1/2 rotate-30 bg-linear-to-tr opacity-20 sm:left-[calc(50%-30rem)] sm:w-288.75"
                style="
                   clip-path: polygon(
                      74.1% 44.1%,
@@ -115,7 +115,7 @@ function formatStepNumber(number: number) {
             aria-hidden="true"
          >
             <div
-               class="from-primary-200 to-primary-500 relative left-[calc(50%+3rem)] aspect-1155/678 w-[36.125rem] -translate-x-1/2 bg-linear-to-tr opacity-20 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
+               class="from-primary-200 to-primary-500 relative left-[calc(50%+3rem)] aspect-1155/678 w-144.5 -translate-x-1/2 bg-linear-to-tr opacity-20 sm:left-[calc(50%+36rem)] sm:w-288.75"
                style="
                   clip-path: polygon(
                      74.1% 44.1%,
@@ -149,7 +149,11 @@ function formatStepNumber(number: number) {
             <h2
                class="text-primary-500 text-base/7 font-bold tracking-wider uppercase"
             >
-               {{ $t("landing.features.overline", { appName: appConfig.appName }) }}
+               {{
+                  $t("landing.features.overline", {
+                     appName: appConfig.appName,
+                  })
+               }}
             </h2>
             <p
                class="text-highlighted mt-2 text-4xl font-semibold tracking-tight text-pretty sm:text-5xl"
@@ -168,14 +172,18 @@ function formatStepNumber(number: number) {
                            :name="feature.icon"
                            class="text-primary-500 size-5 flex-none"
                         />
-                        {{ $t(`landing.features.items[${feature.index}].title`) }}
+                        {{
+                           $t(`landing.features.items[${feature.index}].title`)
+                        }}
                      </dt>
                      <dd
                         class="mt-4 flex flex-auto flex-col text-neutral-600 dark:text-neutral-400"
                      >
                         <p class="flex-auto text-pretty">
                            {{
-                              $t(`landing.features.items[${feature.index}].description`)
+                              $t(
+                                 `landing.features.items[${feature.index}].description`
+                              )
                            }}
                         </p>
                      </dd>
@@ -214,7 +222,7 @@ function formatStepNumber(number: number) {
                      {{ formatStepNumber(step) }}
                   </span>
                   <div
-                     class="bg-primary absolute start-0 bottom-0 h-1 w-16 translate-y-3/2 rounded-full"
+                     class="bg-primary absolute inset-s-0 bottom-0 h-1 w-16 translate-y-3/2 rounded-full"
                   />
                </div>
                <p class="text-pretty">
