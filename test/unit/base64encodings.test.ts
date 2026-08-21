@@ -27,3 +27,17 @@ describe("$base64Decode", () => {
       expect(result).toBe("subjects?_d=1")
    })
 })
+
+describe("round trip", () => {
+   it("preserves non-ASCII payloads", () => {
+      const payload = JSON.stringify({
+         items: [{ name: "Nasi Goreng 🍚", price: 25000 }],
+         note: "Rp 25.000 — kopi ☕ / Ayam Penyét",
+      })
+      expect($base64Decode($base64Encode(payload, true), true)).toBe(payload)
+   })
+
+   it("preserves an empty string", () => {
+      expect($base64Decode($base64Encode("", true), true)).toBe("")
+   })
+})

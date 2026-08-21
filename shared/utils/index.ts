@@ -1,4 +1,4 @@
-import { Buffer } from "buffer"
+import type { Discount } from "../types"
 
 /**
  * Encodes a string to Base64 format.
@@ -8,8 +8,12 @@ import { Buffer } from "buffer"
  * @returns {string} The Base64 encoded string.
  */
 export function $base64Encode(text: string, urlSafe?: boolean): string {
-   const buffer = Buffer.from(text, "utf8")
-   const encoded = buffer.toString("base64")
+   const bytes = new TextEncoder().encode(text)
+   let binary = ""
+   for (const byte of bytes) {
+      binary += String.fromCharCode(byte)
+   }
+   const encoded = btoa(binary)
    if (urlSafe) {
       return encoded.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "")
    }
@@ -33,5 +37,33 @@ export function $base64Decode(text: string, urlSafe?: boolean): string {
       }
    }
 
-   return Buffer.from(input, "base64").toString("utf8")
+   const binary = atob(input)
+   const bytes = new Uint8Array(binary.length)
+   for (let i = 0; i < binary.length; i++) {
+      bytes[i] = binary.charCodeAt(i)
+   }
+   return new TextDecoder().decode(bytes)
+}
+
+/**
+ * Resolves the effective currency value of a discount entry.
+ *
+ * Percentage discounts are calculated against the item subtotal, so they stay
+ * consistent no matter how many other discounts or additional costs exist.
+ *
+ * @param {Partial<Discount>} discount - The discount entry to resolve.
+ * @param {number} subtotal - The item subtotal the percentage is applied to.
+ * @returns {number} The discount expressed as a currency value.
+ */
+export function $resolveDiscount(
+   discount: Partial<Discount>,
+   subtotal: number
+): number {
+   const amount = discount.amount ?? 0
+
+   if (discount.type === "percentage") {
+      return (subtotal * amount) / 100
+   }
+
+   return amount
 }

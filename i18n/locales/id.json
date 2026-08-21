@@ -113,7 +113,17 @@
          "form": {
             "input": {
                "additionalName": {
-                  "placeholder": "Nama Biaya"
+                  "placeholder": "Nama Biaya",
+                  "suggestions": {
+                     "shipping": "Ongkir",
+                     "tax": "Pajak",
+                     "service": "Biaya Layanan",
+                     "packaging": "Biaya Kemasan",
+                     "handling": "Biaya Penanganan",
+                     "admin": "Biaya Admin",
+                     "tip": "Tip",
+                     "parking": "Parkir"
+                  }
                },
                "additionalPrice": {
                   "placeholder": "Harga"
@@ -126,7 +136,7 @@
       },
       "discount": {
          "title": "Diskon",
-         "subtitle": "Total diskon",
+         "subtitle": "Nominal atau persen dari subtotal",
          "form": {
             "input": {
                "name": {
@@ -134,14 +144,20 @@
                },
                "amount": {
                   "placeholder": "Harga"
+               },
+               "percentage": {
+                  "placeholder": "Persen"
                }
             },
             "actions": {
-               "add": "Tambah Diskon"
+               "add": "Tambah Diskon",
+               "toggleType": "Ganti antara nominal dan persen"
             }
          }
       },
       "summary": {
+         "additionalCosts": "Biaya Tambahan",
+         "discounts": "Diskon",
          "total": "Total",
          "alert": {
             "title": "Penting",
@@ -328,6 +344,11 @@
          "previous": "Kembali",
          "skip": "Lewati",
          "finish": "Selesai"
+      }
+   },
+   "common": {
+      "input": {
+         "useCustomValue": "Pakai \"{value}\""
       }
    }
 }
