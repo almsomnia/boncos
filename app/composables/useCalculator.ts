@@ -31,13 +31,6 @@ export default function () {
    })
 
    /**
-    * Computed property that calculates the sum of all discounts.
-    */
-   const totalDiscounts = computed(() => {
-      return discounts.value.reduce((acc, curr) => acc + (curr.amount ?? 0), 0)
-   })
-
-   /**
     * Computed property that calculates the subtotal of all items (price * qty).
     */
    const subtotal = computed(() => {
@@ -46,6 +39,17 @@ export default function () {
          0
       )
       return result
+   })
+
+   /**
+    * Computed property that calculates the sum of all discounts.
+    * Percentage based entries are resolved against the item subtotal first.
+    */
+   const totalDiscounts = computed(() => {
+      return discounts.value.reduce(
+         (acc, curr) => acc + $resolveDiscount(curr, subtotal.value),
+         0
+      )
    })
 
    /**
@@ -142,6 +146,7 @@ export default function () {
       discounts.value.push({
          name: undefined,
          amount: undefined,
+         type: "amount",
       })
    }
 
@@ -151,6 +156,25 @@ export default function () {
     */
    function removeDiscount(index: number) {
       discounts.value.splice(index, 1)
+   }
+
+   /**
+    * Toggles a discount entry between a flat amount and a percentage of the subtotal.
+    * @param {number} index - The index of the discount to toggle
+    */
+   function toggleDiscountType(index: number) {
+      const discount = discounts.value[index]
+      if (!discount) return
+
+      const nextType = discount.type === "percentage" ? "amount" : "percentage"
+
+      // A flat amount is rarely a valid percentage, so drop values out of range
+      // instead of silently turning e.g. 50.000 into 50.000%.
+      if (nextType === "percentage" && (discount.amount ?? 0) > 100) {
+         discount.amount = undefined
+      }
+
+      discount.type = nextType
    }
 
    /**
@@ -202,6 +226,9 @@ export default function () {
       removeAdditionalCost,
       addDiscount,
       removeDiscount,
+      toggleDiscountType,
+      totalDiscounts,
+      totalAdditionalCosts,
       subtotal,
       total,
       calculationDetails,

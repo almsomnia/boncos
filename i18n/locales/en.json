@@ -113,7 +113,17 @@
          "form": {
             "input": {
                "additionalName": {
-                  "placeholder": "Cost Name"
+                  "placeholder": "Cost Name",
+                  "suggestions": {
+                     "shipping": "Shipping",
+                     "tax": "Tax",
+                     "service": "Service Fee",
+                     "packaging": "Packaging Fee",
+                     "handling": "Handling Fee",
+                     "admin": "Admin Fee",
+                     "tip": "Tip",
+                     "parking": "Parking"
+                  }
                },
                "additionalPrice": {
                   "placeholder": "Price"
@@ -126,7 +136,7 @@
       },
       "discount": {
          "title": "Discount",
-         "subtitle": "Total discount",
+         "subtitle": "Flat amount or percentage of the subtotal",
          "form": {
             "input": {
                "name": {
@@ -134,14 +144,20 @@
                },
                "amount": {
                   "placeholder": "Amount"
+               },
+               "percentage": {
+                  "placeholder": "Percentage"
                }
             },
             "actions": {
-               "add": "Add Discount"
+               "add": "Add Discount",
+               "toggleType": "Switch between amount and percentage"
             }
          }
       },
       "summary": {
+         "additionalCosts": "Additional Costs",
+         "discounts": "Discounts",
          "total": "Total",
          "alert": {
             "title": "Important",
@@ -328,6 +344,11 @@
          "previous": "Previous",
          "skip": "Skip",
          "finish": "Finish"
+      }
+   },
+   "common": {
+      "input": {
+         "useCustomValue": "Use \"{value}\""
       }
    }
 }

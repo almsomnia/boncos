@@ -9,9 +9,18 @@ export type AdditionalCost = {
    amount: number
 }
 
+/**
+ * How a discount value is interpreted:
+ * - `amount`: a flat currency value
+ * - `percentage`: a percentage of the item subtotal
+ */
+export type DiscountType = "amount" | "percentage"
+
 export type Discount = {
    name: string
    amount: number
+   /** Defaults to `amount` when omitted (e.g. calculations shared before percentages existed) */
+   type?: DiscountType
 }
 
 export type CalculationDetail = {
@@ -48,7 +57,11 @@ export type NestedPaths<T, Prefix extends string = ""> = {
    :  `${Prefix}${K}`
 }[keyof T & string]
 
-export type DeepestPaths<T, Separator extends string = ".", Prefix extends string = ""> = {
+export type DeepestPaths<
+   T,
+   Separator extends string = ".",
+   Prefix extends string = "",
+> = {
    [K in keyof T & string]: T[K] extends object ?
       DeepestPaths<T[K], Separator, `${Prefix}${K}${Separator}`>
    :  `${Prefix}${K}`

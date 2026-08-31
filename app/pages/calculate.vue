@@ -29,6 +29,9 @@ const {
    removeAdditionalCost,
    addDiscount,
    removeDiscount,
+   toggleDiscountType,
+   totalDiscounts,
+   totalAdditionalCosts,
    subtotal,
    total,
    calculationDetails,
@@ -68,7 +71,29 @@ if (route.query.share && typeof route.query.share === "string") {
    resetPeople()
 }
 
-const { locale } = useI18n()
+const { locale, t } = useI18n()
+
+/** Quantities suggested when opening the quantity input */
+const quantitySuggestions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+/** Common additional cost names, suggested when focusing the cost name input */
+const additionalCostSuggestionKeys = [
+   "shipping",
+   "tax",
+   "service",
+   "packaging",
+   "handling",
+   "admin",
+   "tip",
+   "parking",
+] as const
+
+const additionalCostSuggestions = computed(() =>
+   additionalCostSuggestionKeys.map((key) =>
+      t(`calculate.additionals.form.input.additionalName.suggestions.${key}`)
+   )
+)
+
 watch(
    locale,
    (value) => {
@@ -194,18 +219,16 @@ const showOnboarding = shallowRef(false)
                            }"
                            @keydown.enter="addItem"
                         />
-                        <UInputNumber
+                        <InputSuggestion
                            v-model="item.qty"
+                           :suggestions="quantitySuggestions"
                            :placeholder="
                               $t(
                                  'calculate.items.form.input.itemQuantity.placeholder'
                               )
                            "
-                           :increment="false"
-                           :decrement="false"
                            :readonly="!editMode"
                            class="w-full"
-                           @keydown.enter="addItem"
                         />
                         <UButton
                            v-if="editMode"
@@ -259,8 +282,10 @@ const showOnboarding = shallowRef(false)
                            :key="index"
                            class="w-full"
                         >
-                           <UInput
+                           <InputSuggestion
                               v-model="cost.name"
+                              :suggestions="additionalCostSuggestions"
+                              hint-custom-value
                               :placeholder="
                                  $t(
                                     'calculate.additionals.form.input.additionalName.placeholder'
@@ -268,7 +293,6 @@ const showOnboarding = shallowRef(false)
                               "
                               :readonly="!editMode"
                               class="w-full"
-                              @keydown.enter="addAdditionalCost"
                            />
                            <UInputNumber
                               v-model="cost.amount"
@@ -334,19 +358,45 @@ const showOnboarding = shallowRef(false)
                               v-model="d.amount"
                               class="w-full"
                               :placeholder="
-                                 $t(
-                                    'calculate.discount.form.input.amount.placeholder'
-                                 )
+                                 d.type === 'percentage' ?
+                                    $t(
+                                       'calculate.discount.form.input.percentage.placeholder'
+                                    )
+                                 :  $t(
+                                       'calculate.discount.form.input.amount.placeholder'
+                                    )
                               "
                               :increment="false"
                               :decrement="false"
                               :readonly="!editMode"
-                              :format-options="{
-                                 style: 'currency',
-                                 currency: 'IDR',
-                                 currencyDisplay: 'narrowSymbol',
-                              }"
+                              :min="0"
+                              :max="d.type === 'percentage' ? 100 : undefined"
+                              :format-options="
+                                 d.type === 'percentage' ?
+                                    {
+                                       style: 'decimal',
+                                       maximumFractionDigits: 2,
+                                    }
+                                 :  {
+                                       style: 'currency',
+                                       currency: 'IDR',
+                                       currencyDisplay: 'narrowSymbol',
+                                    }
+                              "
                               @keydown.enter="addDiscount"
+                           />
+                           <UButton
+                              :label="d.type === 'percentage' ? '%' : 'Rp'"
+                              color="neutral"
+                              variant="subtle"
+                              size="sm"
+                              :disabled="!editMode"
+                              :aria-label="
+                                 $t(
+                                    'calculate.discount.form.actions.toggleType'
+                                 )
+                              "
+                              @click="toggleDiscountType(index)"
                            />
                            <UButton
                               v-if="editMode"
@@ -371,8 +421,34 @@ const showOnboarding = shallowRef(false)
                   </UFormField>
                </div>
                <template #footer>
-                  <div class="space-y-4">
-                     <div class="text-highlighted flex font-semibold">
+                  <div class="space-y-2">
+                     <div class="text-toned flex text-sm">
+                        <span class="w-3/5">
+                           {{ $t("calculate.items.summary.subtotal") }}
+                        </span>
+                        <span class="w-2/5 text-right">
+                           {{ $formatCurrency(subtotal) }}
+                        </span>
+                     </div>
+                     <div class="text-toned flex text-sm">
+                        <span class="w-3/5">
+                           {{ $t("calculate.summary.additionalCosts") }}
+                        </span>
+                        <span class="w-2/5 text-right">
+                           {{ $formatCurrency(totalAdditionalCosts) }}
+                        </span>
+                     </div>
+                     <div class="text-toned flex text-sm">
+                        <span class="w-3/5">
+                           {{ $t("calculate.summary.discounts") }}
+                        </span>
+                        <span class="w-2/5 text-right">
+                           -{{ $formatCurrency(Math.abs(totalDiscounts)) }}
+                        </span>
+                     </div>
+                     <div
+                        class="text-highlighted border-default flex border-t pt-2 font-semibold"
+                     >
                         <span class="w-3/5">
                            {{ $t("calculate.summary.total") }}
                         </span>
@@ -464,7 +540,7 @@ const showOnboarding = shallowRef(false)
    </div>
 
    <!-- Share modal -->
-    <ModalShareCalculation
+   <ModalShareCalculation
       v-model:show="shareModal"
       :share-value="shareValue"
       v-model:payment-info="paymentInfo"
@@ -474,7 +550,7 @@ const showOnboarding = shallowRef(false)
       :edit-mode="editMode"
       :calculation-details="calculationDetails"
       :people="people"
-    />
+   />
 
    <!-- Onboarding -->
    <CalculateOnboarding
