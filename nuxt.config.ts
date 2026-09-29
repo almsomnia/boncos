@@ -22,6 +22,7 @@ export default defineNuxtConfig({
    },
    sitemap: {
       exclude: ["/calculate"],
+      zeroRuntime: true,
    },
    css: ["@/assets/css/main.css"],
    fonts: {
