@@ -53,7 +53,7 @@ Respond ONLY with valid JSON, no markdown fences, no explanation.`
                "Content-Type": "application/json",
             },
             body: {
-               model: "google/gemini-2.0-flash-exp:free",
+               model: config.public.ocrModel,
                messages: [{
                   role: "user",
                   content: [

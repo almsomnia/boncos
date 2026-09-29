@@ -45,6 +45,7 @@ export default defineNuxtConfig({
       public: {
          donateUrl: import.meta.env.DONATE_URL,
          repoUrl: import.meta.env.REPO_URL,
+         ocrModel: import.meta.env.OCR_MODEL || "google/gemma-4-31b-it:free",
       },
    },
    i18n: {
