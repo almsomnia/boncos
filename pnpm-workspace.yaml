@@ -5,4 +5,15 @@ overrides:
   js-yaml@>=4.0.0 <4.3.2: '>=4.3.2'
   '@tiptap/core@>=3.7.0 <3.30.5': '>=3.30.5'
   svgo@>=4.0.0 <4.1.0: '>=4.1.0'
-  undici@>=8.1.0 <8.10.2: '>=8.10.2'
+#   undici@>=8.1.0 <8.10.2: '>=8.10.2'
+supportedArchitectures:
+  os:
+  - current
+  - linux
+  cpu:
+  - current
+  - x64
+  - arm64
+ignoredBuiltDependencies:
+  - esbuild
+  - vue-demi

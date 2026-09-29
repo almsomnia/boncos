@@ -61,8 +61,5 @@
       "prettier-plugin-tailwindcss": "^0.7.4",
       "vitest": "^4.1.11"
    },
-   "license": "MIT",
-   "trustedDependencies": [
-      "@parcel/watcher"
-   ]
+   "license": "MIT"
 }
