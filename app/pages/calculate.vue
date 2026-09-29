@@ -43,6 +43,45 @@ const {
 
 const { people, resetPeople } = usePeopleAssignment()
 
+const {
+   loading: scanLoading,
+   error: scanError,
+   result: scanResult,
+   scan: scanReceipt,
+   reset: resetScan,
+} = useReceiptScanner()
+
+const scanModal = shallowRef(false)
+const fileInputRef = useTemplateRef<HTMLInputElement>("fileInputRef")
+
+function triggerScan() {
+   fileInputRef.value?.click()
+}
+
+async function onFileSelected(event: Event) {
+   const input = event.target as HTMLInputElement
+   const file = input.files?.[0]
+   if (!file) return
+   input.value = ""
+   scanModal.value = true
+   await scanReceipt(file)
+}
+
+function applyScanResult() {
+   if (!scanResult.value) return
+
+   items.value = scanResult.value.items.map((i) => ({ ...i }))
+   if (scanResult.value.additional_costs.length > 0) {
+      additionalCosts.value = scanResult.value.additional_costs.map((c) => ({ ...c }))
+   }
+   if (scanResult.value.discounts.length > 0) {
+      discounts.value = scanResult.value.discounts.map((d) => ({ ...d }))
+   }
+
+   scanModal.value = false
+   resetScan()
+}
+
 addItem()
 addAdditionalCost()
 addDiscount()
@@ -172,16 +211,29 @@ const showOnboarding = shallowRef(false)
          >
             <UCard>
                <template #header>
-                  <h2 class="text-lg font-semibold">
-                     {{ $t("calculate.items.title") }}
-                  </h2>
-                  <p class="text-muted text-sm text-pretty">
-                     {{
-                        editMode ?
-                           $t("calculate.items.subtitle")
-                        :  $t("calculate.items.readOnlySubtitle")
-                     }}
-                  </p>
+                  <div class="flex items-center justify-between">
+                     <div>
+                        <h2 class="text-lg font-semibold">
+                           {{ $t("calculate.items.title") }}
+                        </h2>
+                        <p class="text-muted text-sm text-pretty">
+                           {{
+                              editMode ?
+                                 $t("calculate.items.subtitle")
+                              :  $t("calculate.items.readOnlySubtitle")
+                           }}
+                        </p>
+                     </div>
+                     <UButton
+                        v-if="editMode"
+                        :label="$t('calculate.items.form.actions.scan')"
+                        icon="lucide:scan-line"
+                        variant="soft"
+                        size="sm"
+                        :loading="scanLoading"
+                        @click="triggerScan"
+                     />
+                  </div>
                </template>
                <ul class="space-y-4">
                   <li
@@ -551,6 +603,111 @@ const showOnboarding = shallowRef(false)
       :calculation-details="calculationDetails"
       :people="people"
    />
+
+   <!-- Hidden file input for receipt scan -->
+   <input
+      ref="fileInputRef"
+      type="file"
+      accept="image/*"
+      capture="environment"
+      class="hidden"
+      @change="onFileSelected"
+   />
+
+   <!-- Scan result modal -->
+   <UModal v-model:open="scanModal">
+      <template #header>
+         <h3 class="text-lg font-semibold">
+            {{ $t("calculate.items.scan.modalTitle") }}
+         </h3>
+      </template>
+      <template #body>
+         <div
+            v-if="scanLoading"
+            class="flex flex-col items-center justify-center gap-3 py-8"
+         >
+            <UIcon
+               name="lucide:loader-2"
+               class="text-primary size-8 animate-spin"
+            />
+            <p class="text-muted text-sm">
+               {{ $t("calculate.items.scan.loading") }}
+            </p>
+         </div>
+         <div
+            v-else-if="scanError"
+            class="py-4"
+         >
+            <UAlert
+               :title="$t('calculate.items.scan.error')"
+               :description="scanError"
+               color="error"
+               variant="subtle"
+               icon="lucide:alert-circle"
+            />
+         </div>
+         <div
+            v-else-if="scanResult"
+            class="space-y-4"
+         >
+            <UAlert
+               :title="$t('calculate.items.scan.itemCount', { count: scanResult.items.length })"
+               color="success"
+               variant="subtle"
+               icon="lucide:check-circle"
+            >
+               <template
+                  v-if="scanResult.additional_costs.length > 0 || scanResult.discounts.length > 0"
+                  #description
+               >
+                  <span v-if="scanResult.additional_costs.length > 0">
+                     {{ $t("calculate.items.scan.additionalCostCount", { count: scanResult.additional_costs.length }) }}
+                  </span>
+                  <span v-if="scanResult.additional_costs.length > 0 && scanResult.discounts.length > 0">, </span>
+                  <span v-if="scanResult.discounts.length > 0">
+                     {{ $t("calculate.items.scan.discountCount", { count: scanResult.discounts.length }) }}
+                  </span>
+               </template>
+            </UAlert>
+            <UTable
+               :data="scanResult.items"
+               :columns="[
+                  { accessorKey: 'name', header: $t('calculate.items.form.input.itemName.placeholder') },
+                  { accessorKey: 'price', header: $t('calculate.items.form.input.itemPrice.placeholder') },
+                  { accessorKey: 'qty', header: $t('calculate.items.form.input.itemQuantity.placeholder') },
+               ]"
+            >
+               <template #price-cell="{ row }">
+                  {{ $formatCurrency(row.original.price) }}
+               </template>
+            </UTable>
+         </div>
+         <div
+            v-else
+            class="py-4 text-center"
+         >
+            <p class="text-muted text-sm">
+               {{ $t("calculate.items.scan.empty") }}
+            </p>
+         </div>
+      </template>
+      <template #footer>
+         <div class="flex justify-end gap-2">
+            <UButton
+               :label="$t('calculate.items.scan.cancel')"
+               variant="ghost"
+               color="neutral"
+               @click="scanModal = false; resetScan()"
+            />
+            <UButton
+               v-if="scanResult"
+               :label="$t('calculate.items.scan.confirm')"
+               icon="lucide:check"
+               @click="applyScanResult"
+            />
+         </div>
+      </template>
+   </UModal>
 
    <!-- Onboarding -->
    <CalculateOnboarding

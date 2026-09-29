@@ -100,8 +100,20 @@
                }
             },
             "actions": {
-               "add": "Add Item"
+               "add": "Add Item",
+               "scan": "Scan Receipt"
             }
+         },
+         "scan": {
+            "modalTitle": "Receipt Scan Results",
+            "confirm": "Use Scan Results",
+            "cancel": "Cancel",
+            "loading": "Processing receipt...",
+            "error": "Failed to process receipt",
+            "empty": "No items detected",
+            "itemCount": "{count} items detected",
+            "additionalCostCount": "{count} additional costs",
+            "discountCount": "{count} discounts"
          },
          "summary": {
             "subtotal": "Subtotal"

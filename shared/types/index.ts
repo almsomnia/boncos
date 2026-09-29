@@ -51,6 +51,12 @@ export type PeopleAssignment = {
    finalTotal: number
 }
 
+export type OcrReceiptResult = {
+   items: Item[]
+   additional_costs: AdditionalCost[]
+   discounts: Discount[]
+}
+
 export type NestedPaths<T, Prefix extends string = ""> = {
    [K in keyof T & string]: T[K] extends object ?
       `${Prefix}${K}` | NestedPaths<T[K], `${Prefix}${K}.`>

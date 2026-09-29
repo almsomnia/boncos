@@ -100,8 +100,20 @@
                }
             },
             "actions": {
-               "add": "Tambah Item"
+               "add": "Tambah Item",
+               "scan": "Scan Struk"
             }
+         },
+         "scan": {
+            "modalTitle": "Hasil Scan Struk",
+            "confirm": "Pakai Hasil Scan",
+            "cancel": "Batal",
+            "loading": "Sedang memproses struk...",
+            "error": "Gagal memproses struk",
+            "empty": "Tidak ada item yang terdeteksi",
+            "itemCount": "{count} item terdeteksi",
+            "additionalCostCount": "{count} biaya tambahan",
+            "discountCount": "{count} diskon"
          },
          "summary": {
             "subtotal": "Subtotal"
