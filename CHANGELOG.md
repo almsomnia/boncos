@@ -1,3 +1,14 @@
+# Changelog
+
+All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
+
+## [1.8.0](https://github.com/almsomnia/boncos/compare/v1.7.0...v1.8.0) (2026-09-29)
+
+### Features
+
+* add quantity and cost name suggestions, and percentage based discounts ([bcd8299](https://github.com/almsomnia/boncos/commit/bcd8299680ed72eecef2897f572a4c202fe0668c))
+* **receipt-scanner:** add OCR-based receipt scanning using Google Gemini ([64de167](https://github.com/almsomnia/boncos/commit/64de1674ae00bc08eeaf7c0f7ebd1cfcd1ddc987))
+
 ### 1.7.0 (2026-05-19)
 
 ##### New Features
@@ -175,4 +186,3 @@
 *  Add `TableCalculationResult` component and `$formatCurrency` utility, and configure Nuxt for component auto-import. (c35b64c2)
 *  Implement item breakdown calculation and display using Nuxt UI components and a new decimal rounding utility. (7c57865d)
 *  Initialize Nuxt 4 project with Nuxt UI and Tailwind CSS, including basic page structure and Node.js version update. (62403afd)
-
