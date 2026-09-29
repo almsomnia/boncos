@@ -41,7 +41,7 @@ export default defineNuxtConfig({
    },
    runtimeConfig: {
       cryptKey: import.meta.env.CRYPT_KEY,
-      geminiApiKey: import.meta.env.GEMINI_API_KEY,
+      openrouterApiKey: import.meta.env.OPENROUTER_API_KEY,
       public: {
          donateUrl: import.meta.env.DONATE_URL,
          repoUrl: import.meta.env.REPO_URL,
