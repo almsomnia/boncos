@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.8.1](https://github.com/almsomnia/boncos/compare/v1.8.0...v1.8.1) (2026-09-29)
+
+### Bug Fixes
+
+* **ci:** update Dockerfile build script ([03926c5](https://github.com/almsomnia/boncos/commit/03926c577f46566a9e95ca3c2cf2fa3d45f0d30c))
+* **deps:** resolve error with peer deps for nuxtjs/i18n ([282b239](https://github.com/almsomnia/boncos/commit/282b2396a9575ea41db8ce1f6e1671a06fe33410))
+* **deps:** resolve node version incompatibility with nuxt requirement ([2ff90bf](https://github.com/almsomnia/boncos/commit/2ff90bf40a7deb347a019505464426a0c7501079))
+
 ## [1.8.0](https://github.com/almsomnia/boncos/compare/v1.7.0...v1.8.0) (2026-09-29)
 
 ### Features
